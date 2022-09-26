@@ -6,10 +6,10 @@ This repository contains tutorials to learn Python and the creation of custom ap
 
 Building and running the content of the tutorial requires some dependencies that can be installed with Conda.
 
-1- Install Conda for Python 3.8 or higher. Two recommended options:
+- Install Conda for Python 3.8 or higher. Two recommended options:
     - [Miniconda](https://docs.conda.io/en/latest/miniconda.html#latest-miniconda-installer-links): ~400 MB of disk space
     - [Anaconda](https://www.anaconda.com/download/): ~3 GB of disk space
-2- Run the `setup.bat` provided. This will download and install all dependencies under the `python-training` environment.
+- Run the `setup.bat` provided. This will download and install all dependencies under the `python-training` environment.
 
 
 ## Generating HTML
