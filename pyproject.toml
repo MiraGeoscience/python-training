@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mira_training"
+name = "python-training"
 version = "0.0.1"
 description = "Open Source Training"
 authors = ["Mira Geoscience <support@mirageoscience.com>"]
