@@ -34,3 +34,5 @@
 #
 # In this tutorial, we follow the `sphinx-reST` style as it is compact and standard format with [Pycharm](
 # https://www.jetbrains.com/pycharm) used for code development.
+
+#  Copyright (c) 2022 Mira Geoscience Ltd.

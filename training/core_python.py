@@ -21,7 +21,7 @@
 #
 # This training material uses the [jupyter-notebook](https://jupyter.org/) environment that contains blocks of text (
 # like this one) and code running from a web browser environment (no internet required). Participants are invited to
-# write and run the examples provided to get comfortable with the Python synthax. Here are few useful shortcuts for
+# write and run the examples provided to get comfortable with the Python syntax. Here are few useful shortcuts for
 # jupyter-notebooks.
 #
 #  - Press **esc + a** to add a cell above, or **esc+b** to add a cell below.
@@ -259,7 +259,7 @@ print(add(1, 2), multiply(1, 2))
 # See the [Best Practice](best_practice) page for additional material on style guides.
 
 # #### Keyword Arguments
-# Other than required input arguments, Python also allows for default values to be stored in
+# Other than the required input arguments, Python also allows for default values to be stored in
 # the signature of the function as keyword arguments (`kwargs`). Let's suppose we would like to add optional constant
 # multipliers to our function scale the result. We could re-write the `add` function as:
 
@@ -298,7 +298,6 @@ class Arithmetic:
 
     @staticmethod
     def add(var_a, var_b, var_c=1, var_d=1):
-
         """Method to add."""
         return var_c * var_a + var_d * var_b
 
@@ -319,15 +318,4 @@ class Arithmetic:
 # arithmetic?
 # ```
 
-# # ## Importing packages
-# #
-# # The base objects described previously can be assembled together to do more complex operations. Python is made up
-#
-# import numpy as np
-#
-# # Here we have imported the entire package `numpy` and assign a short-hand alias for it to keep our code more
-# # concise. Sub-modules can be accessed using a `.` such that
-#
-# print(np.array)
-#
-# # returns a function handle for the `array` class.
+#  Copyright (c) 2022 Mira Geoscience Ltd.
