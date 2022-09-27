@@ -151,6 +151,7 @@ confidence=HIGH,
 disable=raw-checker-failed,
         bad-inline-option,
         locally-disabled,
+        line-too-long,
         file-ignored,
         suppressed-message,
         useless-suppression,
@@ -398,7 +399,7 @@ indent-after-paren=4
 indent-string='    '
 
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=120
 
 # Maximum number of lines in a module.
 max-module-lines=1000
