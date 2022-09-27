@@ -5,4 +5,8 @@ format: jb-book
 root: intro
 chapters:
 - file: core_python.ipynb
+  sections:
+  - file: objects.ipynb
+  - file: functions.ipynb
+  - file: classes.ipynb
 - file: best_practice.ipynb
