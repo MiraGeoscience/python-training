@@ -29,3 +29,5 @@ The documentation relies on jupyter-book to generate HTML files for presentation
 - `jupyter-book build training/`
 
 The content of the tutorial can then be viewed under `_build/html/index.html`
+
+#  Copyright (c) 2022 Mira Geoscience Ltd.
