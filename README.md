@@ -11,6 +11,16 @@ Building and running the content of the tutorial requires some dependencies that
     - [Anaconda](https://www.anaconda.com/download/): ~3 GB of disk space
 - Run the `setup.bat` provided. This will download and install all dependencies under the `python-training` environment.
 
+**_NOTE:_** The assumption is made that Conda has been installed in one
+   of the default directories:
+
+    - %USERPROFILE%\\ana[mini]conda3\\
+    - %LOCALAPPDATA%\\Continuum\\ana[mini]conda3\\
+    - C:\\ProgramData\\ana[mini]conda3\\
+
+   If Conda gets installed in a different directory, users will need to add/edit the
+   ``get_custom_conda.bat`` file to add their custom path to the ``conda.bat`` file.
+
 
 ## Generating HTML
 
@@ -19,4 +29,3 @@ The documentation relies on jupyter-book to generate HTML files for presentation
 - `jupyter-book build training/`
 
 The content of the tutorial can then be viewed under `_build/html/index.html`
-
