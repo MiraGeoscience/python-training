@@ -185,31 +185,6 @@ anomalous(grades, 2.0)
 #
 # Next in our assay analysis, we would like get the depth interval for the anomalous grades. We can write a second
 # function that takes the result of `anomalous` such that
-#
-# ```
-# def get_depths(values: list, conditions: list[bool]):
-#     """
-#     Extract interval of values from bool logic
-#     """
-#     output = []
-#     for val, logic in zip(values, conditions):
-#         if logic:
-#             output.append(val)
-#     return output
-# ```
-#
-# The `get_depths` function takes in two lists, one of values and another one for the logic (`bool`), and returns a
-# subset of values is the `conditions` are `True`. Here are a few Python details to highlight
-#
-# - The `if` statement used to test a condition (true or false). Other conditions are
-#     - elif: Always follows and if statement, requires a condition.
-#     - else: Always used at the of multiple statements, no condition needed.
-# - The `zip` method allows looping over multiple lists at the same time.
-#   If the inputs have different lengths, the loop will stop once it reaches the end of the shortest one.
-#
-# - We use `typing` (e.g. `conditions: list[bool]`) in the signature of the function to
-#   specify the type required for the input arguments. The type is not enforced on runtime,
-#   but mainly good-practice as it can be used for code analysis and documentation.
 
 
 def get_depths(values: list, conditions: list[bool]):
@@ -221,6 +196,20 @@ def get_depths(values: list, conditions: list[bool]):
         if cond:
             output.append(val)
     return output
+
+
+# The `get_depths` function takes in two lists, one of values and another one for the logic (`bool`), and returns a
+# subset of values if the `conditions` are `True`. Here are a few Python details to highlight
+#
+# - The `if` statement used to test a condition (true or false). Other conditions are
+#     - `elif`: Always follows and if statement, requires a condition.
+#     - `else`: Always used at the end of `if` statements, no condition used.
+# - The `zip` method allows iterating over multiple lists at the same time.
+#   If the inputs have different lengths, the iteration will stop once it reaches the end of the shortest list.
+#
+# - We use `typing` (e.g. `conditions: list[bool]`) in the signature of the function to
+#   specify the type required for the input arguments. The type is not enforced on runtime,
+#   but mainly good-practice as it can be used for code analysis and documentation.
 
 
 # Calling the `get_depths` method with the `grades` and `logic` previously computed we get
