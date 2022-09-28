@@ -19,22 +19,38 @@
 # following example.
 
 
-class Arithmetic:
-    """Simple class"""
+class Assay:
+    """Simple Assay class."""
+
+    def __init__(self, depths: list, values: list, threshold=1.0):
+        self.depths = depths
+        self.values = values
+        self.threshold = threshold
 
     @staticmethod
-    def add(var_a, var_b, var_c=1, var_d=1):
-        """Method to add."""
-        return var_c * var_a + var_d * var_b
+    def anomalous(values, threshold=1.0):
+        """
+        Find the elements of a list above threshold
+        """
+        return [val > threshold for val in values]
 
-    @staticmethod
-    def multiply(var_a, var_b):
-        """Method to add."""
-        return var_a * var_b
+    def get_depths(self):
+        """
+        Extract interval of values from anomalous values
+        """
+        conditions = self.anomalous(self.values, self.threshold)
+        output = []
+        for val, logic in zip(self.depths, conditions):
+            if logic:
+                output.append(val)
+        return output
+
+    def __call__(self):
+        return self.get_depths()
 
 
-# The class `arithmetic` can be seen as a container for mathematical operations, which contains an `add` and
-# `multiply` method. Because those methods.
+# The class `Assay` can be seen as a container for mathematical operations, which contains an `anomalous` and
+# `get_depths` method. Because those methods
 #
 #
 # Note: Within the jupyter-notebook environment, it is possible to query information about an attribute of class with

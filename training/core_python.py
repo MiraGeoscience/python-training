@@ -26,5 +26,11 @@
 #  - Press **esc + a** to add a cell above, or **esc+b** to add a cell below.
 #  - Press **shift + enter** to run a selected cell.
 #  - Click on a cell and press **M** to convert to a text cell, or **Y** to convert to code cell.
+#
+# The next sections cover some of the core Python concepts
+#
+# - [Objects](objects)
+# - [Functions](functions)
+# - [Classes](classes)
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.

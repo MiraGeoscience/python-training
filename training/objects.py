@@ -14,16 +14,23 @@
 
 # # Objects
 #
-# At the core, Python is an **object-oriented programming** (OOP) language that is defined by a `Class` structure. Each `class` holds methods and attributes specific to itself. You can think of a `Class` as a small machine that can inputs, store things and do operations or interact with other parts. Python programs are made of many of those objects that are connected to each other and cooperate to yield the desired output.
+# At the core, Python is an **object-oriented programming** (OOP) language that is defined by a `Class` structure.
+# Each `class` holds methods and attributes specific to itself. You can think of a `Class` as a small machine that
+# can take inputs, store properties and do operations, or interact with other parts. Python programs are made of many
+# of those objects that are connected to each other to make up a program.
 #
-# This is somewhat in contrast to **imperative** or **procedural-based** languages, such as C and Fortran. In an imperative framwork, variables and functions are generated and passed down to a series of computational steps executed in sequence. While often slower than imperative compiled languages, OOP languages like Python allow for more concise code that is easier to read and share. Python can also be written in a procedural way, but internally objects are always doing the work. This will become obvious as we go further in this tutorial.
+# This is somewhat in contrast to **imperative** or **procedural-based** languages, such as C and Fortran. In an
+# imperative framework, variables and functions are created to form a series of computational steps executed in
+# sequence. While often slower than imperative compiled languages, OOP languages like Python allow for more concise
+# code that is easy to read and share. Python can also be written in a procedural way, but internally objects are
+# always doing the work. This will become obvious as we go further in this tutorial.
 #
 # Let's start by introducing some core Python objects.
 
 # ## Numerics
 #
 # Numerical values can be of type `float` with decimals or of type `int` (integers). Floats are mainly used for
-# arithmetic while integers are used to count or index arrays.
+# arithmetic while integers are commonly used to count or index arrays.
 #
 # ```
 # # Integer
@@ -49,8 +56,10 @@ print(type(y))
 
 # Note that we have used two built-in methods: `print` and `type`.
 #
-# First, the `type` method is evaluated and it returned the type (`Class`) of the object given as input.
-# Secondly, the `print` method displays the result to screen. Input values for methods are always given between parentheses `()`.
+# First, the `type` method gets evaluated and returns the type (`Class`) of the object given as input.
+#
+# Secondly, the `print` method displays the result to screen. Input values for methods are always given between
+# parentheses `()`.
 
 # As previously mentioned, even if `x` is simply an integer, it is technically still a Python object with methods. To
 # access the list of methods available, you can simply type `.` then the `tab` key.
@@ -61,7 +70,8 @@ print(type(y))
 
 # ### Mathematical operations
 #
-# Here is a shortlist of standard arithmetic and logical operators that can be applied on numerical values (in order of priority of operation).
+# Here is a shortlist of standard arithmetic and logical operators that can be applied on numerical values (in order
+# of priority of operation).
 #
 # - `**`: Power
 # - `%` : Modulo
@@ -80,10 +90,11 @@ print(type(y))
 # ```
 
 # + tags=["remove-input"]
-2**2 * 1.5 + 1 == 7.0
+print(2**2 * 1.5 + 1 == 7.0)
 # -
 
-# You can verify the result above by doing the operations in your head. It is important to keep in mind general rules of return types for numerical values.
+# You can verify the result above by doing the operations in your head. It is important to keep in mind general rules
+# of return types for numerical values.
 #
 # - Adding or subtracting integers yields an integer
 #
@@ -115,19 +126,19 @@ type(x + y)  # Mix of integer and float yields a float
 
 # ## String
 #
-# Strings are text objects that contain characters (letters, numbers or symbols) isolated by single `'` or double
-# `"` quotes. Both are acceptable but consistency throughout your code is preferable.
+# Strings are text objects that contain characters (letters, numbers or symbols) isolated by single `''` or double
+# `""` quotes. Both are acceptable but consistency throughout your code is preferable.
 #
-# Here is a shortlist of useful methods that will be used in this tutorial.
+# Here is a shortlist of useful methods that can be used on strings.
 #
-# - Adding strings
+# - Adding
 #     ```
 #     "hello" + " world"
 #     ```
 
 # + tags=["remove-input"]
 # Additions
-"hello" + " world"
+print("hello" + " world")
 # -
 
 # - Upper/lower and single word capitalization
@@ -137,7 +148,7 @@ type(x + y)  # Mix of integer and float yields a float
 
 # + tags=["remove-input"]
 # Upper/lower and single word capitalization
-"I" + " love ".upper() + "python".capitalize()
+print("I" + " love ".upper() + "python".capitalize())
 # -
 
 # - Upper case every word
@@ -147,7 +158,7 @@ type(x + y)  # Mix of integer and float yields a float
 
 # + tags=["remove-input"]
 # Title
-"this is important".title()
+print("this is important".title())
 # -
 
 # - Find sub-string within
@@ -157,7 +168,7 @@ type(x + y)  # Mix of integer and float yields a float
 
 # + tags=["remove-input"]
 # Find
-"Long sentence with symbols #$%^&".find("sym")
+print("Long sentence with symbols #$%^&".find("sym"))
 # -
 
 # ## List
@@ -176,7 +187,7 @@ a_list = [1.0, 2, "abc"]
 #     ```
 
 # + tags=["remove-input"]
-a_list[0]
+print(a_list[0])
 # -
 
 # - Adding (appending) to the list.
@@ -207,22 +218,20 @@ print(a_list)
 #     ```
 
 # + tags=["remove-input"]
-a_list.index("abc")
+print(a_list.index("abc"))
 # -
 
 # ## Dictionary
 #
-# Dictionaries are also containers for objects but give an additional level of structure over lists. Every entry of
-# the dictionary is indexed by a `key`. They are created with braces `{}` with `{key: value}` pairs separated by a
-# column `:`.
+# Dictionaries (`dict`) are also containers for objects but give an additional level of structure over lists as every
+# value of the dictionary is indexed by a `key`. A dictionary is created with a list of `key: value` pairs within
+# braces `{}`.
 #
 # ```
 # my_dict = {
 #     "float": 1.0,
 #     "integer": 2,
 #     "string": "abc",
-#     "function": add,
-#     "class": arithmetic
 # }
 # ```
 
@@ -234,14 +243,63 @@ my_dict = {
 }
 # -
 
-# Values of the dictionary can then be accessed using the key
+# Here are a few important methods that can used on a `dict`.
 #
-# ```
-# my_dict["function"]
-# ```
+# - Accessing values using the key
+#
+#     ```
+#     my_dict["function"]
+#     ```
 
 # + tags=["remove-input"]
-my_dict["integer"]
+print(my_dict["integer"])
+# -
+
+# - Adding entries
+#     ```
+#     my_dict["new"] = 123
+#     ```
+
+# + tags=["remove-input"]
+my_dict["new"] = 123
+print(my_dict)
+# -
+
+# - Removing entries
+#     ```
+#     del my_dict["new"]
+#     ```
+
+# + tags=["remove-input"]
+del my_dict["new"]
+print(my_dict)
+# -
+
+# - Looping over keys
+#     ```
+#     list(my_dict)
+#     ```
+
+# + tags=["remove-input"]
+print(list(my_dict))
+# -
+
+# - Looping over values
+#     ```
+#     list(my_dict.values()]
+#     ```
+
+# + tags=["remove-input"]
+print(list(my_dict.values()))
+# -
+
+# - Looping over both keys and values
+#     ```
+#     list(my_dict.items())
+#     ```
+
+# + tags=["remove-input"]
+print(list(my_dict.items()))
 # -
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.
