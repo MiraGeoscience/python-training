@@ -173,11 +173,9 @@ print("Long sentence with symbols #$%^&".find("sym"))
 
 # ## List
 #
-# List are generic containers for other objects, which can be of any type. They are created with square brackets `[]`.
+# Lists are generic containers for other objects, which can be of any type. They are created with square brackets `[]`.
 
-# + tags=["remove-input"]
 a_list = [1.0, 2, "abc"]
-# -
 
 # Here are a few important methods that can used on a `list`.
 #
@@ -201,7 +199,7 @@ a_list += ["new"]
 print(a_list)
 # -
 
-# - Removing an element from the list using the index
+# - Removing an element from the list using the `pop` method with index
 #     ```
 #     a_list.pop(0)
 #     print(a_list)
@@ -212,7 +210,7 @@ a_list.pop(0)
 print(a_list)
 # -
 
-# - Finding the index of an element within the list. The same method applies to [string](String) objects.
+# - Finding the `index` of an element within the list. The same method applies to [string](String) objects.
 #     ```
 #     a_list.index("abc")
 #     ```
@@ -236,11 +234,7 @@ print(a_list.index("abc"))
 # ```
 
 # + tags=["remove-input"]
-my_dict = {
-    "float": 1.0,
-    "integer": 2,
-    "string": "abc",
-}
+my_dict = {"integer": 2}
 # -
 
 # Here are a few important methods that can used on a `dict`.
