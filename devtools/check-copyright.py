@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-
-#  Copyright (c) 2022 Mira Geoscience Ltd.
-#
-# This file is part of geoapps.
-#
-# geoapps is distributed under the terms and conditions of the MIT License
-# (see LICENSE file at the root of this source code package).
-
 import re
 import sys
 from datetime import date
@@ -21,7 +12,7 @@ if __name__ == "__main__":
         with open(f, encoding="utf-8") as file:
             count = 0
             has_dated_copyright = False
-            for line in file:
+            for line in reversed(list(file)):
                 count += 1
                 if count >= max_lines:
                     break
@@ -43,3 +34,5 @@ if __name__ == "__main__":
 #    echo "File '$f' has no copyright or an invalid year"
 #    exit 1
 # fi
+
+#  Copyright (c) 2022 Mira Geoscience Ltd.
