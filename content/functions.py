@@ -41,7 +41,7 @@ def fun(arg):
     return arg
 
 
-fun("abc")
+print(fun("abc"))
 # -
 
 # ## Example 1: For loop
@@ -165,7 +165,7 @@ def anomalous(values, threshold=1.0):  # pylint: disable=E0102
 # ```
 
 # + tags=["remove-input"]
-anomalous(grades)
+print(anomalous(grades))
 # -
 
 # If not assigned specifically as keyword arguments, Python will simply distribute the extra arguments in the order
@@ -176,7 +176,7 @@ anomalous(grades)
 # ```
 
 # + tags=["remove-input"]
-anomalous(grades, 2.0)
+print(anomalous(grades, 2.0))
 
 
 # -

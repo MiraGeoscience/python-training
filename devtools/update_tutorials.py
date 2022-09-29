@@ -44,10 +44,13 @@ def update_forms(ext):
                         if "# +" in line:
                             skip = True
 
-                        if line[0] in ["#", "\n"]:
-                            if "# -" in line and skip:
-                                skip = False
-                                new.write("\n")
+                        # if line[0] in ["#", "\n"]:
+                        if "# -" in line and skip:
+                            skip = False
+                            new.write("\n")
+                            continue
+
+                        if not skip:
                             new.write(line)
 
             os.system(f"jupytext --to {CONVERT[ext]} {new_file}")
