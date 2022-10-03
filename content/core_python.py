@@ -15,22 +15,16 @@
 
 # # Python Fundamentals
 #
-# This section offers a brief overview and examples of core Python concepts and syntax. It is not meant to be a
-# fully comprehensive resource for Python, but mainly to serve as a primer to get participants started with writing code and to create their first utility program.
+# This section offers a brief overview and examples of core Python concepts and syntax that would be required to
+# process geo-scientific data in Python. It is not meant to be a comprehensive Python resource - for which there are
+# many excellent resources online. The goal is to get participants started with writing code and to quickly create
+# their own utility programs.
 #
-# This training material uses the [jupyter-notebook](https://jupyter.org/) environment that is made up of text cells (
-# like this one) and code cells displayed within a web browser (no internet required). Participants are invited to
-# write and run the examples provided to get comfortable with the Python syntax. Here are few useful shortcuts for
-# jupyter-notebooks.
-#
-#  - Press **esc + a** to add a cell above, or **esc+b** to add a cell below.
-#  - Press **shift + enter** to run a selected cell.
-#  - Click on a cell and press **M** to convert to a text cell, or **Y** to convert to code cell.
-#
-# The next sections cover some of the core Python concepts
+# The next sections cover some core Python concepts
 #
 # - [Objects](objects)
 # - [Functions](functions)
 # - [Classes](classes)
+# - [Best-Practice](best_practice)
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.

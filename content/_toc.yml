@@ -9,4 +9,4 @@ chapters:
   - file: objects.ipynb
   - file: functions.ipynb
   - file: classes.ipynb
-- file: best_practice.ipynb
+  - file: best_practice.ipynb

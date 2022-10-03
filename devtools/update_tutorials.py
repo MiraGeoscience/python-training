@@ -9,7 +9,7 @@ CONVERT = {"ipynb": "py", "py": "ipynb"}
 
 
 def update_files(ext):
-    for directory, _, files in os.walk(os.path.join("..", "content")):
+    for directory, _, files in os.walk(os.path.join("content")):
         if ".ipynb_checkpoints" in directory or "_build" in directory:
             continue
 
@@ -23,9 +23,9 @@ def update_files(ext):
 
 def update_forms(ext):
 
-    os.makedirs("../training", exist_ok=True)
+    os.makedirs("training", exist_ok=True)
 
-    for directory, _, files in os.walk(os.path.join("..", "content")):
+    for directory, _, files in os.walk(os.path.join("content")):
         if ".ipynb_checkpoints" in directory or "_build" in directory:
             continue
 
@@ -34,7 +34,7 @@ def update_forms(ext):
             if not file.endswith(ext):
                 continue
 
-            new_file = os.path.join("../training", file)
+            new_file = os.path.join("training", file)
 
             with open(os.path.join(directory, file)) as orig:
                 lines = list(orig)

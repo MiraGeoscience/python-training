@@ -16,14 +16,21 @@
 #
 # At the core, Python is an **object-oriented programming** (OOP) language that is defined by a `Class` structure.
 # Each `class` holds methods and attributes specific to itself. You can think of a `Class` as a small machine that
-# can take inputs, store properties and do operations, or interact with other parts. Python programs are made of many
-# of those objects that are connected to each other to make up a program.
+# takes inputs, stores properties and does operations. Classes can interact with each other to form a program.
+# Object-oriented programming allows for concise code that is easy to read and share with others - which explains the
+# popularity of Python in the world of open-source.
+#
+# ![oop](./images/object_oriented.png)
 #
 # This is somewhat in contrast to **imperative** or **procedural-based** languages, such as C and Fortran. In an
-# imperative framework, variables and functions are created to form a series of computational steps executed in
-# sequence. While often slower than imperative compiled languages, OOP languages like Python allow for more concise
-# code that is easy to read and share. Python can also be written in a procedural way, but internally objects are
-# always doing the work. This will become obvious as we go further in this tutorial.
+# imperative framework, variables and functions are chained to form a series of computational steps executed in
+# sequence.
+#
+#
+# ![imperative](./images/imperative.png)
+#
+# Python can also be written in a procedural way, but internally objects are always doing the work. This will become
+# obvious as we go further in this tutorial.
 #
 # Let's start by introducing some core Python objects.
 

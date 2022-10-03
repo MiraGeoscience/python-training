@@ -16,19 +16,29 @@
 #
 # The general concept of programming is to define a set of operations for a computer to execute. The building blocks
 # making up a program can be written in terms of a `function` that take in input values and return a result. In its
-# simplest form, a function (or method) is defined with the `def` keyword:
+# simplest form, a function (or method) is defined with:
+
+
+def fun(arg):
+    """
+    Some function.
+
+    :param arg: Some input argument.
+    """
+    return arg
+
+
+# Let's brake this down.
 #
-# ```
-# def fun(arg):
-#     """A trivial function."""
-#     return arg
-# ```
+# -  The `def` keyword marks the beginning of the function signature. Everything that is part of a function must be
+# indented (1 tab or 4 spaces) below it.
 #
-# Everything that is part of a function must be indented (1 tab or 4 spaces) under the signature ending with `:`. It
-# is also good practice adding `docstrings` to document what the function does.
-# The block of text is bookended by triple quotes (`"""`).
+# - Input arguments (`arg`) are added within the parenthesis. The signature ends with a column `:`.
 #
-# See the [Best Practice](best_practice) page for additional styling guides.
+# - It is good practice adding `docstrings` to document what the function does and what the input parameters are. The
+# block of text is bookended by triple quotes (`"""`).
+#
+# See the [Best Practice](best_practice) section for additional styling guides.
 
 # In this case, the `fun` function simply takes an input argument `arg` and returns it back.
 # ```
@@ -36,16 +46,13 @@
 # ```
 
 # + tags=["remove-input"]
-def fun(arg):
-    """Some function."""
-    return arg
-
-
 print(fun("abc"))
 # -
 
-# ## Example 1: For loop
-# Let's take a look at a slightly more interesting problem. Say we are given assay results down a drillhole.
+# ## For loop
+#
+# We will try again with a slightly more interesting example that uses a `for` loop iterator. Say we are given assay
+# results down a drillhole.
 #
 # ```
 # grades = [0.1, 0.02, 1.3, 2.4, 3.5, 0.01]
@@ -61,29 +68,9 @@ depths = [10, 55, 80, 105, 115, 120]
 
 # We would like to know the `depths` where `grades` are above 1.
 #
-# There are many ways to go about this, but as a start we are going to use a `for` loop within a function.
-# First we need to find the grade values above some threshold.
-#
-# ```
-# def anomalous(values, threshold):
-#     """
-#     Find the elements of a list above threshold
-#     """
-#     bool_list = []
-#     for val in values:
-#         bool_list.append(val > threshold)
-#
-#     return bool_list
-# ```
-#
-# The `anomalous` function takes in as input a list of grade `values` and a `threshold`,
-# then returns a list of `bool`'s (true or false) to indicate which elements are above 1.
-# This function performs three steps
-#   - Use a `for` loop iterator to visit every element of the list.
-#   - Check if the element is above threshold with logic ">".
-#   - Add the result to a `logic` list using the `.append` method.
+# There are many (faster) to solve this problem, but let's first find the grade values above some threshold.
 
-# + tags=["remove-input"]
+
 def anomalous(values, threshold):
     """
     Find the elements of a list above threshold
@@ -95,9 +82,14 @@ def anomalous(values, threshold):
     return bool_list
 
 
-# -
+# The `anomalous` function takes in as input a list of grade `values` and a `threshold`,
+# then returns a list of `bool`'s (true or false) to indicate which elements are above 1.
+# This function performs three steps
+#   - Use a `for` loop iterator to visit every element of the list.
+#   - Check if the element is above threshold with logic ">".
+#   - Add the result to a `logic` list using the `.append` method.
 
-# Calling this method on our `grades` with a `threhsold`= 1.0 yields
+# Calling this method on our `grades` with a `threshold`= 1.0 yields
 # ```
 # logic = anomalous(grades, 1.0)
 # print(logic)
@@ -132,20 +124,8 @@ print(logic)
 # Other than the required input arguments, Python also allows for default values to be stored
 # in the signature of the function as keyword arguments (`kwargs`). Let's suppose we would like to set a default
 # value for the `threshold`. We could re-write the `anomalous` function as:
-#
-# ```
-# def anomalous(values, threshold=1.0):
-#     """
-#     Find the elements of a list above threshold
-#     """
-#     bool_list = []
-#     for val in values:
-#         bool_list.append(val > threshold)
-#
-#     return bool_list
-# ```
 
-# + tags=["remove-input"]
+
 def anomalous(values, threshold=1.0):  # pylint: disable=E0102
     """
     Find the elements of a list above threshold
@@ -156,8 +136,6 @@ def anomalous(values, threshold=1.0):  # pylint: disable=E0102
 
     return bool_list
 
-
-# -
 
 # Since `threshold` already has a value, then the argument becomes optional and the function still runs without it.
 # ```
