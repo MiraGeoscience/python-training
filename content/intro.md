@@ -17,5 +17,9 @@ jupyter-notebooks.
  ![run](./images/run_cell.png)
  - Click on a cell and press **M** to convert to a text cell, or **Y** to convert to code cell.
 
+# Table of content
+
 ```{tableofcontents}
 ```
+
+ Copyright (c) 2022 Mira Geoscience Ltd.
