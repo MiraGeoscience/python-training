@@ -1,0 +1,14 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: python_fundamentals.ipynb
+  sections:
+  - file: objects.ipynb
+  - file: functions.ipynb
+  - file: classes.ipynb
+  - file: best_practice.ipynb
+- file: geoh5_api.ipynb
+- file: uijson_training.ipynb

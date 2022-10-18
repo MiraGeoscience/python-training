@@ -1,17 +1,11 @@
-#  Copyright (c) 2022 Mira Geoscience Ltd.
-#
-#  This file is part of python-training.
-
 import os
-import shutil
 import subprocess
 
 
-def test_notebooks(tmp_path):
-    os.makedirs("notebooks", exist_ok=True)
-    failures = []
+def test_notebooks():
 
-    for directory, _, files in os.walk(os.path.join("..", "training")):
+    failures = []
+    for directory, _, files in os.walk(os.path.join("..", "content")):
         if ".ipynb_checkpoints" in directory or "_build" in directory:
             continue
 
@@ -20,9 +14,10 @@ def test_notebooks(tmp_path):
             if not file.endswith(".py"):
                 continue
 
-            shutil.copy(os.path.join(directory, file), tmp_path / file)
             process = subprocess.run(
-                ["python", tmp_path / file], capture_output=True, check=True
+                ["python", os.path.join(directory, file)],
+                capture_output=True,
+                check=True,
             )
 
             if not process.returncode == 0:
@@ -30,3 +25,6 @@ def test_notebooks(tmp_path):
 
         if any(failures):
             raise RuntimeError(failures)
+
+
+#  Copyright (c) 2022 Mira Geoscience Ltd.
