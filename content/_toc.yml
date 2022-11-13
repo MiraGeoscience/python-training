@@ -6,7 +6,7 @@ root: intro
 chapters:
 - file: python_fundamentals.ipynb
   sections:
-  - file: objects.ipynb
+  - file: containers.ipynb
   - file: functions.ipynb
   - file: classes.ipynb
   - file: best_practice.ipynb

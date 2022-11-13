@@ -13,12 +13,10 @@
 #     name: python3
 # ---
 
-# # Programming with `geoh5` (ANALYST)
+# # Programming with `geoh5` (ANALYST API)
 #
 #
-# This section provides examples on how to interact with Geoscience ANALYST programmatically.
-#
-# Participants will learn how to read and write to a geoh5 using [geoh5py](https://geoh5py.readthedocs.io/en/stable/)
+# This section provides examples on how to interact with Geoscience ANALYST programmatically by using the geoh5 API [geoh5py](https://geoh5py.readthedocs.io/en/stable/)
 #
 # - Managing a Workspace
 # - Entities

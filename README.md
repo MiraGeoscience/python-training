@@ -39,7 +39,7 @@ If edits are done in the jupyter-notebook, then `py` files can be updated with
 
 - `conda activate mira-training`
 - `python devtools\update_tutorials.py ipynb`
-- `jupyter-book build training/`
+- `jupyter-book build content/`
 
 The content of the tutorial can then be viewed under `_build/html/index.html`
 

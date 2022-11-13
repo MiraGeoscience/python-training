@@ -58,6 +58,10 @@ def update_forms(ext):
 
 
 if __name__ == "__main__":
+
+    if len(sys.argv) == 1 or sys.argv[1] not in ["py", "ipynb", "forms"]:
+        raise UserWarning("Input argument should be one of 'py', 'ipynb' or 'forms'.")
+
     ext = sys.argv[1]
 
     if ext == "forms":

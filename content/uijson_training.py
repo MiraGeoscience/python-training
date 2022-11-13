@@ -13,7 +13,7 @@
 #     name: python3
 # ---
 
-# # Custom user interface (ui.json)
+# # Custom User Interface (ui.json)
 #
 #
 # This section provides training on how to create custom user interface within Geoscience ANALYST using the [ui.json
