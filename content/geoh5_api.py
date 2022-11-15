@@ -37,18 +37,14 @@ from geoh5py.workspace import Workspace
 # interact with the `geoh5` to make sure that the file gets closed at the end of
 # the program, even if the program fails due to some error along the way.
 
-with Workspace("my_file.geoh5") as workspace:
+with Workspace("../assets/suncity.geoh5") as workspace:
     print(workspace)
 
 # ### Option 2: `open()` and `close()`
 #
 # The second option is to directly call the `open()` method of the Workspace class.
-#
-# ```
-# workspace = Workspace("my_file.geoh5")
-# ```
 
-workspace = Workspace("my_file.geoh5").open()
+workspace = Workspace("../assets/suncity.geoh5").open()
 
 # With this option, Python keeps a connection to the file until the `close()`
 # method gets called. This is sometimes preferable if the computations take a
@@ -56,88 +52,139 @@ workspace = Workspace("my_file.geoh5").open()
 
 workspace.close()
 
+# ## Objects and data
+#
+# When connecting to an exhisting `geoh5` file, the API will travel through the `Workspace` and collect minimal information about the `groups`, `objects` and `data` present on file - no values are loaded unless requested. 
+#
+# The base of this parent/child hierarchy is the `Root` group. Every entity has a parent, except for the `root`.
+
+print(workspace.root.children)
+
+# The `workspace` itself has a few utility methods to quickly access all groups, objects or data registered. 
+
+workspace.objects
+
+# The `get_entity` method allows to retrieve all entities by `name` or `uid`.
+
+grid = workspace.get_entity("SunCity")[0]
+
+# The `get_entity` always returns a `list` as many entities could have the same name.
+
+print(f"I have recovered a {type(grid)} with uuid: {grid.uid}")
+
+# It is best-practice to instead use `get_entity` with a unique identifier (`uuid`) to garantee access to a specific entity
+
+workspace.get_entity(grid.uid)[0] == grid
+
+# Likewise, data associated with an object can be accessed through the `children` attribute. To access data with values, the workspace must be re-opened if closed.
+
+workspace.open()
+grid.children
+
+# or with the utility method `get_data` to access it by name
+
+dem = grid.get_data("Band 1")[0]
+
+# Data values are accessed through the `values` attribute of the `data` entity. Let's use a third party plotting package `matplotlib` to display the information on file.
+
+import matplotlib.pyplot as plt
+plt.pcolormesh(
+    grid.origin["x"] + grid.cell_center_u, 
+    grid.origin["y"] + grid.cell_center_v, 
+    dem.values.reshape(grid.shape)
+)
+
 # ## Creating objects
 #
-# The `geoh5` format supports a wide range of object types as [documented here](https://geoh5py.readthedocs.io/en/stable/content/geoh5_format/analyst/objects.html#analyst-objects). For this training, we will create a simple Grid2D object using the `.create()` method.
+# The `geoh5` format supports a wide range of object types as [documented here](https://geoh5py.readthedocs.io/en/stable/content/geoh5_format/analyst/objects.html#analyst-objects). For this training, we will create a simple `Points` object using the `.create()` method.
+#
 
-from geoh5py.objects import Grid2D
+from geoh5py.objects import Points
+import numpy as np
 
-# For the grid to be fully defined, we need to assign some properties about its geometry.
+# For the `Points` to be fully defined, we need to at least assign vertices as an array of 3D coordinates `shape(*, 3)`. 
+# Let's add one point at the Sun City resort.
 
-with Workspace("my_file.geoh5") as workspace:
-    grid = Grid2D.create(
+with workspace.open(mode="r+"):
+    point = Points.create(
         workspace,
-        origin=[-32, -64, 0],  # South-west corner coordinates
-        u_cell_size=1.0,  # Cell size along u-axis
-        v_cell_size=1.0,  # Cell size along v-axis
-        u_count=64,  # How many cells along u-axis
-        v_count=128,  # How many cells along v-axis
+        vertices=np.c_[510000, 7196500, 1150]
+        
     )
 
-# Since we have created the grid within a context, you can now safely open the `my_file.geoh5` with ANALYST to see the grid that was created.
+# Since we have created the `Points` within a context, you can now safely open the `suncity.geoh5` with ANALYST to see the result.
 #
 # ![grid2d](./images/grid2d.png)
 
 # ## Generating Data
 #
-# Now that we have an object created, we can add data to it. We will borrow some functions from the `numpy` package to compute values on the cells of our 2D grid.
+# Now that we have an object created, we can add data to it. We will borrow
+# some functions from the `numpy` package to compute values on the cells of our 2D grid.
 
 import numpy as np
 from geoh5py.objects import Points
 
-# ### Example 1: Electric field of a point charges
+# ### Example 1: Magnetic dipole field
 #
-# Let's start with a simple problem of computing the electric field due to a
-# collection of charges. From first year physics, the field of a single charge is:
+# Let's start with a simple problem of computing the magnetic field due to a
+# dipole. This can later become a useful tool to interpret magnetic maps. 
 #
-# $$\frac{k Q}{r^2}$$
+# From first year physics, the magnetic field of a single dipole is:
 #
-# where $k$ and $Q$ are some constants (don't worry about it) and $r$ is the
-# distance between the charge and the observation point (our grid cells).
-# We can first create a small function that computes the electric field for a single charge.
+# $$\mathbf{B} = \frac{\mu_0}{4 \pi}  \frac{3 (\mathbf{m} \cdot \mathbf{r})  \mathbf{\hat r} - \mathbf{m}}{r^3}$$
 #
-# ```
-# def e_field(charge, location, grid):
+# where $\mu_0$ is a constant ($4 \pi 1e-9$), $\mathbf{m}$ is the magnetic dipole and $\mathbf{r}$ is the
+# vector seperating the dipole and the observations (our grid cells).
 #
-#     radius = np.sum((locations - grid.centroids)**2., axis=1)**0.5
-#     e_field = charge / r**2.
-# ```
+# We can first create a small function that computes the magnetic field for a single dipole.
 
 
-def e_field(charge, locations, grid):
+def b_field(locations, moment, azimuth, dip, grid):
+    """
+    Compute the magnetic field components of a dipole on a Grid2D cells.
+    """
+    theta = np.deg2rad(azimuth % 450)
+    phi = np.deg2rad(dip)
+    
+    m = moment * np.c_[
+        np.sin(phi) * np.cos(theta),
+        np.sin(phi) * np.sin(theta),
+        np.cos(phi)
+    ]
+
     delta = locations - grid.centroids
     radius = np.sum(delta**2.0, axis=1) ** 0.5
-    field = charge / radius**2.0
+    B = (
+        (np.dot(m, delta.T).T * delta) / radius[:, None]**4. - 
+        np.repeat(m, grid.n_cells).reshape((-1, 3), order="F") / radius[:, None] **3.
+    ) 
 
-    return field
+    return B
 
 
-# We can now create some point charges and add up their collective fields. We will use the
-#
-# - `numpy.random` module to generate what we need
-# - `numpy.zeros` module to create our initial array of e-field.
+# We can now use our function to compute the fields on the existing grid.
 
-n_charges = 10
-charges = np.random.randn(n_charges)
-locations = np.random.randn(n_charges, 3) * 10.0
-field = np.zeros(grid.n_cells)
-
-# We can now loop over the charges and their respective locations, compute the field and add it up to our final array.
-
-for charge, location in zip(charges, locations):
-    field += e_field(charge, location, grid)
+moment, azimuth, dip = 1., 45, 45
+b = b_field(point.vertices, moment, azimuth, dip, grid)
 
 # We then add the total electric field to our Grid2D, as well as creating some Points to show where the charges were.
 
 with workspace.open():
-    grid.add_data({"e_field": {"values": field}})
+    grid.add_data({
+        "b_x": {"values": b[:, 0]},
+        "b_y": {"values": b[:, 1]},
+        "b_z": {"values": b[:, 2]}
+    })
 
-    points = Points.create(workspace, vertices=locations)
-    points.add_data({"charge": {"values": charges}})
+    point.add_data({
+        "moment": {"values": np.r_[moment]},
+        "azimuth": {"values": np.r_[azimuth]},
+        "dip": {"values": np.r_[dip]},
+    })
 
 # Et voila!
 #
-# ![efield](./images/e_field.png)
+# ![bfield](./images/b_field.png)
 
 # For more examples on how to create other object types, visit the [geoh5py-Tutorial](https://geoh5py.readthedocs.io/en/stable/content/user_guide/core_entities.html#Entities)
 

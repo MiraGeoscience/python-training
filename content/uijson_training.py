@@ -18,9 +18,9 @@
 #
 # This section provides training on how to create custom user interface within Geoscience ANALYST using the [ui.json
 # standard](https://geoh5py.readthedocs.io/en/stable/content/uijson_format/index.html).
-#
-# - Json format
-# - UI.json forms
-# - Example
+
+# ## UI.json format
+
+# # Example 1: Electric field calculator (revisited)
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.
