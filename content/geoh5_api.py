@@ -25,13 +25,10 @@
 #
 # Let's get started with some imports.
 
-# +
 import matplotlib.pyplot as plt
 import numpy as np
 from geoh5py.objects import Points
 from geoh5py.workspace import Workspace
-
-# -
 
 # ## Open/create a Workspace
 #
