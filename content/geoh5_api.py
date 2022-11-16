@@ -153,11 +153,11 @@ def b_field(locations, moment, azimuth, dip, grid):
 
     delta = locations - grid.centroids
     radius = np.sum(delta**2.0, axis=1) ** 0.5
-    B = (np.dot(m, delta.T).T * delta) / radius[:, None] ** 4.0 - np.repeat(
+    fields = (np.dot(m, delta.T).T * delta) / radius[:, None] ** 4.0 - np.repeat(
         m, grid.n_cells
     ).reshape((-1, 3), order="F") / radius[:, None] ** 3.0
 
-    return B
+    return fields
 
 
 # We can now use our function to compute the fields on the existing grid.
@@ -165,7 +165,7 @@ def b_field(locations, moment, azimuth, dip, grid):
 moment, azimuth, dip = 1.0, 90, 0
 b = b_field(point.vertices, moment, azimuth, dip, grid)
 
-# We then add the total electric field to our Grid2D, as well as creating some Points to show where the charges were.
+# We then add the total electric field to our Grid2D.
 
 with workspace.open():
     grid.add_data(
@@ -176,13 +176,20 @@ with workspace.open():
         }
     )
 
-    point.add_data(
+# Similarly, we can add data to the Points to show the strength and direction of the dipole moment. We are going to group those data entities so that we can display them as arrow in ANALYST.
+
+with workspace.open():
+    params = point.add_data(
         {
             "moment": {"values": np.r_[moment]},
             "azimuth": {"values": np.r_[azimuth]},
             "dip": {"values": np.r_[dip]},
         }
     )
+    prop_group = point.find_or_create_property_group(
+        name="dipole", property_group_type="Dip direction & dip"
+    )
+    point.add_data_to_group(params[1:], prop_group)
 
 # Et voila!
 
