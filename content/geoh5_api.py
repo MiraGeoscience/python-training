@@ -346,9 +346,9 @@ class MagneticSimulation:
         with self._receivers.workspace.open(mode="r+"):
             data = self._receivers.add_data(
                 {
-                    "b_x": {"values": b[:, 0]},
-                    "b_y": {"values": b[:, 1]},
-                    "b_z": {"values": b[:, 2]},
+                    "b_x": {"values": fields[:, 0]},
+                    "b_y": {"values": fields[:, 1]},
+                    "b_z": {"values": fields[:, 2]},
                     "tmi": {"values": tmi},
                 }
             )

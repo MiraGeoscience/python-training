@@ -13,43 +13,22 @@ def run(file: str):
     """
     Run the mag_dipole simulation from InputFile.
     """
-    ifile = InputFile(file)
-    fields = dipole_simulation(
+    ifile = InputFile(file).data
+    MagneticSimulation(
         ifile["dipoles"],
         ifile["locations"],
         ifile["moments"],
         ifile["azimuths"],
         ifile["dips"],
-    )
+    ).run()
 
     with ifile["geoh5"].open(mode="r+"):
-        ifile["locations"].add_data(
-            {
-                "b_x": {"values": fields[:, 0]},
-                "b_y": {"values": fields[:, 1]},
-                "b_z": {"values": fields[:, 2]},
-            }
-        )
 
         if ifile["monitoring_directory"] is not None:
             monitored_directory_copy(ifile["monitoring_directory"], ifile["locations"])
 
-        # point.add_data(
-        #     {
-        #         "moment": {"values": np.r_[moment]},
-        #         "azimuth": {"values": np.r_[azimuth]},
-        #         "dip": {"values": np.r_[dip]},
-        #     }
-        # )
 
-
-def dipole_simulation(
-    dipoles: np.ndarray | Points,
-    locations: np.ndarray | ObjectBase,
-    moments: Data | float,
-    azimuths: Data | float,
-    dips: Data | float,
-):
+class MagneticSimulation:
     """
     Compute the magnetic field components of dipoles on a geoh5py object.
 
@@ -61,58 +40,134 @@ def dipole_simulation(
 
     :return b_field: Vector array of magnetic field components, shape(n ,3).
     """
-    sources = dipoles
-    if isinstance(dipoles, Points):
-        sources = dipoles.vertices
 
-    receivers = locations
-    if isinstance(receivers, ObjectBase):
-        if hasattr(receivers, "centroids"):
-            receivers = locations.centroids
-        else:
-            receivers = locations.vertices
+    def __init__(
+        self,
+        sources: Points,
+        receivers: ObjectBase,
+        moments: Data | float,
+        azimuths: Data | float,
+        dips: Data | float,
+        earth_field=(90.0, 0),
+    ):
+        self._sources = sources
+        self._receivers = receivers
+        self._moments = moments
+        self._azimuths = azimuths
+        self._dips = dips
+        self._earth_field = earth_field
 
-    n_rec = receivers.shape[0]
-    if isinstance(moments, Data):
-        moments = moments.values
-    else:
-        moments = np.ones(n_rec) * moments
+    @property
+    def sources(self):
+        if hasattr(self._sources, "centroids"):
+            return self._sources.centroids
+        return self._sources.vertices
 
-    if isinstance(azimuths, Data):
-        azimuths = azimuths.values
-    else:
-        azimuths = np.ones(n_rec) * azimuths
+    @property
+    def receivers(self):
+        if hasattr(self._receivers, "centroids"):
+            return self._receivers.centroids
+        return self._receivers.vertices
 
-    if isinstance(dips, Data):
-        dips = dips.values
-    else:
-        dips = np.ones(n_rec) * dips
+    @property
+    def moments(self):
+        if isinstance(self._moments, Data):
+            return self._moments.values
+        if isinstance(self._moments, float):
+            return np.ones(self.sources.shape[0]) * self._moments
 
-    fields = np.zeros_like(locations)
+        return self._moments
 
-    for source, moment, azimuth, dip in zip(sources, moments, azimuths, dips):
-        fields += b_field(source, receivers, moment, azimuth, dip)
+    @property
+    def azimuths(self):
+        if isinstance(self._azimuths, Data):
+            return self._azimuths.values
+        if isinstance(self._azimuths, float):
+            return np.ones(self.sources.shape[0]) * self._azimuths
 
-    return fields
+        return self._azimuths
+
+    @property
+    def dips(self):
+        if isinstance(self._dips, Data):
+            return self._dips.values
+        if isinstance(self._dips, float):
+            return np.ones(self.sources.shape[0]) * self._dips
+
+        return self._dips
+
+    def compute(self):
+        """Compute fields from input."""
+        fields = np.zeros_like(self.receivers)
+        for source, moment, azimuth, dip in zip(
+            self.sources, self.moments, self.azimuths, self.dips
+        ):
+            fields += b_field(source, self.receivers, moment, azimuth, dip)
+
+        return fields
+
+    def tmi_projection(self, fields):
+        """Project magnetic field onto Earth's field."""
+        H = azimuth_dip_2_xyz(
+            self._earth_field[0], self._earth_field[1]
+        )  # Suncity field parameters
+        return np.dot(H, fields.T)
+
+    def run(self):
+        """Run the simulation and save."""
+        fields = self.compute()
+        tmi = self.tmi_projection(fields)
+
+        with self._receivers.workspace.open(mode="r+"):
+            data = self._receivers.add_data(
+                {
+                    "b_x": {"values": fields[:, 0]},
+                    "b_y": {"values": fields[:, 1]},
+                    "b_z": {"values": fields[:, 2]},
+                    "tmi": {"values": tmi},
+                }
+            )
+
+        return data
+
+
+def azimuth_dip_2_xyz(azimuth, dip):
+    """Convert azimuth and dip angles (degrees) to unit vector (xyz)."""
+    theta = np.deg2rad((450 - azimuth) % 360)
+    phi = np.deg2rad(90 + dip)
+    xyz = np.c_[np.sin(phi) * np.cos(theta), np.sin(phi) * np.sin(theta), np.cos(phi)]
+
+    return xyz
 
 
 def b_field(source, locations, moment, azimuth, dip):
     """
     Compute the magnetic field components of a dipole on an array of locations.
 
+    :param source: Location of a point dipole, shape(1, 3).
+    :param locations: Array of observation locations, shape(n, 3).
+    :param moment: Dipole moment of the source (A.m^2)
+    :param azimuth: Dipole horizontal angle, clockwise from North
+    :param dip: Dipole vertical angle from horizontal, positive down
 
+    :return: Array of magnetic field components, shape(n, 3)
     """
-    theta = np.deg2rad((450 - azimuth) % 360)
-    phi = np.deg2rad(90 + dip)
-    m = (
-        moment
-        * np.c_[np.sin(phi) * np.cos(theta), np.sin(phi) * np.sin(theta), np.cos(phi)]
+    # Convert the azimuth and dip to Cartesian vector
+    m = moment * azimuth_dip_2_xyz(azimuth, dip)
+
+    # Compute the radial components
+    rad = source - locations
+
+    # Compute |r|
+    dist = np.sum(rad**2.0, axis=1) ** 0.5
+
+    # mu_0 / 4 pi * 1e-9 (nano)
+    constant = 1e2
+    fields = (
+        constant
+        * ((np.dot(m, rad.T).T * (rad / dist[:, None])) - m)
+        / dist[:, None] ** 3.0
     )
-    delta = source - locations
-    radius = np.sum(delta**2.0, axis=1) ** 0.5
-    fields = (np.dot(m, delta.T).T * delta) / radius[:, None] ** 4.0 - np.repeat(
-        m, locations.shape[0]
-    ).reshape((-1, 3), order="F") / radius[:, None] ** 3.0
 
     return fields
 
