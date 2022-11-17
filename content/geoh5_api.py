@@ -119,12 +119,10 @@ workspace.close()
 #
 # ![grid2d](./images/grid2d.png)
 
-# ## Generating Data
+# ## Example 1a: Creating data from a magnetic dipole
 #
 # Now that we have an object created, we can add data to it. We will borrow
 # some functions from the `numpy` package to compute values on the cells of our 2D grid.
-
-# ### Example 1: Magnetic dipole field
 #
 # Let's start with a simple problem of computing the magnetic field due to a
 # dipole. This can later become a useful tool to interpret magnetic maps.
@@ -139,33 +137,77 @@ workspace.close()
 # We can first create a small function that computes the magnetic field for a single dipole.
 
 
-def b_field(locations, moment, azimuth, dip, grid):
-    """
-    Compute the magnetic field components of a dipole on a Grid2D cells.
-    """
+# +
+def azimuth_dip_2_xyz(azimuth, dip):
+    """Convert azimuth and dip angles (degrees) to unit vector (xyz)."""
     theta = np.deg2rad((450 - azimuth) % 360)
-    phi = np.deg2rad(90 - dip)
+    phi = np.deg2rad(90 + dip)
+    xyz = np.c_[np.sin(phi) * np.cos(theta), np.sin(phi) * np.sin(theta), np.cos(phi)]
 
-    m = (
-        moment
-        * np.c_[np.sin(phi) * np.cos(theta), np.sin(phi) * np.sin(theta), np.cos(phi)]
+    return xyz
+
+
+def b_field(source, locations, moment, azimuth, dip):
+    """
+    Compute the magnetic field components of a dipole on an array of locations.
+
+    :param source: Location of a point dipole, shape(1, 3).
+    :param receivers: Array of observation locations, shape(n, 3).
+    :param moment: Dipole moment of the source (A.m^2)
+    :param azimuth: Dipole horizontal angle, clockwise from North
+    :param dip: Dipole vertical angle from horizontal, positive down
+
+    :return: Array of magnetic field components, shape(n, 3)
+    """
+    # Convert the azimuth and dip to Cartesian vector
+    m = moment * azimuth_dip_2_xyz(azimuth, dip)
+
+    # Compute the radial components
+    rad = source - locations
+
+    # Compute |r|
+    dist = np.sum(rad**2.0, axis=1) ** 0.5
+
+    # mu_0 / 4 pi * 1e-9 (nano)
+    constant = 1e2
+    fields = (
+        constant
+        * ((np.dot(m, rad.T).T * (rad / dist[:, None])) - m)
+        / dist[:, None] ** 3.0
     )
-
-    delta = locations - grid.centroids
-    radius = np.sum(delta**2.0, axis=1) ** 0.5
-    fields = (np.dot(m, delta.T).T * delta) / radius[:, None] ** 4.0 - np.repeat(
-        m, grid.n_cells
-    ).reshape((-1, 3), order="F") / radius[:, None] ** 3.0
 
     return fields
 
 
-# We can now use our function to compute the fields on the existing grid.
+# -
+
+# We can use a few array mulitplication methods from `numpy`
+#
+# - The `sum()` method can be done along a specific axis of an array, collapsing the dimension.
+#
+# - The `dot()` method performs the dot product between two arrays, but the shapes need to align. The transpose (`.T`) method allows us to do it inline
+#
+# $[1 \times 3] \cdot [M \times 3].T \rightarrow [1 \times M] $.
+#
+# - 1D-arrays can be broadcasted (repeated) along a second dimension using the `[:, None]` indexing.
+#
+# $[N \times 3] \;/\;([1 \times N][: None]) \rightarrow [N \times 3] $
+#
+# We can now use our function to compute the fields on the existing grid centroids.
 
 moment, azimuth, dip = 1.0, 90, 0
-b = b_field(point.vertices, moment, azimuth, dip, grid)
+b = b_field(point.vertices, grid.centroids, moment, azimuth, dip)
 
-# We then add the total electric field to our Grid2D.
+# The `b_field` function returns an array for the three components of the magnetic field due to the dipole source. Since we normally measure Total Magnetic Intensity (TMI) data, we should project those fields onto the Earth's magnetic field.
+#
+# $$
+# b_{TMI} \approx \mathbf{\hat H}_0 \cdot \mathbf{b}
+# $$
+
+H = azimuth_dip_2_xyz(-62.11, -17.9)  # Suncity field parameters
+tmi = np.dot(H, b.T)
+
+# We then add the vector field and TMI values to our Grid2D for visualization in ANALYST.
 
 with workspace.open():
     grid.add_data(
@@ -173,10 +215,11 @@ with workspace.open():
             "b_x": {"values": b[:, 0]},
             "b_y": {"values": b[:, 1]},
             "b_z": {"values": b[:, 2]},
+            "tmi": {"values": tmi},
         }
     )
 
-# Similarly, we can add data to the Points to show the strength and direction of the dipole moment. We are going to group those data entities so that we can display them as arrow in ANALYST.
+# Similarly, we can add data to the Points to show the strength and direction of the dipole moment. We are going to group those data so that we can display them as arrow in ANALYST.
 
 with workspace.open():
     params = point.add_data(
@@ -196,5 +239,130 @@ with workspace.open():
 # ![bfield](./images/b_field.png)
 
 # For more examples on how to create other object types, visit the [geoh5py-Tutorial](https://geoh5py.readthedocs.io/en/stable/content/user_guide/core_entities.html#Entities)
+
+# ## Example 1b:  Generalizing the application
+#
+# A good way to write useful programs is to generalize the code such that the same functions can easily be re-used by different programs. In this section, we are going to re-purpose [Example 1a](http://localhost:8890/notebooks/geoh5_api.ipynb#Example-1a:-Creating-data-from-a-magnetic-dipole) such that the calculation can occur on any other object types supported by ANALYST.
+#
+# Fortunately for us, computing the total magnetic field from many dipoles is a linear (sum) operation. Let's wrap all the previous functions into a `MagneticSimulation` class.
+
+# +
+from __future__ import annotations
+
+from geoh5py.data import Data
+from geoh5py.objects import ObjectBase
+
+
+class MagneticSimulation:
+    """
+    Compute the magnetic field components of dipoles on a geoh5py object.
+
+    :param dipoles: Array or Points object of dipole locations, shape(m, 3).
+    :param locations: Array or Points object of observation locations, shape(n, 3).
+    :param moments: Value or Data of dipole moments.
+    :param azimuths: Value or Data of dipole azimuth angles.
+    :param dips: Value or Data of dipole dip angles.
+
+    :return b_field: Vector array of magnetic field components, shape(n ,3).
+    """
+
+    def __init__(
+        self,
+        sources: Points,
+        receivers: ObjectBase,
+        moments: Data | float,
+        azimuths: Data | float,
+        dips: Data | float,
+        earth_field=(90.0, 0),
+    ):
+        self._sources = sources
+        self._receivers = receivers
+        self._moments = moments
+        self._azimuths = azimuths
+        self._dips = dips
+        self._earth_field = earth_field
+
+    @property
+    def sources(self):
+        if hasattr(self._sources, "centroids"):
+            return self._sources.centroids
+        return self._sources.vertices
+
+    @property
+    def receivers(self):
+        if hasattr(self._receivers, "centroids"):
+            return self._receivers.centroids
+        return self._receivers.vertices
+
+    @property
+    def moments(self):
+        if isinstance(self._moments, Data):
+            return self._moments.values
+        if isinstance(self._moments, float):
+            return np.ones(self.sources.shape[0]) * self._moments
+
+        return self._moments
+
+    @property
+    def azimuths(self):
+        if isinstance(self._azimuths, Data):
+            return self._azimuths.values
+        if isinstance(self._azimuths, float):
+            return np.ones(self.sources.shape[0]) * self._azimuths
+
+        return self._azimuths
+
+    @property
+    def dips(self):
+        if isinstance(self._dips, Data):
+            return self._dips.values
+        if isinstance(self._dips, float):
+            return np.ones(self.sources.shape[0]) * self._dips
+
+        return self._dips
+
+    def compute(self):
+        """Compute fields from input."""
+        fields = np.zeros_like(self.receivers)
+        for source, moment, azimuth, dip in zip(
+            self.sources, self.moments, self.azimuths, self.dips
+        ):
+            fields += b_field(source, self.receivers, moment, azimuth, dip)
+
+        return fields
+
+    def tmi_projection(self, fields):
+        """Project magnetic field onto Earth's field."""
+        H = azimuth_dip_2_xyz(
+            self._earth_field[0], self._earth_field[1]
+        )  # Suncity field parameters
+        return np.dot(H, fields.T)
+
+    def run(self):
+        """Run the simulation and save."""
+        fields = self.compute()
+        tmi = self.tmi_projection(fields)
+
+        with self._receivers.workspace.open(mode="r+"):
+            data = self._receivers.add_data(
+                {
+                    "b_x": {"values": b[:, 0]},
+                    "b_y": {"values": b[:, 1]},
+                    "b_z": {"values": b[:, 2]},
+                    "tmi": {"values": tmi},
+                }
+            )
+
+        return data
+
+
+# -
+
+# We now have a generic container to compute TMI data based on any type of ANALYST object.
+#
+# You are now invited to edit your Points object to add more vertices and create data arrays for moment, azimuth and dips. We can now run the simulation by simply giving those entities to our class.
+
+simulator = MagneticSimulation(point, grid, 1.0, 90.0, 0.0, earth_field=(-62.11, -17.9))
+simulator.run()
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.
