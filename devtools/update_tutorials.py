@@ -11,13 +11,17 @@ LOCATION = {"ipynb": os.path.join("content"), "py": os.path.join("scripts")}
 
 def update_files(ext):
     for directory, _, files in os.walk(os.path.join(LOCATION[CONVERT[ext]])):
-        if ".ipynb_checkpoints" in directory or "_build" in directory:
+        if (
+            ".ipynb_checkpoints" in directory
+            or "_build" in directory
+            or "__pycache__" in directory
+        ):
             continue
 
         for file in files:
-
+            print(file)
             head, tail = file.split(".")
-            if not file.endswith(CONVERT[ext]):
+            if not file.endswith(CONVERT[ext]) or "__init__" in file:
                 continue
 
             outfile = f"{head}.{ext}"
@@ -31,7 +35,11 @@ def update_forms(ext):
     os.makedirs("training", exist_ok=True)
 
     for directory, _, files in os.walk(os.path.join(LOCATION[ext])):
-        if ".ipynb_checkpoints" in directory or "_build" in directory:
+        if (
+            ".ipynb_checkpoints" in directory
+            or "_build" in directory
+            or "__pycache__" in directory
+        ):
             continue
 
         for file in files:
@@ -40,7 +48,7 @@ def update_forms(ext):
                 continue
 
             head, tail = file.split(".")
-            new_file = os.path.join("training", f"{head}.ipynb")
+            new_file = os.path.join("training", f"{head}.py")
 
             with open(os.path.join(directory, file)) as orig:
                 lines = list(orig)
@@ -59,7 +67,11 @@ def update_forms(ext):
                         if not skip:
                             new.write(line)
 
-            os.system(f"jupytext --output {new_file} {os.path.join(directory, file)}")
+            outfile = f"{head}.ipynb"
+            os.system(
+                f"jupytext --output {os.path.join('training', outfile)} {new_file}"
+            )
+            os.remove(new_file)
 
 
 if __name__ == "__main__":
