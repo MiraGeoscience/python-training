@@ -1,26 +1,15 @@
 {
-  "title": "Custom UI",
-  "geoh5": "C:/Users/dominiquef/Documents/GIT/mira/python-training/assets/myUI.ui.geoh5",
-  "run_command": null,
-  "monitoring_directory": "",
-  "conda_environment": null,
-  "conda_environment_boolean": false,
-  "workspace": null,
-  "object": {
-    "main": true,
-    "label": "Object",
-    "value": "{e8593423-170d-4819-9d30-38ce871f3045}",
-    "meshType": "",
-    "enabled": true
-  },
-  "data": {
-    "main": true,
-    "dataType": "Float",
-    "association": "Vertex",
-    "label": "Data",
-    "parent": "object",
-    "value": "{3db49ef1-7ac9-45ff-9c70-fa405064d874}",
-    "enabled": true
-  },
-  "workspace_geoh5": "C:/Users/dominiquef/Documents/GIT/mira/python-training/assets/suncity.geoh5"
+    "title": "Hello World!",
+    "geoh5": null,
+    "run_command": null,
+    "run_command_boolean": {
+        "value": false,
+        "label": "Run python module ",
+        "tooltip": "Warning: launches process to run python model on save",
+        "main": true
+    },
+    "monitoring_directory": null,
+    "conda_environment": null,
+    "conda_environment_boolean": false,
+    "workspace": null
 }

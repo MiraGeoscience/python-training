@@ -20,47 +20,35 @@
 #
 # Lists are generic containers for other objects, which can be of any type. They are created with square brackets `[]`.
 
+# + tags=["clear-form"]
 a_list = [1.0, 2, "abc"]
+# -
 
 # Here are a few important methods that can used on a `list`.
 #
 # - Indexing (accessing) elements of the list (count starts at 0)
-#     ```
-#     a_list[0]
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 print(a_list[0])
 # -
 
 # - Adding (appending) to the list.
-#     ```
-#     a_list += ["new"]
-#     print(a_list)
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 a_list += ["new"]
 print(a_list)
 # -
 
 # - Removing an element from the list using the `pop` method with index
-#     ```
-#     a_list.pop(0)
-#     print(a_list)
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 a_list.pop(0)
 print(a_list)
 # -
 
 # - Finding the `index` of an element within the list. The same method applies to [string](String) objects.
-#     ```
-#     a_list.index("abc")
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 print(a_list.index("abc"))
 # -
 
@@ -69,75 +57,48 @@ print(a_list.index("abc"))
 # Dictionaries (`dict`) are also containers for objects but give an additional level of structure over lists as every
 # value of the dictionary is indexed by a `key`. A dictionary is created with a list of `key: value` pairs within
 # braces `{}`.
-#
-# ```
-# my_dict = {
-#     "float": 1.0,
-#     "integer": 2,
-#     "string": "abc",
-# }
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 my_dict = {"integer": 2}
 # -
 
 # Here are a few important methods that can used on a `dict`.
 #
 # - Accessing values using the key
-#
-#     ```
-#     my_dict["function"]
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 print(my_dict["integer"])
 # -
 
 # - Adding entries
-#     ```
-#     my_dict["new"] = 123
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 my_dict["new"] = 123
 print(my_dict)
 # -
 
 # - Removing entries
-#     ```
-#     del my_dict["new"]
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 del my_dict["new"]
 print(my_dict)
 # -
 
 # - Looping over keys
-#     ```
-#     list(my_dict)
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 print(list(my_dict))
 # -
 
 # - Looping over values
-#     ```
-#     list(my_dict.values()]
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 print(list(my_dict.values()))
 # -
 
 # - Looping over both keys and values
-#     ```
-#     list(my_dict.items())
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 print(list(my_dict.items()))
 # -
 

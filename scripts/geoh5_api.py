@@ -53,15 +53,19 @@ from geoh5py.workspace import Workspace
 # interact with the `geoh5` to make sure that the file gets closed at the end of
 # the context, even if the code has to exit premarturely due to error.
 
+# + tags=["clear-form"]
 with Workspace("../assets/suncity.geoh5") as workspace:
     print(workspace.geoh5)
+# -
 
 # ### Option 2: `open()` and `close()`
 #
 # The second option is to directly instantiate the Workspace or to call the `open()` method.
 
+# + tags=["clear-form"]
 workspace.open()
 print(workspace.geoh5)
+# -
 
 # With this option, Python keeps a connection to the file until the `close()`
 # method gets called. This is sometimes preferable if the computations take a
@@ -76,42 +80,58 @@ print(workspace.geoh5)
 # `data` present on file. At the base of this parent/child hierarchy is the `Root` group.
 # Every entity has a parent, except for the `root`. Note that no values are loaded unless directly requested.
 
+# + tags=["clear-form"]
 print(workspace.root.children)
+# -
 
 # The `Workspace` itself has a few utility methods to quickly access all groups, objects or data registered.
 
+# + tags=["clear-form"]
 workspace.groups, workspace.objects, workspace.data
+# -
 
 # The `get_entity` method allows to retrieve entities by `name` or `uid`.
 
+# + tags=["clear-form"]
 grid = workspace.get_entity("SunCity")[0]
+# -
 
 # The `get_entity` always returns a `list`, as many entities could have the same name.
 
+# + tags=["clear-form"]
 print(f"I have recovered a {type(grid)} with uuid: {grid.uid}")
+# -
 
 # It is best-practice to instead use `get_entity` with a unique identifier (`uuid`)
 # to guarantee access to a specific entity
 
+# + tags=["clear-form"]
 workspace.get_entity(grid.uid)[0] == grid
+# -
 
 # Likewise, data associated with an object can be accessed through the `children` attribute.
 # To access data with values, the workspace must be re-opened if closed.
 
+# + tags=["clear-form"]
 grid.children
+# -
 
 # or with the utility method `get_data` to access it by name
 
+# + tags=["clear-form"]
 dem = grid.get_data("Band 1")[0]
+# -
 
 # Data values are accessed through the `values` attribute of the `data` entity.
 # Let's use a third party plotting package `matplotlib` to display the information on file.
 
+# + tags=["clear-form"]
 plt.pcolormesh(
     grid.origin["x"] + grid.cell_center_u,
     grid.origin["y"] + grid.cell_center_v,
     dem.values.reshape(grid.shape),
 )
+# -
 
 # ## Creating objects
 #
@@ -121,8 +141,10 @@ plt.pcolormesh(
 # For the `Points` to be fully defined, we need to at least assign vertices as an array of 3D coordinates `shape(*, 3)`.
 # Let's add one point at the Sun City resort.
 
+# + tags=["clear-form"]
 point = Points.create(workspace, vertices=np.c_[510000, 7196500, 1150])
 workspace.close()
+# -
 
 # Since we have closed workspace, you can now safely open the `suncity.geoh5` with ANALYST to see the result.
 #
@@ -146,7 +168,7 @@ workspace.close()
 # We can first create a small function that computes the magnetic field for a single dipole.
 
 
-# +
+# + tags=["clear-form"]
 def inclination_declination_2_xyz(inclination, declination):
     """Convert inclination and declination angles (degrees) to unit vector (xyz)."""
     theta = np.deg2rad((450 - inclination) % 360)
@@ -190,7 +212,7 @@ def b_field(source, locations, moment, inclination, declination):
 
 # -
 
-# We can use a few array mulitplication methods from `numpy`
+# We can use a few array multiplication methods from `numpy`
 #
 # - The `sum()` method can be done along a specific axis of an array, collapsing the dimension.
 #
@@ -205,8 +227,10 @@ def b_field(source, locations, moment, inclination, declination):
 #
 # We can now use our function to compute the fields on the existing grid centroids.
 
-moment, inclination, declination = 1.0, 90, 0
-b = b_field(point.vertices, grid.centroids, moment, inclination, declination)
+# + tags=["clear-form"]
+mom, inc, dec = 1.0, 90, 0
+b = b_field(point.vertices, grid.centroids, mom, inc, dec)
+# -
 
 # The `b_field` function returns an array for the three components of the
 # magnetic field due to the dipole source. Since we normally measure Total
@@ -216,37 +240,42 @@ b = b_field(point.vertices, grid.centroids, moment, inclination, declination)
 # b_{TMI} \approx \mathbf{\hat H}_0 \cdot \mathbf{b}
 # $$
 
+# + tags=["clear-form"]
 H = inclination_declination_2_xyz(-62.11, -17.9)  # Suncity field parameters
-tmi = np.dot(H, b.T)
+tmi_data = np.dot(H, b.T)
+# -
 
 # We then add the vector field and TMI values to our Grid2D for visualization in ANALYST.
 
+# + tags=["clear-form"]
 with workspace.open():
     grid.add_data(
         {
             "b_x": {"values": b[:, 0]},
             "b_y": {"values": b[:, 1]},
             "b_z": {"values": b[:, 2]},
-            "tmi": {"values": tmi},
+            "tmi": {"values": tmi_data},
         }
     )
+# -
 
 # Similarly, we can add data to the Points to show the strength and direction of
 # the dipole moment. We are going to group those data so that we can display them as arrow in ANALYST.
 
+# + tags=["clear-form"]
 with workspace.open():
     params = point.add_data(
         {
-            "moment": {"values": np.r_[moment]},
-            "inclination": {"values": np.r_[inclination]},
-            "declination": {"values": np.r_[declination]},
+            "moment": {"values": np.r_[mom]},
+            "inclination": {"values": np.r_[inc]},
+            "declination": {"values": np.r_[dec]},
         }
     )
     prop_group = point.find_or_create_property_group(
         name="dipole", property_group_type="Dip direction & dip"
     )
     point.add_data_to_group(params[1:], prop_group)
-
+# -
 
 # Et voila!
 
@@ -266,6 +295,7 @@ with workspace.open():
 # a linear (sum) operation. Let's wrap all the previous functions into a `MagneticSimulation` class.
 
 
+# + tags=["clear-form"]
 class MagneticSimulation:
     """
     Compute the magnetic field components of dipoles on a geoh5py object.
@@ -347,10 +377,10 @@ class MagneticSimulation:
 
     def tmi_projection(self, fields):
         """Project magnetic field onto Earth's field."""
-        H = inclination_declination_2_xyz(
+        h0 = inclination_declination_2_xyz(
             self._earth_field[0], self._earth_field[1]
         )  # Suncity field parameters
-        return np.dot(H, fields.T)
+        return np.dot(h0, fields.T)
 
     def run(self):
         """Run the simulation and save."""
@@ -369,13 +399,17 @@ class MagneticSimulation:
         return data
 
 
+# -
+
 # We now have a generic container to compute TMI data based on any type of ANALYST object.
 #
 # You are now invited to edit your Points object to add more vertices and
 # create data arrays for moment, azimuth and dips. We can now run the simulation
 # by simply giving those entities to our class.
 
+# + tags=["clear-form"]
 simulator = MagneticSimulation(point, grid, 1.0, 90.0, 0.0, earth_field=(-62.11, -17.9))
 simulator.run()
+# -
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.

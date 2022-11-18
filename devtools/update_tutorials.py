@@ -19,7 +19,6 @@ def update_files(ext):
             continue
 
         for file in files:
-            print(file)
             head, tail = file.split(".")
             if not file.endswith(CONVERT[ext]) or "__init__" in file:
                 continue
@@ -28,13 +27,15 @@ def update_files(ext):
             os.system(
                 f"jupytext --output {os.path.join(LOCATION[ext], outfile)} {os.path.join(directory, file)}"
             )
+            if f"{head}.{ext}" in files:
+                os.remove(os.path.join(directory, f"{head}.{ext}"))
 
 
-def update_forms(ext):
+def update_forms():
 
     os.makedirs("training", exist_ok=True)
 
-    for directory, _, files in os.walk(os.path.join(LOCATION[ext])):
+    for directory, _, files in os.walk(os.path.join(LOCATION["py"])):
         if (
             ".ipynb_checkpoints" in directory
             or "_build" in directory
@@ -44,7 +45,7 @@ def update_forms(ext):
 
         for file in files:
 
-            if not file.endswith(ext) or "__init__" in file:
+            if not file.endswith("py") or "__init__" in file:
                 continue
 
             head, tail = file.split(".")
@@ -55,7 +56,7 @@ def update_forms(ext):
                 skip = False
                 with open(new_file, mode="w+") as new:
                     for line in lines:
-                        if "# +" in line:
+                        if "clear-form" in line:
                             skip = True
 
                         # if line[0] in ["#", "\n"]:
@@ -82,7 +83,7 @@ if __name__ == "__main__":
     ext = sys.argv[1]
 
     if ext == "forms":
-        update_forms("py")
+        update_forms()
     else:
         update_files(ext)
 

@@ -29,15 +29,10 @@
 #
 # Numerical values can be of type `float` with decimals or of type `int` (integers). Floats are mainly used for
 # arithmetic while integers are commonly used to count or index arrays.
-#
-# ```
-# x = 1
-# print(type(x))
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 x = 1
-print(type(x))
+type(x)
 # -
 
 # We have created our first numerical variable **x** for which the computer as a pointer to the `int` value of **1**.
@@ -49,15 +44,10 @@ print(type(x))
 # - The `print` method displays the result to screen.
 #
 # Now let's create a second variable **y** of numerical type `float`
-#
-# ```
-# y = 1.0
-# print(type(y))
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 y = 1.0
-print(type(y))
+type(y)
 # -
 
 # ## Operations
@@ -75,45 +65,31 @@ print(type(y))
 # - `>` : Logical greater than
 # - `<` : Logical smaller than
 #
-# For example
-#
-# ```
-# 2**2 * 1.5 + 1 == 7.0
-# ```
+# For example:
 
-# + tags=["remove-input"]
-print(2**2 * 1.5 + 1 == 7.0)
+# + tags=["clear-form"]
+2**2 * 1.5 + 1 == 7.0
 # -
 
 # You can verify the result above by doing the operations in your head. It is important to keep in mind general rules
 # of return types for numerical values.
 #
 # - Adding or subtracting integers yields an integer
-#
-#     ```
-#     type(x+x)
-#     ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 type(x + x)
 # -
 
 # - Multiplying or dividing integers yields a float
-#     ```
-#     type(x/x)
-#     ```
 
-# + tags=["remove-input"]
-type(x / x)  # Multiply|divide integers yields a float
+# + tags=["clear-form"]
+type(x / x)
 # -
 
 # - Mix operations on integer and float always yield a float
-#     ```
-#     type(x+y)
-#     ```
 
-# + tags=["remove-input"]
-type(x + y)  # Mix of integer and float yields a float
+# + tags=["clear-form"]
+type(x + y)
 # -
 
 # ## Strings
@@ -124,39 +100,27 @@ type(x + y)  # Mix of integer and float yields a float
 # Here is a shortlist of useful methods that can be used on strings.
 #
 # - Adding
-#     ```
-#     "hello" + " world"
-#     ```
 
-# + tags=["remove-input"]
-print("hello" + " world")
+# + tags=["clear-form"]
+"hello" + " world"
 # -
 
 # - Upper/lower and single word capitalization
-#     ```
-#     "I" + " love ".upper() + "python".capitalize()
-#     ```
 
-# + tags=["remove-input"]
-print("I" + " love ".upper() + "python".capitalize())
+# + tags=["clear-form"]
+"I" + " love ".upper() + "python".capitalize()
 # -
 
 # - Upper case every word
-#     ```
-#     "this is important".title()
-#     ```
 
-# + tags=["remove-input"]
-print("this is important".title())
+# + tags=["clear-form"]
+"this is important".title()
 # -
 
 # - Find sub-string within
-#     ```
-#     "Long sentence with symbols #$%^&".find("sym")
-#     ```
 
-# + tags=["remove-input"]
-print("Long sentence with symbols #$%^&".find("sym"))
+# + tags=["clear-form"]
+"Long sentence with symbols #$%^&".find("sym")
 # -
 
 # ## Objects
@@ -191,12 +155,5 @@ print("Long sentence with symbols #$%^&".find("sym"))
 # you will be able to create your own type of object with custom methods.
 # To be continued.
 #
-
-# The next sections cover other core Python objects
-#
-# - [Containers](containers)
-# - [Functions](functions)
-# - [Classes](classes)
-# - [Best-Practice](best_practice)
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.

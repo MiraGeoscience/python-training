@@ -27,23 +27,30 @@
 #
 # The `ui.json` format is based on the [json](https://www.json.org/json-en.html) standard - a format widely used in programming. Python comes by default with a [json](https://docs.python.org/3/library/json.html) module to read and write to file. All we need is a way to create the structure that ANALYST understands. We can make use of the [geoh5py.ui_json](https://geoh5py.readthedocs.io/en/stable/content/api/geoh5py.ui_json.html) module to get started.
 
-from geoh5py.ui_json import InputFile, constants, templates
+# + tags=["clear-form"]
+from geoh5py.ui_json import constants, templates
+
+# -
 
 # First, we need the base components must contain a few base parameters, such as a `title` and a `run_command`. A `constants.default_ui_json` is available to quickly get starget:
 
+# + tags=["clear-form"]
 my_ui = constants.default_ui_json.copy()
 my_ui["title"] = "Hello World!"
 my_ui
+# -
 
 #
 # Note that the `run_command` is currently set to `None`, and therefore nothing will be executed by ANALYST. We will get to that part later.
 #
 # You could write this dictionary directly to file using the built-in `json` module with
 
+# + tags=["clear-form"]
 import json
 
 with open("../assets/myUI.ui.json", "w", encoding="utf-8") as file:
     json.dump(my_ui, file, indent=4)
+# -
 
 # which writes it out as text file under the `assets` directory. From here you can drag & drop the file to the `Viewport` of ANALYST, which would render as:
 #
@@ -168,7 +175,10 @@ with open("../assets/myUI.ui.json", "w", encoding="utf-8") as file:
 #
 # To get started, either copy/paste the definition of the `MagneticSimulation` class below, or import from the script collection:
 
-# +
+# + tags=["clear-form"]
+
+from geoh5py.ui_json import InputFile
+from geoh5py.ui_json.utils import monitored_directory_copy
 
 from scripts.mag_dipole import MagneticSimulation
 
@@ -194,7 +204,9 @@ def run(file: str):
 
 # -
 
-# - We are going to take advantage of the [geoh5py.ui_json.InputFile](https://geoh5py.readthedocs.io/en/stable/content/api/geoh5py.ui_json.html#geoh5py.ui_json.input_file.InputFile) class to handle some of the value conversion between geoh5 and python.
+# - We are going to take advantage of the
+# [geoh5py.ui_json.InputFile](https://geoh5py.readthedocs.io/en/stable/content/api/geoh5py.ui_json.html#geoh5py.ui_json.input_file.InputFile)
+# class to handle value conversions between geoh5 and python.
 #
 #
 # The final step requires to make this `run` available to python.
@@ -202,7 +214,7 @@ def run(file: str):
 # - Use `File\Download as\Python .py` to convert this notebook to a `py` file.
 # - Rename the file to `mag_dipole.py`.
 # - Remove everything in the file except for the content of the cell above
-# - Add the following lines at the end of the scipt
+# - Add the following lines at the end of the script
 #
 # ```
 # if __name__ == "__main__":
@@ -210,7 +222,8 @@ def run(file: str):
 #     run(file)
 # ```
 #
-# This becomes the entry point of the python interpreter when running the `mag_dipole.py` script. At the end, your file should look like this.
+# This becomes the entry point of the python interpreter when running the
+# `mag_dipole.py` script. At the end, your file should look like this.
 #
 # ![run_command](./images/run_command.png)
 
@@ -226,7 +239,7 @@ def run(file: str):
 #
 # Let's create a UI.json with forms for each one of those inputs
 
-# +
+# + tags=["clear-form"]
 mag_ui = constants.default_ui_json.copy()
 mag_ui["title"] = "Magnetic Dipole App"
 mag_ui.update(
@@ -256,8 +269,10 @@ for label in ["moments", "inclination", "declination"]:
 
 # We now need tell which "program" that ANALYST can call.
 
+# + tags=["clear-form"]
 mag_ui["conda_environment"] = "python-training"
 mag_ui["run_command"] = "mag_dipole"
+# -
 
 # Internally, when executed from ANALYST, this is what is going to happen
 #
@@ -266,11 +281,13 @@ mag_ui["run_command"] = "mag_dipole"
 # python mag_dipole
 # ```
 #
-# Then you mag_dipole.run should be able to do the rest: compute and store the result.
+# Then your mag_dipole.run should be able to do the rest: compute and store the result.
 #
 # Let's write out our ui.json to file.
 
+# + tags=["clear-form"]
 with open("../assets/magnetic_dipole.ui.json", "w", encoding="utf-8") as file:
     json.dump(mag_ui, file, indent=4)
+# -
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.

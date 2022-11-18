@@ -1,7 +1,7 @@
 {
     "title": "Magnetic Dipole App",
     "geoh5": null,
-    "run_command": "scripts.mag_dipole",
+    "run_command": "mag_dipole",
     "run_command_boolean": {
         "value": false,
         "label": "Run python module ",
