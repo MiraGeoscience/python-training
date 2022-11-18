@@ -17,7 +17,8 @@
 #
 #
 # This section provides examples on how to interact with Geoscience ANALYST
-# programmatically by using the geoh5 API [geoh5py](https://geoh5py.readthedocs.io/en/stable/). We are going to demonstrate how to
+# programmatically by using the geoh5 API [geoh5py](https://geoh5py.readthedocs.io/en/stable/).
+# We are going to demonstrate how to
 #
 # - Create/open a geoh5 workspace
 # - Access objects and data
@@ -25,14 +26,22 @@
 #
 # Let's get started with some imports.
 
+# +
+from __future__ import annotations
+
 import matplotlib.pyplot as plt
 import numpy as np
-from geoh5py.objects import Points
+from geoh5py.data import Data
+from geoh5py.objects import ObjectBase, Points
 from geoh5py.workspace import Workspace
+
+# -
 
 # ## Open/create a Workspace
 #
-# The main element controlling the hierarchy of a `geoh5` is the `Workspace`. It is the class responsible for accessing information on disk and to register and create the various entities (groups, objects, data).
+# The main element controlling the hierarchy of a `geoh5` is the `Workspace`.
+# It is the class responsible for accessing information on disk and to register
+# and create the various entities (groups, objects, data).
 #
 # There are two ways to create or connect to an existing `geoh5` file through the `Workspace`.
 
@@ -138,29 +147,29 @@ workspace.close()
 
 
 # +
-def azimuth_dip_2_xyz(azimuth, dip):
-    """Convert azimuth and dip angles (degrees) to unit vector (xyz)."""
-    theta = np.deg2rad((450 - azimuth) % 360)
-    phi = np.deg2rad(90 + dip)
+def inclination_declination_2_xyz(inclination, declination):
+    """Convert inclination and declination angles (degrees) to unit vector (xyz)."""
+    theta = np.deg2rad((450 - inclination) % 360)
+    phi = np.deg2rad(90 + declination)
     xyz = np.c_[np.sin(phi) * np.cos(theta), np.sin(phi) * np.sin(theta), np.cos(phi)]
 
     return xyz
 
 
-def b_field(source, locations, moment, azimuth, dip):
+def b_field(source, locations, moment, inclination, declination):
     """
     Compute the magnetic field components of a dipole on an array of locations.
 
     :param source: Location of a point dipole, shape(1, 3).
-    :param receivers: Array of observation locations, shape(n, 3).
+    :param locations: Array of observation locations, shape(n, 3).
     :param moment: Dipole moment of the source (A.m^2)
-    :param azimuth: Dipole horizontal angle, clockwise from North
-    :param dip: Dipole vertical angle from horizontal, positive down
+    :param inclination: Dipole horizontal angle, clockwise from North
+    :param declination: Dipole vertical angle from horizontal, positive down
 
     :return: Array of magnetic field components, shape(n, 3)
     """
-    # Convert the azimuth and dip to Cartesian vector
-    m = moment * azimuth_dip_2_xyz(azimuth, dip)
+    # Convert the inclination and declination to Cartesian vector
+    m = moment * inclination_declination_2_xyz(inclination, declination)
 
     # Compute the radial components
     rad = source - locations
@@ -185,7 +194,8 @@ def b_field(source, locations, moment, azimuth, dip):
 #
 # - The `sum()` method can be done along a specific axis of an array, collapsing the dimension.
 #
-# - The `dot()` method performs the dot product between two arrays, but the shapes need to align. The transpose (`.T`) method allows us to do it inline
+# - The `dot()` method performs the dot product between two arrays,
+# but the shapes need to align. The transpose (`.T`) method allows us to do it inline
 #
 # $[1 \times 3] \cdot [M \times 3].T \rightarrow [1 \times M] $.
 #
@@ -195,16 +205,18 @@ def b_field(source, locations, moment, azimuth, dip):
 #
 # We can now use our function to compute the fields on the existing grid centroids.
 
-moment, azimuth, dip = 1.0, 90, 0
-b = b_field(point.vertices, grid.centroids, moment, azimuth, dip)
+moment, inclination, declination = 1.0, 90, 0
+b = b_field(point.vertices, grid.centroids, moment, inclination, declination)
 
-# The `b_field` function returns an array for the three components of the magnetic field due to the dipole source. Since we normally measure Total Magnetic Intensity (TMI) data, we should project those fields onto the Earth's magnetic field.
+# The `b_field` function returns an array for the three components of the
+# magnetic field due to the dipole source. Since we normally measure Total
+# Magnetic Intensity (TMI) data, we should project those fields onto the Earth's magnetic field.
 #
 # $$
 # b_{TMI} \approx \mathbf{\hat H}_0 \cdot \mathbf{b}
 # $$
 
-H = azimuth_dip_2_xyz(-62.11, -17.9)  # Suncity field parameters
+H = inclination_declination_2_xyz(-62.11, -17.9)  # Suncity field parameters
 tmi = np.dot(H, b.T)
 
 # We then add the vector field and TMI values to our Grid2D for visualization in ANALYST.
@@ -219,14 +231,15 @@ with workspace.open():
         }
     )
 
-# Similarly, we can add data to the Points to show the strength and direction of the dipole moment. We are going to group those data so that we can display them as arrow in ANALYST.
+# Similarly, we can add data to the Points to show the strength and direction of
+# the dipole moment. We are going to group those data so that we can display them as arrow in ANALYST.
 
 with workspace.open():
     params = point.add_data(
         {
             "moment": {"values": np.r_[moment]},
-            "azimuth": {"values": np.r_[azimuth]},
-            "dip": {"values": np.r_[dip]},
+            "inclination": {"values": np.r_[inclination]},
+            "declination": {"values": np.r_[declination]},
         }
     )
     prop_group = point.find_or_create_property_group(
@@ -234,23 +247,23 @@ with workspace.open():
     )
     point.add_data_to_group(params[1:], prop_group)
 
+
 # Et voila!
 
 # ![bfield](./images/b_field.png)
 
-# For more examples on how to create other object types, visit the [geoh5py-Tutorial](https://geoh5py.readthedocs.io/en/stable/content/user_guide/core_entities.html#Entities)
+# For more examples on how to create other object types, visit the
+# [geoh5py-Tutorial](https://geoh5py.readthedocs.io/en/stable/content/user_guide/core_entities.html#Entities)
 
 # ## Example 1b:  Generalizing the application
 #
-# A good way to write useful programs is to generalize the code such that the same functions can easily be re-used by different programs. In this section, we are going to re-purpose [Example 1a](http://localhost:8890/notebooks/geoh5_api.ipynb#Example-1a:-Creating-data-from-a-magnetic-dipole) such that the calculation can occur on any other object types supported by ANALYST.
+# A good way to write useful programs is to generalize the code such that the
+# same functions can easily be re-used by different programs. In this section,
+# we are going to re-purpose [Example 1a](http://localhost:8890/notebooks/geoh5_api.ipynb#Example-1a:-Creating-data-from-a-magnetic-dipole)
+# such that the calculation can occur on any other object types supported by ANALYST.
 #
-# Fortunately for us, computing the total magnetic field from many dipoles is a linear (sum) operation. Let's wrap all the previous functions into a `MagneticSimulation` class.
-
-# +
-from __future__ import annotations
-
-from geoh5py.data import Data
-from geoh5py.objects import ObjectBase
+# Fortunately for us, computing the total magnetic field from many dipoles is
+# a linear (sum) operation. Let's wrap all the previous functions into a `MagneticSimulation` class.
 
 
 class MagneticSimulation:
@@ -260,8 +273,8 @@ class MagneticSimulation:
     :param dipoles: Array or Points object of dipole locations, shape(m, 3).
     :param locations: Array or Points object of observation locations, shape(n, 3).
     :param moments: Value or Data of dipole moments.
-    :param azimuths: Value or Data of dipole azimuth angles.
-    :param dips: Value or Data of dipole dip angles.
+    :param inclinations: Value or Data of dipole inclination angles.
+    :param declinations: Value or Data of dipole declination angles.
 
     :return b_field: Vector array of magnetic field components, shape(n ,3).
     """
@@ -271,15 +284,15 @@ class MagneticSimulation:
         sources: Points,
         receivers: ObjectBase,
         moments: Data | float,
-        azimuths: Data | float,
-        dips: Data | float,
+        inclinations: Data | float,
+        declinations: Data | float,
         earth_field=(90.0, 0),
     ):
         self._sources = sources
         self._receivers = receivers
         self._moments = moments
-        self._azimuths = azimuths
-        self._dips = dips
+        self._inclinations = inclinations
+        self._declinations = declinations
         self._earth_field = earth_field
 
     @property
@@ -304,46 +317,46 @@ class MagneticSimulation:
         return self._moments
 
     @property
-    def azimuths(self):
-        if isinstance(self._azimuths, Data):
-            return self._azimuths.values
-        if isinstance(self._azimuths, float):
-            return np.ones(self.sources.shape[0]) * self._azimuths
+    def inclinations(self):
+        if isinstance(self._inclinations, Data):
+            return self._inclinations.values
+        if isinstance(self._inclinations, float):
+            return np.ones(self.sources.shape[0]) * self._inclinations
 
-        return self._azimuths
+        return self._inclinations
 
     @property
-    def dips(self):
-        if isinstance(self._dips, Data):
-            return self._dips.values
-        if isinstance(self._dips, float):
-            return np.ones(self.sources.shape[0]) * self._dips
+    def declinations(self):
+        if isinstance(self._declinations, Data):
+            return self._declinations.values
+        if isinstance(self._declinations, float):
+            return np.ones(self.sources.shape[0]) * self._declinations
 
-        return self._dips
+        return self._declinations
 
     def compute(self):
         """Compute fields from input."""
         fields = np.zeros_like(self.receivers)
-        for source, moment, azimuth, dip in zip(
-            self.sources, self.moments, self.azimuths, self.dips
+
+        for source, moment, inclination, declination in zip(
+            self.sources, self.moments, self.inclinations, self.declinations
         ):
-            fields += b_field(source, self.receivers, moment, azimuth, dip)
+            fields += b_field(source, self.receivers, moment, inclination, declination)
 
         return fields
 
     def tmi_projection(self, fields):
         """Project magnetic field onto Earth's field."""
-        H = azimuth_dip_2_xyz(
+        H = inclination_declination_2_xyz(
             self._earth_field[0], self._earth_field[1]
         )  # Suncity field parameters
         return np.dot(H, fields.T)
 
     def run(self):
         """Run the simulation and save."""
-        fields = self.compute()
-        tmi = self.tmi_projection(fields)
-
         with self._receivers.workspace.open(mode="r+"):
+            fields = self.compute()
+            tmi = self.tmi_projection(fields)
             data = self._receivers.add_data(
                 {
                     "b_x": {"values": fields[:, 0]},
@@ -356,11 +369,11 @@ class MagneticSimulation:
         return data
 
 
-# -
-
 # We now have a generic container to compute TMI data based on any type of ANALYST object.
 #
-# You are now invited to edit your Points object to add more vertices and create data arrays for moment, azimuth and dips. We can now run the simulation by simply giving those entities to our class.
+# You are now invited to edit your Points object to add more vertices and
+# create data arrays for moment, azimuth and dips. We can now run the simulation
+# by simply giving those entities to our class.
 
 simulator = MagneticSimulation(point, grid, 1.0, 90.0, 0.0, earth_field=(-62.11, -17.9))
 simulator.run()

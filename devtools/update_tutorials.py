@@ -6,35 +6,41 @@ import os
 import sys
 
 CONVERT = {"ipynb": "py", "py": "ipynb"}
+LOCATION = {"ipynb": os.path.join("content"), "py": os.path.join("scripts")}
 
 
 def update_files(ext):
-    for directory, _, files in os.walk(os.path.join("content")):
+    for directory, _, files in os.walk(os.path.join(LOCATION[CONVERT[ext]])):
         if ".ipynb_checkpoints" in directory or "_build" in directory:
             continue
 
         for file in files:
 
+            head, tail = file.split(".")
             if not file.endswith(CONVERT[ext]):
                 continue
 
-            os.system(f"jupytext --to {ext} {os.path.join(directory, file)}")
+            outfile = f"{head}.{ext}"
+            os.system(
+                f"jupytext --output {os.path.join(LOCATION[ext], outfile)} {os.path.join(directory, file)}"
+            )
 
 
 def update_forms(ext):
 
     os.makedirs("training", exist_ok=True)
 
-    for directory, _, files in os.walk(os.path.join("content")):
+    for directory, _, files in os.walk(os.path.join(LOCATION[ext])):
         if ".ipynb_checkpoints" in directory or "_build" in directory:
             continue
 
         for file in files:
 
-            if not file.endswith(ext):
+            if not file.endswith(ext) or "__init__" in file:
                 continue
 
-            new_file = os.path.join("training", file)
+            head, tail = file.split(".")
+            new_file = os.path.join("training", f"{head}.ipynb")
 
             with open(os.path.join(directory, file)) as orig:
                 lines = list(orig)
@@ -53,8 +59,7 @@ def update_forms(ext):
                         if not skip:
                             new.write(line)
 
-            os.system(f"jupytext --to {CONVERT[ext]} {new_file}")
-            os.remove(new_file)
+            os.system(f"jupytext --output {new_file} {os.path.join(directory, file)}")
 
 
 if __name__ == "__main__":

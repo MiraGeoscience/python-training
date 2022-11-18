@@ -35,15 +35,15 @@ my_ui = constants.default_ui_json.copy()
 my_ui["title"] = "Hello World!"
 my_ui
 
+#
 # Note that the `run_command` is currently set to `None`, and therefore nothing will be executed by ANALYST. We will get to that part later.
 #
 # You could write this dictionary directly to file using the built-in `json` module with
-#
-# ```
-# import json
-# with open("./assets/myUI.ui.json", "w", encoding="utf-8") as file:
-#     json.dump(my_ui, file, indent=4)
-# ```
+
+import json
+
+with open("../assets/myUI.ui.json", "w", encoding="utf-8") as file:
+    json.dump(my_ui, file, indent=4)
 
 # which writes it out as text file under the `assets` directory. From here you can drag & drop the file to the `Viewport` of ANALYST, which would render as:
 #
@@ -157,27 +157,120 @@ my_ui
 #
 # ![run_ui](./images/run_ui.png)
 
-# ## Read from file
-#
-# The next step is to read the UI you have created to file, so that ANALYST can interpret it. We are going to take advantage of the [geoh5py.ui_json.InputFile](https://geoh5py.readthedocs.io/en/stable/content/api/geoh5py.ui_json.html#geoh5py.ui_json.input_file.InputFile) class to handle some of the value conversion between geoh5 and python.
-#
-
-ifile = InputFile.read_ui_json("../assets/myUI.ui.json")
-
 # ## Example: Magnetic Dipole App
 #
 # In the previous section covering the [geoh5 API](geoh5-API), we have introduced functionality to compute the magnetic field from dipole locations. We are now going to create a user-interface (UI) to be able to run this program from a Geoscience ANALYST session.
-
-#  Copyright (c) 2022 Mira Geoscience Ltd.
-
-# # Custom User Interface (ui.json)
 #
 #
-# This section provides training on how to create custom user interface within Geoscience ANALYST using the [ui.json
-# standard](https://geoh5py.readthedocs.io/en/stable/content/uijson_format/index.html).
+# ### Creating a callable program
+#
+# In the previous [Geoh5 API Example](Example-1b:--Generalizing-the-application) section, we created a `Class` (object) called `MagneticSimulation` that could compute the fields of a collection of dipoles. We are going to define a program that our UI can call to compute and store the results.
+#
+# To get started, either copy/paste the definition of the `MagneticSimulation` class below, or import from the script collection:
 
-# ## UI.json format
+# +
 
-# # Example 1: Electric field calculator (revisited)
+from scripts.mag_dipole import MagneticSimulation
+
+
+def run(file: str):
+    """
+    Run the mag_dipole simulation from InputFile.
+    """
+    ifile = InputFile.read_ui_json(file).data
+    MagneticSimulation(
+        ifile["sources"],
+        ifile["receivers"],
+        ifile["moments"],
+        ifile["inclination"],
+        ifile["declination"],
+    ).run()
+
+    with ifile["geoh5"].open(mode="r+"):
+
+        if ifile["monitoring_directory"] is not None:
+            monitored_directory_copy(ifile["monitoring_directory"], ifile["receivers"])
+
+
+# -
+
+# - We are going to take advantage of the [geoh5py.ui_json.InputFile](https://geoh5py.readthedocs.io/en/stable/content/api/geoh5py.ui_json.html#geoh5py.ui_json.input_file.InputFile) class to handle some of the value conversion between geoh5 and python.
+#
+#
+# The final step requires to make this `run` available to python.
+#
+# - Use `File\Download as\Python .py` to convert this notebook to a `py` file.
+# - Rename the file to `mag_dipole.py`.
+# - Remove everything in the file except for the content of the cell above
+# - Add the following lines at the end of the scipt
+#
+# ```
+# if __name__ == "__main__":
+#     file = sys.argv[1]
+#     run(file)
+# ```
+#
+# This becomes the entry point of the python interpreter when running the `mag_dipole.py` script. At the end, your file should look like this.
+#
+# ![run_command](./images/run_command.png)
+
+# ### Creating the UI
+#
+# We now can create our ui.json to provide inputs for the following 5 parameters:
+#
+# - `Object` defining the dipoles (sources)
+# - `Object` defining the receivers
+# - `Data` or `float` value for the dipole moments
+# - `Data` or `float` value for the dipole inclination angles
+# - `Data` or `float` value for the dipole declination angles
+#
+# Let's create a UI.json with forms for each one of those inputs
+
+# +
+mag_ui = constants.default_ui_json.copy()
+mag_ui["title"] = "Magnetic Dipole App"
+mag_ui.update(
+    {
+        "sources": templates.object_parameter(label="Dipoles", mesh_type="", value=""),
+        "receivers": templates.object_parameter(
+            label="Receivers", mesh_type="", value=""
+        ),
+        "moments": templates.data_parameter(
+            label="Dipole Moment", parent="sources", value=1.0
+        ),
+        "inclination": templates.data_parameter(
+            label="Dipole Inclination", parent="sources", value=-62.11
+        ),
+        "declination": templates.data_parameter(
+            label="Dipole Declination", parent="sources", value=-17.9
+        ),
+    }
+)
+
+
+# Some modifications
+for label in ["moments", "inclination", "declination"]:
+    mag_ui[label]["isValue"] = True
+    mag_ui[label]["property"] = ""
+# -
+
+# We now need tell which "program" that ANALYST can call.
+
+mag_ui["conda_environment"] = "python-training"
+mag_ui["run_command"] = "mag_dipole"
+
+# Internally, when executed from ANALYST, this is what is going to happen
+#
+# ```
+# conda activate python-training
+# python mag_dipole
+# ```
+#
+# Then you mag_dipole.run should be able to do the rest: compute and store the result.
+#
+# Let's write out our ui.json to file.
+
+with open("../assets/magnetic_dipole.ui.json", "w", encoding="utf-8") as file:
+    json.dump(mag_ui, file, indent=4)
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.

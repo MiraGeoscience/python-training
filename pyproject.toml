@@ -3,6 +3,9 @@ name = "python-training"
 version = "0.0.1"
 description = "Open Source Training"
 authors = ["Mira Geoscience <support@mirageoscience.com>"]
+packages = [
+    { include = "scripts"},
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -10,11 +13,12 @@ h5py = "^3.2.1" # from geoh5py
 matplotlib = "^3.5.1"
 numpy = "!=1.19.4, ^1.21.5, <1.23"  # scipy 1.7.3 requires numpy <1.23
 jupyter-book = "^0.13"
+jupytext = "^1.14"
 nbconvert = "^6.4"
 pytest = "^7.1"
 
 ## pip dependencies
-geoh5py = { url = "https://github.com/MiraGeoscience/geoh5py/archive/refs/tags/v0.4.0.tar.gz#sha256=b71aee6fe66787fe65021ebadb224dd2154a975fe352ed1b43e3e31c4808f704" }
+geoh5py = { version = "0.5.0", source = "pypi" }
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.14.4"
@@ -35,6 +39,9 @@ line_length = 88
 
 [tool.black]
 # defaults are just fine
+
+[tool.poetry2conda]
+name = "python-training"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "setuptools"]

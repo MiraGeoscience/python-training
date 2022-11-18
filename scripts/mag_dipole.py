@@ -13,19 +13,19 @@ def run(file: str):
     """
     Run the mag_dipole simulation from InputFile.
     """
-    ifile = InputFile(file).data
+    ifile = InputFile.read_ui_json(file).data
     MagneticSimulation(
-        ifile["dipoles"],
-        ifile["locations"],
+        ifile["sources"],
+        ifile["receivers"],
         ifile["moments"],
-        ifile["azimuths"],
-        ifile["dips"],
+        ifile["inclination"],
+        ifile["declination"],
     ).run()
 
     with ifile["geoh5"].open(mode="r+"):
 
         if ifile["monitoring_directory"] is not None:
-            monitored_directory_copy(ifile["monitoring_directory"], ifile["locations"])
+            monitored_directory_copy(ifile["monitoring_directory"], ifile["receivers"])
 
 
 class MagneticSimulation:
@@ -35,8 +35,8 @@ class MagneticSimulation:
     :param dipoles: Array or Points object of dipole locations, shape(m, 3).
     :param locations: Array or Points object of observation locations, shape(n, 3).
     :param moments: Value or Data of dipole moments.
-    :param azimuths: Value or Data of dipole azimuth angles.
-    :param dips: Value or Data of dipole dip angles.
+    :param inclinations: Value or Data of dipole inclination angles.
+    :param declinations: Value or Data of dipole declination angles.
 
     :return b_field: Vector array of magnetic field components, shape(n ,3).
     """
@@ -46,15 +46,15 @@ class MagneticSimulation:
         sources: Points,
         receivers: ObjectBase,
         moments: Data | float,
-        azimuths: Data | float,
-        dips: Data | float,
+        inclinations: Data | float,
+        declinations: Data | float,
         earth_field=(90.0, 0),
     ):
         self._sources = sources
         self._receivers = receivers
         self._moments = moments
-        self._azimuths = azimuths
-        self._dips = dips
+        self._inclinations = inclinations
+        self._declinations = declinations
         self._earth_field = earth_field
 
     @property
@@ -79,46 +79,46 @@ class MagneticSimulation:
         return self._moments
 
     @property
-    def azimuths(self):
-        if isinstance(self._azimuths, Data):
-            return self._azimuths.values
-        if isinstance(self._azimuths, float):
-            return np.ones(self.sources.shape[0]) * self._azimuths
+    def inclinations(self):
+        if isinstance(self._inclinations, Data):
+            return self._inclinations.values
+        if isinstance(self._inclinations, float):
+            return np.ones(self.sources.shape[0]) * self._inclinations
 
-        return self._azimuths
+        return self._inclinations
 
     @property
-    def dips(self):
-        if isinstance(self._dips, Data):
-            return self._dips.values
-        if isinstance(self._dips, float):
-            return np.ones(self.sources.shape[0]) * self._dips
+    def declinations(self):
+        if isinstance(self._declinations, Data):
+            return self._declinations.values
+        if isinstance(self._declinations, float):
+            return np.ones(self.sources.shape[0]) * self._declinations
 
-        return self._dips
+        return self._declinations
 
     def compute(self):
         """Compute fields from input."""
         fields = np.zeros_like(self.receivers)
-        for source, moment, azimuth, dip in zip(
-            self.sources, self.moments, self.azimuths, self.dips
+
+        for source, moment, inclination, declination in zip(
+            self.sources, self.moments, self.inclinations, self.declinations
         ):
-            fields += b_field(source, self.receivers, moment, azimuth, dip)
+            fields += b_field(source, self.receivers, moment, inclination, declination)
 
         return fields
 
     def tmi_projection(self, fields):
         """Project magnetic field onto Earth's field."""
-        H = azimuth_dip_2_xyz(
+        H = inclination_declination_2_xyz(
             self._earth_field[0], self._earth_field[1]
         )  # Suncity field parameters
         return np.dot(H, fields.T)
 
     def run(self):
         """Run the simulation and save."""
-        fields = self.compute()
-        tmi = self.tmi_projection(fields)
-
         with self._receivers.workspace.open(mode="r+"):
+            fields = self.compute()
+            tmi = self.tmi_projection(fields)
             data = self._receivers.add_data(
                 {
                     "b_x": {"values": fields[:, 0]},
@@ -131,29 +131,29 @@ class MagneticSimulation:
         return data
 
 
-def azimuth_dip_2_xyz(azimuth, dip):
-    """Convert azimuth and dip angles (degrees) to unit vector (xyz)."""
-    theta = np.deg2rad((450 - azimuth) % 360)
-    phi = np.deg2rad(90 + dip)
+def inclination_declination_2_xyz(inclination, declination):
+    """Convert inclination and declination angles (degrees) to unit vector (xyz)."""
+    theta = np.deg2rad((450 - inclination) % 360)
+    phi = np.deg2rad(90 + declination)
     xyz = np.c_[np.sin(phi) * np.cos(theta), np.sin(phi) * np.sin(theta), np.cos(phi)]
 
     return xyz
 
 
-def b_field(source, locations, moment, azimuth, dip):
+def b_field(source, locations, moment, inclination, declination):
     """
     Compute the magnetic field components of a dipole on an array of locations.
 
     :param source: Location of a point dipole, shape(1, 3).
     :param locations: Array of observation locations, shape(n, 3).
     :param moment: Dipole moment of the source (A.m^2)
-    :param azimuth: Dipole horizontal angle, clockwise from North
-    :param dip: Dipole vertical angle from horizontal, positive down
+    :param inclination: Dipole horizontal angle, clockwise from North
+    :param declination: Dipole vertical angle from horizontal, positive down
 
     :return: Array of magnetic field components, shape(n, 3)
     """
-    # Convert the azimuth and dip to Cartesian vector
-    m = moment * azimuth_dip_2_xyz(azimuth, dip)
+    # Convert the inclination and declination to Cartesian vector
+    m = moment * inclination_declination_2_xyz(inclination, declination)
 
     # Compute the radial components
     rad = source - locations
