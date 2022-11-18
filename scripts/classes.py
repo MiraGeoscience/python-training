@@ -84,7 +84,7 @@ class Assay:
 
 # + tags=["clear-form"]
 assay = Assay(grades, depths)
-print(type(assay))
+type(assay)
 # -
 
 # ## self
@@ -94,13 +94,13 @@ print(type(assay))
 # `get_depth` only take in `self` as input as the `grades`, `depths` and `threshold` can be accessed from the class.
 
 # + tags=["clear-form"]
-print(assay.grades)
+assay.grades
 # -
 
 # and likewise for methods
 
 # + tags=["clear-form"]
-print(assay.anomalous())
+assay.anomalous()
 # -
 
 # ## __call__
@@ -109,7 +109,7 @@ print(assay.anomalous())
 # going to perform the `self.get_depth()` method and return the result.
 
 # + tags=["clear-form"]
-print(assay())
+assay()
 # -
 
 # ## @property

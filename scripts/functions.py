@@ -89,25 +89,18 @@ def anomalous(values, threshold):
 
 # + tags=["clear-form"]
 logic = anomalous(grades, 1.0)
-print(logic)
+logic
 # -
 
 # Note that the same operation could also have been done with an `in-line` approach such that
-# ```
-# logic = [val > threshold for val in grades]
-# ```
-#
-# In-line operations are more compact (and usually faster) than appending values within a `for` loop operation,
-# and would have not required to create the `anomalous` function. In the end, both gives back the same result.
-#
-# ```
-# print(logic)
-# ```
 
 # + tags=["clear-form"]
 logic = [val > 1.0 for val in grades]
-print(logic)
+logic
 # -
+
+# In-line operations are more compact (and usually faster) than appending values within a `for` loop operation,
+# and would have not required to create the `anomalous` function. In the end, both gives back the same result.
 
 # ### Keyword Arguments
 #
@@ -133,14 +126,14 @@ def anomalous(values, threshold=1.0):  # pylint: disable=E0102
 # Since `threshold` already has a value, then the argument becomes optional and the function still runs without it.
 
 # + tags=["clear-form"]
-print(anomalous(grades))
+anomalous(grades)
 # -
 
 # If not assigned specifically as keyword arguments, Python will simply distribute the extra arguments in the order
 # defined in the signature of the function. For example
 
 # + tags=["clear-form"]
-print(anomalous(grades, 2.0))
+anomalous(grades, 2.0)
 # -
 
 # ## Example 2: If statement
@@ -180,7 +173,7 @@ def get_depths(values: list, conditions: list[bool]):
 # Calling the `get_depths` method with the `grades` and `logic` previously computed we get
 
 # + tags=["clear-form"]
-print(get_depths(grades, logic))
+get_depths(grades, logic)
 # -
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.

@@ -64,7 +64,7 @@ with Workspace("../assets/suncity.geoh5") as workspace:
 
 # + tags=["clear-form"]
 workspace.open()
-print(workspace.geoh5)
+workspace.geoh5
 # -
 
 # With this option, Python keeps a connection to the file until the `close()`
@@ -81,7 +81,7 @@ print(workspace.geoh5)
 # Every entity has a parent, except for the `root`. Note that no values are loaded unless directly requested.
 
 # + tags=["clear-form"]
-print(workspace.root.children)
+workspace.root.children
 # -
 
 # The `Workspace` itself has a few utility methods to quickly access all groups, objects or data registered.
@@ -99,7 +99,7 @@ grid = workspace.get_entity("SunCity")[0]
 # The `get_entity` always returns a `list`, as many entities could have the same name.
 
 # + tags=["clear-form"]
-print(f"I have recovered a {type(grid)} with uuid: {grid.uid}")
+f"I have recovered a {type(grid)} with uuid: {grid.uid}"
 # -
 
 # It is best-practice to instead use `get_entity` with a unique identifier (`uuid`)

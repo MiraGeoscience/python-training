@@ -29,27 +29,27 @@ a_list = [1.0, 2, "abc"]
 # - Indexing (accessing) elements of the list (count starts at 0)
 
 # + tags=["clear-form"]
-print(a_list[0])
+a_list[0]
 # -
 
 # - Adding (appending) to the list.
 
 # + tags=["clear-form"]
 a_list += ["new"]
-print(a_list)
+a_list
 # -
 
 # - Removing an element from the list using the `pop` method with index
 
 # + tags=["clear-form"]
 a_list.pop(0)
-print(a_list)
+a_list
 # -
 
 # - Finding the `index` of an element within the list. The same method applies to [string](String) objects.
 
 # + tags=["clear-form"]
-print(a_list.index("abc"))
+a_list.index("abc")
 # -
 
 # ## Dictionary
@@ -67,39 +67,39 @@ my_dict = {"integer": 2}
 # - Accessing values using the key
 
 # + tags=["clear-form"]
-print(my_dict["integer"])
+my_dict["integer"]
 # -
 
 # - Adding entries
 
 # + tags=["clear-form"]
 my_dict["new"] = 123
-print(my_dict)
+my_dict
 # -
 
 # - Removing entries
 
 # + tags=["clear-form"]
 del my_dict["new"]
-print(my_dict)
+my_dict
 # -
 
 # - Looping over keys
 
 # + tags=["clear-form"]
-print(list(my_dict))
+list(my_dict)
 # -
 
 # - Looping over values
 
 # + tags=["clear-form"]
-print(list(my_dict.values()))
+list(my_dict.values())
 # -
 
 # - Looping over both keys and values
 
 # + tags=["clear-form"]
-print(list(my_dict.items()))
+list(my_dict.items())
 # -
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.
