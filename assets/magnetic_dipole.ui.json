@@ -1,7 +1,7 @@
 {
     "title": "Magnetic Dipole App",
     "geoh5": null,
-    "run_command": "mag_dipole",
+    "run_command": "mag_dipole_app",
     "run_command_boolean": {
         "value": false,
         "label": "Run python module ",
@@ -53,5 +53,19 @@
         "value": -17.9,
         "isValue": true,
         "property": ""
+    },
+    "earth_inc": {
+        "main": true,
+        "label": "Earth's field Inclination",
+        "value": -62.11,
+        "precision": 2,
+        "lineEdit": true
+    },
+    "earth_dec": {
+        "main": true,
+        "label": "Earth's field Declination",
+        "value": -17.9,
+        "precision": 2,
+        "lineEdit": true
     }
 }
