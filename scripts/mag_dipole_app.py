@@ -13,9 +13,13 @@
 #     name: python3
 # ---
 
-# # Magnetic dipole app
+# # Magnetic Dipole App
 #
 # Now that we have learned how to interact with `geoh5` and to create a custom user-interface with `ui.json`, we can start implementing our first application. We are going to create a a magnetic dipole simulator from scratch, which could become a useful tool to interpret magnetic data maps.
+#
+#
+# ![mag_dipole_gif](./images/mag_dipole_app.gif "segment")
+#
 #
 # ## The physics
 #
