@@ -6,7 +6,7 @@ import os
 import sys
 
 CONVERT = {"ipynb": "py", "py": "ipynb"}
-LOCATION = {"ipynb": os.path.join("content"), "py": os.path.join("scripts")}
+LOCATION = {"ipynb": os.path.join("content"), "py": os.path.join("content")}
 
 
 def update_files(ext):
@@ -25,10 +25,8 @@ def update_files(ext):
 
             outfile = f"{head}.{ext}"
             os.system(
-                f"jupytext --output {os.path.join(LOCATION[ext], outfile)} {os.path.join(directory, file)}"
+                f"jupytext --output {os.path.join(directory, outfile)} {os.path.join(directory, file)}"
             )
-            if f"{head}.{ext}" in files:
-                os.remove(os.path.join(directory, f"{head}.{ext}"))
 
 
 def update_forms():
