@@ -10,5 +10,6 @@ chapters:
   - file: functions.ipynb
   - file: classes.ipynb
   - file: best_practice.ipynb
-- file: geoh5_api.ipynb
-- file: uijson_training.ipynb
+  - file: geoh5_api.ipynb
+  - file: uijson_training.ipynb
+  - file: mag_dipole_app.ipynb
