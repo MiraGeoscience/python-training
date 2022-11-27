@@ -56,9 +56,7 @@
 
 # Import the necessary packages
 from __future__ import annotations
-
 import json
-
 import matplotlib.pyplot as plt
 import numpy as np
 from geoh5py.data import Data

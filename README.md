@@ -30,14 +30,14 @@ synchronize the files. The script `devtools\update_tutorials.py` can do the upda
 ### Edits from jupyter-notebook
 If edits are done in the jupyter-notebook, then `py` files can be updated with
 
-- `conda activate mira-training`
+- `conda activate python-training`
 - `python devtools\update_tutorials.py py`
 
 ### Generating HTML
 
  Before building the HTML, the notebook (`ipynb`) files must be updated. Run the following
 
-- `conda activate mira-training`
+- `conda activate python-training`
 - `python devtools\update_tutorials.py ipynb`
 - `jupyter-book build content/`
 
@@ -47,7 +47,7 @@ The content of the tutorial can then be viewed under `_build/html/index.html`
 
 It is the plan to provide trainees with blank jupyter notebooks with only instructions. To generate those forms run
 
-- `conda activate mira-training`
+- `conda activate python-training`
 - `python devtools\update_tutorials.py forms`
 
 
