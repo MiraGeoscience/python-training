@@ -87,19 +87,24 @@ from geoh5py.workspace import Workspace
 
 # ## Functions
 #
-# ### Inclination to declination conversion
-# We require a function to convert inclination/declination angles to Cartesian vectors. The same function will come handy later when computing the TMI projection. We need to perform the following conversion:
-# $$
-# \hat x = \sin(\phi) * \cos(\theta)
-# $$
-# $$
-# \hat y = \sin(\phi) * \sin(\theta)
-# $$
-# $$
-# \hat z = \cos(\phi)
-# $$
+# ### Inclination / declination to vector conversion
+# We require a function to convert inclination/declination angles to Cartesian vectors.
+# The same function will come handy later when computing the TMI projection.
+# We need to perform the following conversion:
 #
-# where $\phi$ is the angle on the horizontal plane, and $\theta$ is the vertical angles. Both are positive counterclowize with reference from the $\hat x$-axis, so we also need to convert the angles from the geographic convention (degree clockwise from North).
+# $ \hat x = \sin(\phi) * \cos(\theta)$
+#
+# $
+# \hat y = \sin(\phi) * \sin(\theta)
+# $
+#
+# $
+# \hat z = \cos(\phi)
+# $
+#
+# where $\phi$ is the angle on the horizontal plane, and $\theta$ is the vertical angles. Both are positive
+# counter-clockwise with reference from the $\hat x$-axis, so we also need to convert the angles from the
+# geographic convention (degree clockwise from North).
 
 
 def inclination_declination_2_xyz(inclination, declination):
