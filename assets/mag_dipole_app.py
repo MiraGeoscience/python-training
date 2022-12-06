@@ -32,12 +32,10 @@ def b_field(source, locations, moment, inclination, declination):
     # Compute |r|
     dist = np.sum(rad**2.0, axis=1) ** 0.5
 
-    # mu_0 / 4 pi * 1e-9 (nano)
-    constant = 1e2
-    fields = (
-        constant
-        * ((np.dot(m, rad.T).T * (rad / dist[:, None])) - m)
-        / dist[:, None] ** 3.0
+    # mu_0 / 4 pi  * 1e9 for nT
+    constant = 100
+    fields = constant * (
+        ((np.dot(m, rad.T).T * 3 * rad) / dist[:, None] ** 5) - (m / dist[:, None] ** 3)
     )
 
     return fields
@@ -75,6 +73,8 @@ def magnetic_simulator(
     :param moments: Value or Data of dipole moments.
     :param inclinations: Value or Data of dipole inclination angles.
     :param declinations: Value or Data of dipole declination angles.
+    :param earth_inc: Earth's field inclination angle.
+    :param earth_dec: Earth's field declination angle.
 
     :return b_field: List of Data entities.
     """

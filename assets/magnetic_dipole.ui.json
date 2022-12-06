@@ -58,14 +58,18 @@
         "main": true,
         "label": "Earth's field Inclination",
         "value": -62.11,
+        "min": 0.0,
         "precision": 2,
-        "lineEdit": true
+        "lineEdit": true,
+        "max": 100.0
     },
     "earth_dec": {
         "main": true,
         "label": "Earth's field Declination",
         "value": -17.9,
+        "min": 0.0,
         "precision": 2,
-        "lineEdit": true
+        "lineEdit": true,
+        "max": 100.0
     }
 }
