@@ -31,8 +31,7 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
-from geoh5py.data import Data
-from geoh5py.objects import ObjectBase, Points
+from geoh5py.objects import Points
 from geoh5py.workspace import Workspace
 
 # -
@@ -54,7 +53,7 @@ from geoh5py.workspace import Workspace
 # the context, even if the code has to exit premarturely due to error.
 
 # + tags=["clear-form"]
-with Workspace("../assets/suncity.geoh5") as workspace:
+with Workspace("../../assets/suncity.geoh5") as workspace:
     print(workspace.geoh5)
 # -
 
