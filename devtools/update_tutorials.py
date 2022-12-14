@@ -6,42 +6,55 @@ import os
 import sys
 
 CONVERT = {"ipynb": "py", "py": "ipynb"}
+LOCATION = {"ipynb": os.path.join("content"), "py": os.path.join("content")}
 
 
 def update_files(ext):
-    for directory, _, files in os.walk(os.path.join("content")):
-        if ".ipynb_checkpoints" in directory or "_build" in directory:
+    for directory, _, files in os.walk(os.path.join(LOCATION[CONVERT[ext]])):
+        if (
+            ".ipynb_checkpoints" in directory
+            or "_build" in directory
+            or "__pycache__" in directory
+        ):
             continue
 
         for file in files:
-
-            if not file.endswith(CONVERT[ext]):
+            head, tail = file.split(".")
+            if not file.endswith(CONVERT[ext]) or "__init__" in file:
                 continue
 
-            os.system(f"jupytext --to {ext} {os.path.join(directory, file)}")
+            outfile = f"{head}.{ext}"
+            os.system(
+                f"jupytext --output {os.path.join(directory, outfile)} {os.path.join(directory, file)}"
+            )
 
 
-def update_forms(ext):
+def update_forms():
 
     os.makedirs("training", exist_ok=True)
 
-    for directory, _, files in os.walk(os.path.join("content")):
-        if ".ipynb_checkpoints" in directory or "_build" in directory:
+    for directory, _, files in os.walk(os.path.join(LOCATION["py"])):
+        if (
+            ".ipynb_checkpoints" in directory
+            or "_build" in directory
+            or "__pycache__" in directory
+        ):
             continue
 
         for file in files:
 
-            if not file.endswith(ext):
+            if not file.endswith("py") or "__init__" in file:
                 continue
 
-            new_file = os.path.join("training", file)
+            head, tail = file.split(".")
+            new_file = os.path.join("training", f"{head}.py")
 
             with open(os.path.join(directory, file)) as orig:
                 lines = list(orig)
                 skip = False
                 with open(new_file, mode="w+") as new:
                     for line in lines:
-                        if "# +" in line:
+                        if "clear-form" in line:
                             skip = True
 
                         # if line[0] in ["#", "\n"]:
@@ -53,15 +66,22 @@ def update_forms(ext):
                         if not skip:
                             new.write(line)
 
-            os.system(f"jupytext --to {CONVERT[ext]} {new_file}")
+            outfile = f"{head}.ipynb"
+            os.system(
+                f"jupytext --output {os.path.join('training', outfile)} {new_file}"
+            )
             os.remove(new_file)
 
 
 if __name__ == "__main__":
+
+    if len(sys.argv) == 1 or sys.argv[1] not in ["py", "ipynb", "forms"]:
+        raise UserWarning("Input argument should be one of 'py', 'ipynb' or 'forms'.")
+
     ext = sys.argv[1]
 
     if ext == "forms":
-        update_forms("py")
+        update_forms()
     else:
         update_files(ext)
 

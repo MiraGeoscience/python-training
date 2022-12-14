@@ -1,0 +1,75 @@
+{
+    "title": "Magnetic Dipole App",
+    "geoh5": null,
+    "run_command": "mag_dipole_app",
+    "run_command_boolean": {
+        "value": false,
+        "label": "Run python module ",
+        "tooltip": "Warning: launches process to run python model on save",
+        "main": true
+    },
+    "monitoring_directory": null,
+    "conda_environment": "python-training",
+    "conda_environment_boolean": false,
+    "workspace": null,
+    "sources": {
+        "main": true,
+        "label": "Dipoles",
+        "value": "",
+        "meshType": ""
+    },
+    "receivers": {
+        "main": true,
+        "label": "Receivers",
+        "value": "",
+        "meshType": ""
+    },
+    "moments": {
+        "main": true,
+        "association": "Vertex",
+        "dataType": "Float",
+        "label": "Dipole Moment",
+        "parent": "sources",
+        "value": 1.0,
+        "isValue": true,
+        "property": ""
+    },
+    "inclination": {
+        "main": true,
+        "association": "Vertex",
+        "dataType": "Float",
+        "label": "Dipole Inclination",
+        "parent": "sources",
+        "value": -62.11,
+        "isValue": true,
+        "property": ""
+    },
+    "declination": {
+        "main": true,
+        "association": "Vertex",
+        "dataType": "Float",
+        "label": "Dipole Declination",
+        "parent": "sources",
+        "value": -17.9,
+        "isValue": true,
+        "property": ""
+    },
+    "earth_inc": {
+        "main": true,
+        "label": "Earth's field Inclination",
+        "value": -62.11,
+        "min": 0.0,
+        "precision": 2,
+        "lineEdit": true,
+        "max": 100.0
+    },
+    "earth_dec": {
+        "main": true,
+        "label": "Earth's field Declination",
+        "value": -17.9,
+        "min": 0.0,
+        "precision": 2,
+        "lineEdit": true,
+        "max": 100.0
+    }
+}

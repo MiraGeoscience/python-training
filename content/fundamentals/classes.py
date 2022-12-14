@@ -23,13 +23,15 @@
 # values exceed some detection threshold.
 
 
+# + tags=["clear-form"]
 grades = [0.1, 0.02, 1.3, 2.4, 3.5, 0.01]
 depths = [10, 55, 80, 105, 115, 120]
-
+# -
 
 # Let's first create a simple `Assay` class and copy over the functions `anomalous` and `get_depths`.
 
 
+# + tags=["clear-form"]
 class Assay:
     """Simple Assay class."""
 
@@ -58,6 +60,8 @@ class Assay:
         return self.get_depths()
 
 
+# -
+
 # We have defined an `Assay` class that contains both our previous functions that are now methods of the class.
 #
 # While it may not seem like we did much progress compared to the [Functions](Functions) implementation, we actually
@@ -77,15 +81,10 @@ class Assay:
 # inputs to equivalent `attributes` of the class using the `self`.
 #
 # Initializing the class is done with
-#
-# ```
-# assay = Assay(grades, depths)
-# type(assay)
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 assay = Assay(grades, depths)
-print(type(assay))
+type(assay)
 # -
 
 # ## self
@@ -93,37 +92,24 @@ print(type(assay))
 # The `self` is a reserved Python keyword used within a classes to reference to itself. It is used to assign
 # attributes on the class and access them back within the various methods. Note that our two methods `anomalous` and
 # `get_depth` only take in `self` as input as the `grades`, `depths` and `threshold` can be accessed from the class.
-#
-# ```
-# assay.grades
-# ```
 
-# + tags=["remove-input"]
-print(assay.grades)
+# + tags=["clear-form"]
+assay.grades
 # -
 
 # and likewise for methods
-# ```
-# assay.anomalous()
-# ```
 
-# + tags=["remove-input"]
-print(assay.anomalous())
+# + tags=["clear-form"]
+assay.anomalous()
 # -
 
 # ## __call__
 #
 # The `__call__` method is an optional method specific to the action of calling the class. In this case we are simply
 # going to perform the `self.get_depth()` method and return the result.
-#
-# ```
-# assay()
-# ```
 
-# + tags=["remove-input"]
-print(assay())
-
-
+# + tags=["clear-form"]
+assay()
 # -
 
 # ## @property
@@ -133,6 +119,7 @@ print(assay())
 # method.
 
 
+# + tags=["clear-form"]
 class Assay2:
     """Simple Assay class."""
 
@@ -174,6 +161,8 @@ class Assay2:
         return self.get_depths()
 
 
+# -
+
 # **A few highlights of the changes made to our `Assay` class.**
 #
 # - We are now using a `private` attribute `_threshold` to store the value, and use `threshold` as a property.
@@ -186,13 +175,8 @@ class Assay2:
 #
 # - Here we used the built-in method `isinstance()` to check if the value is a `float`, and return a custom error
 # message if it is not.
-#
-# ```
-# assay = Assay2(grades, depths)
-# assay.threshold = 2.0
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 assay = Assay2(grades, depths)
 assay.threshold = 2.0
 # -

@@ -19,6 +19,7 @@
 # simplest form, a function (or method) is defined with:
 
 
+# + tags=["clear-form"]
 def fun(arg):
     """
     Some function.
@@ -27,6 +28,8 @@ def fun(arg):
     """
     return arg
 
+
+# -
 
 # Let's brake this down.
 #
@@ -41,11 +44,8 @@ def fun(arg):
 # See the [Best Practice](best_practice) section for additional styling guides.
 
 # In this case, the `fun` function simply takes an input argument `arg` and returns it back.
-# ```
-# fun("abc")
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 print(fun("abc"))
 # -
 
@@ -53,17 +53,10 @@ print(fun("abc"))
 #
 # We will try again with a slightly more interesting example that uses a `for` loop iterator. Say we are given assay
 # results down a drillhole.
-#
-# ```
-# grades = [0.1, 0.02, 1.3, 2.4, 3.5, 0.01]
-# depths = [10, 55, 80, 105, 115, 120]
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 grades = [0.1, 0.02, 1.3, 2.4, 3.5, 0.01]
 depths = [10, 55, 80, 105, 115, 120]
-
-
 # -
 
 # We would like to know the `depths` where `grades` are above 1.
@@ -71,6 +64,7 @@ depths = [10, 55, 80, 105, 115, 120]
 # There are many (faster) to solve this problem, but let's first find the grade values above some threshold.
 
 
+# + tags=["clear-form"]
 def anomalous(values, threshold):
     """
     Find the elements of a list above threshold
@@ -82,6 +76,8 @@ def anomalous(values, threshold):
     return bool_list
 
 
+# -
+
 # The `anomalous` function takes in as input a list of grade `values` and a `threshold`,
 # then returns a list of `bool`'s (true or false) to indicate which elements are above 1.
 # This function performs three steps
@@ -90,34 +86,21 @@ def anomalous(values, threshold):
 #   - Add the result to a `logic` list using the `.append` method.
 
 # Calling this method on our `grades` with a `threshold`= 1.0 yields
-# ```
-# logic = anomalous(grades, 1.0)
-# print(logic)
-# ```
 
-# + tags=["remove-input"]
+# + tags=["clear-form"]
 logic = anomalous(grades, 1.0)
-print(logic)
+logic
 # -
 
 # Note that the same operation could also have been done with an `in-line` approach such that
-# ```
-# logic = [val > threshold for val in grades]
-# ```
-#
+
+# + tags=["clear-form"]
+logic = [val > 1.0 for val in grades]
+logic
+# -
+
 # In-line operations are more compact (and usually faster) than appending values within a `for` loop operation,
 # and would have not required to create the `anomalous` function. In the end, both gives back the same result.
-#
-# ```
-# print(logic)
-# ```
-
-# + tags=["remove-input"]
-logic = [val > 1.0 for val in grades]
-print(logic)
-
-
-# -
 
 # ### Keyword Arguments
 #
@@ -126,6 +109,7 @@ print(logic)
 # value for the `threshold`. We could re-write the `anomalous` function as:
 
 
+# + tags=["clear-form"]
 def anomalous(values, threshold=1.0):  # pylint: disable=E0102
     """
     Find the elements of a list above threshold
@@ -137,26 +121,19 @@ def anomalous(values, threshold=1.0):  # pylint: disable=E0102
     return bool_list
 
 
-# Since `threshold` already has a value, then the argument becomes optional and the function still runs without it.
-# ```
-# anomalous(grades)
-# ```
+# -
 
-# + tags=["remove-input"]
-print(anomalous(grades))
+# Since `threshold` already has a value, then the argument becomes optional and the function still runs without it.
+
+# + tags=["clear-form"]
+anomalous(grades)
 # -
 
 # If not assigned specifically as keyword arguments, Python will simply distribute the extra arguments in the order
 # defined in the signature of the function. For example
-#
-# ```
-# anomalous(grades, 2.0)
-# ```
 
-# + tags=["remove-input"]
-print(anomalous(grades, 2.0))
-
-
+# + tags=["clear-form"]
+anomalous(grades, 2.0)
 # -
 
 # ## Example 2: If statement
@@ -165,6 +142,7 @@ print(anomalous(grades, 2.0))
 # function that takes the result of `anomalous` such that
 
 
+# + tags=["clear-form"]
 def get_depths(values: list, conditions: list[bool]):
     """
     Extract interval of values from bool logic
@@ -175,6 +153,8 @@ def get_depths(values: list, conditions: list[bool]):
             output.append(val)
     return output
 
+
+# -
 
 # The `get_depths` function takes in two lists, one of values and another one for the logic (`bool`), and returns a
 # subset of values if the `conditions` are `True`. Here are a few Python details to highlight
@@ -191,11 +171,9 @@ def get_depths(values: list, conditions: list[bool]):
 
 
 # Calling the `get_depths` method with the `grades` and `logic` previously computed we get
-#
-# ```
-# get_depths(grades, logic)
-# ```
 
-print(get_depths(grades, logic))
+# + tags=["clear-form"]
+get_depths(grades, logic)
+# -
 
 #  Copyright (c) 2022 Mira Geoscience Ltd.
