@@ -16,7 +16,6 @@ call "!MY_CONDA!" activate
 call conda remove --name python-training --all --yes
 call conda env create -f environments\conda-py-%PY_VER%-win-64.lock.yml -n python-training
 call conda activate python-training
-pip install -e . --no-deps
 
 pause
 cmd /k
