@@ -28,5 +28,7 @@ if !errorlevel! neq 0 (
   exit /B !errorlevel!
 )
 
+call "!MY_CONDA!" run -n %ENV_NAME% jupyter notebook training\index.ipynb
+
 pause
 cmd /k "!MY_CONDA! activate %ENV_NAME%"
