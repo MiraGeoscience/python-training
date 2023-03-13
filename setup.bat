@@ -28,7 +28,7 @@ if not exist !MY_CONDA_ENV_FILE! (
 )
 
 call "!MY_CONDA!" activate base ^
-  && call conda env create --force -n %ENV_NAME% --file !MY_CONDA_ENV_FILE!
+  && call "!MY_CONDA!" env create --force -n %ENV_NAME% --file !MY_CONDA_ENV_FILE!
 
 if !errorlevel! neq 0 (
   echo "** ERROR: Installation failed **"
