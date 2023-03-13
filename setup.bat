@@ -19,8 +19,16 @@ call "!MY_CONDA!" install -n base --override-channels -c conda-forge conda-libma
   && set "CONDA_SOLVER=libmamba" ^
   || (call )
 
+
+set MY_CONDA_ENV_FILE=environments\conda-py-%PY_VER%-win-64.lock.yml
+if not exist !MY_CONDA_ENV_FILE! (
+  echo "** ERROR: Could not find the conda environment specification file '!MY_CONDA_ENV_FILE!' **"
+  pause
+  exit /B 1
+)
+
 call "!MY_CONDA!" activate base ^
-  && call conda env create --force -n %ENV_NAME% --file environments\conda-py-%PY_VER%-win-64.lock.yml
+  && call conda env create --force -n %ENV_NAME% --file !MY_CONDA_ENV_FILE!
 
 if !errorlevel! neq 0 (
   echo "** ERROR: Installation failed **"

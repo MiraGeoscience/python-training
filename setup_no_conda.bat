@@ -27,7 +27,14 @@ set ENV_NAME=python-training
 cd %~dp0
 set PYTHONUTF8=1
 
-!MY_MICROMAMBA! create --yes -n %ENV_NAME% --file environments\conda-py-%PY_VER%-win-64.lock.yml
+set MY_CONDA_ENV_FILE=environments\conda-py-%PY_VER%-win-64.lock.yml
+if not exist !MY_CONDA_ENV_FILE! (
+  echo "** ERROR: Could not find the conda environment specification file '!MY_CONDA_ENV_FILE!' **"
+  pause
+  exit /B 1
+)
+
+!MY_MICROMAMBA! create --yes -n %ENV_NAME% --file !MY_CONDA_ENV_FILE!
 
 if !errorlevel! neq 0 (
   echo "** ERROR: Installation failed **"
