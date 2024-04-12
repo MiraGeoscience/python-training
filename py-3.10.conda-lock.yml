@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: 72547d4495141d7be9af81e71288831b506b7124e7d937ac838e3dc48c5894b5
-    linux-64: 2d9aa20e3280b4664eceaa3f2ddf4290c62a49c89d8027849c86fc1e39a788db
+    win-64: 6657e0d2c5fce9cf8f449a056a313ae126cf3c930cb679d43e98bfb6e43390b8
+    linux-64: 8b4954798fa3e9b686c65d9590b817c08c09ad2dcdf7255f0cbdbcc1c760d680
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -2447,6 +2447,21 @@ package:
     sha256: 1b1b60cf022828ac0a1ae88d4cdf16fb9b4d74b3e6d5cf9fc35cccc3328b53f9
   category: dev
   optional: true
+- name: readthedocs-sphinx-ext
+  version: 2.2.5
+  manager: conda
+  platform: linux-64
+  dependencies:
+    jinja2: '>=2.9'
+    packaging: ''
+    python: '>=3.7'
+    requests: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/readthedocs-sphinx-ext-2.2.5-pyhd8ed1ab_0.conda
+  hash:
+    md5: 4b639db3b362998c696f7abf4784ee80
+    sha256: cf8660b64d62fb5a631bb9344fd4c2fbc6b2529799c8a38ecaf996b05652567d
+  category: dev
+  optional: true
 - name: ipykernel
   version: 6.29.3
   manager: conda
@@ -2961,17 +2976,27 @@ package:
     sha256: 5e05b1c973a9f858c74367553e236f287e749465f773328c8ef31abe18f691e1
   category: main
   optional: false
+- name: pillow
+  version: 10.1.0
+  manager: pip
+  platform: linux-64
+  dependencies: {}
+  url: https://files.pythonhosted.org/packages/95/7b/71e2665760b5c33af00fa9bb6d6bca068b51bf021a4ceaeee03e18689f51/Pillow-10.1.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+  hash:
+    sha256: c0949b55eb607898e28eaccb525ab104b2d86542a85c74baf3a6dc24002edec2
+  category: main
+  optional: false
 - name: geoh5py
-  version: 0.9.0a2
+  version: 0.9.0a3
   manager: pip
   platform: linux-64
   dependencies:
-    pillow: '>=10.0.1,<11.0.0'
+    pillow: 10.1.0
     h5py: '>=3.2.1,<4.0.0'
     numpy: '>=1.23.5,<1.24.0'
-  url: https://files.pythonhosted.org/packages/37/dc/b540f4b603240a7b0672979cf4ace87b2f0ea263dd259754ed878fa9022a/geoh5py-0.9.0a2-py3-none-any.whl
+  url: https://files.pythonhosted.org/packages/22/24/b867af9e4f06f91b99e7aec28080d581e7ac066bd63e883e97b47e1f2cf0/geoh5py-0.9.0a3-py3-none-any.whl
   hash:
-    sha256: 70041ed40bda3caa4fc95b9cf842822ceb0b4337954233a76fcada04daf9fd0f
+    sha256: 102e2587c399a60b55eb0ef0829e66139d351256b5e28a20ae9caa473c033882
   category: main
   optional: false
 - name: ca-certificates
@@ -5402,6 +5427,21 @@ package:
     sha256: 36fe73da4d37bc7ac2d1540526ecd294fbd09acda04e096181ab8f1ccd2b464c
   category: main
   optional: false
+- name: readthedocs-sphinx-ext
+  version: 2.2.5
+  manager: conda
+  platform: win-64
+  dependencies:
+    requests: ''
+    packaging: ''
+    python: '>=3.7'
+    jinja2: '>=2.9'
+  url: https://conda.anaconda.org/conda-forge/noarch/readthedocs-sphinx-ext-2.2.5-pyhd8ed1ab_0.conda
+  hash:
+    md5: 4b639db3b362998c696f7abf4784ee80
+    sha256: cf8660b64d62fb5a631bb9344fd4c2fbc6b2529799c8a38ecaf996b05652567d
+  category: dev
+  optional: true
 - name: jupytext
   version: 1.16.1
   manager: conda
@@ -5929,16 +5969,26 @@ package:
     sha256: dbee87b469018961d1ad79b1a5d50c0ae850000b639bcb1b694e9981083243b6
   category: main
   optional: false
+- name: pillow
+  version: 10.1.0
+  manager: pip
+  platform: win-64
+  dependencies: {}
+  url: https://files.pythonhosted.org/packages/2d/7e/18ffce67b6e7637eead295b8a78d293d170d404a633010c3549da9a5e674/Pillow-10.1.0-cp310-cp310-win_amd64.whl
+  hash:
+    sha256: 41f67248d92a5e0a2076d3517d8d4b1e41a97e2df10eb8f93106c89107f38b57
+  category: main
+  optional: false
 - name: geoh5py
-  version: 0.9.0a2
+  version: 0.9.0a3
   manager: pip
   platform: win-64
   dependencies:
-    pillow: '>=10.0.1,<11.0.0'
+    pillow: 10.1.0
     h5py: '>=3.2.1,<4.0.0'
     numpy: '>=1.23.5,<1.24.0'
-  url: https://files.pythonhosted.org/packages/37/dc/b540f4b603240a7b0672979cf4ace87b2f0ea263dd259754ed878fa9022a/geoh5py-0.9.0a2-py3-none-any.whl
+  url: https://files.pythonhosted.org/packages/22/24/b867af9e4f06f91b99e7aec28080d581e7ac066bd63e883e97b47e1f2cf0/geoh5py-0.9.0a3-py3-none-any.whl
   hash:
-    sha256: 70041ed40bda3caa4fc95b9cf842822ceb0b4337954233a76fcada04daf9fd0f
+    sha256: 102e2587c399a60b55eb0ef0829e66139d351256b5e28a20ae9caa473c033882
   category: main
   optional: false
