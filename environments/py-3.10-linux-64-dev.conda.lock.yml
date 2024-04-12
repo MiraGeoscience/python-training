@@ -215,8 +215,8 @@ dependencies:
   - sphinx=5.0.2=pyh6c4a22f_0
   - sphinxcontrib-serializinghtml=1.1.10=pyhd8ed1ab_0
   - pip:
-    - numpy === 1.23.5 --hash=sha256:5e05b1c973a9f858c74367553e236f287e749465f773328c8ef31abe18f691e1
-    - geoh5py === 0.9.0a2 --hash=sha256:70041ed40bda3caa4fc95b9cf842822ceb0b4337954233a76fcada04daf9fd0f
+    - numpy == 1.23.5 --hash=sha256:5e05b1c973a9f858c74367553e236f287e749465f773328c8ef31abe18f691e1
+    - geoh5py == 0.9.0a2 --hash=sha256:70041ed40bda3caa4fc95b9cf842822ceb0b4337954233a76fcada04daf9fd0f
 
 variables:
   KMP_WARNINGS: 0
