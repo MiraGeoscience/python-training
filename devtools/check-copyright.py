@@ -1,10 +1,22 @@
+#!/usr/bin/env python3
+
+#  Copyright (c) 2024 Mira Geoscience Ltd.
+#
+#  This file is part of curve-apps package.
+#
+#  All rights reserved.
+
+from __future__ import annotations
+
 import re
 import sys
 from datetime import date
 
 if __name__ == "__main__":
     current_year = date.today().year
-    copyright_re = re.compile(rf"\bcopyright \(c\) \b{current_year}\b", re.IGNORECASE)
+    copyright_re = re.compile(
+        rf"\bcopyright \(c\) (:?\d{{4}}-|)\b{current_year}\b", re.IGNORECASE
+    )
     files = sys.argv[1:]
     max_lines = 10
     report_files = []
@@ -12,9 +24,11 @@ if __name__ == "__main__":
         with open(f, encoding="utf-8") as file:
             count = 0
             has_dated_copyright = False
-            for line in reversed(list(file)):
+            for line in file:
                 count += 1
-                if count >= max_lines:
+                if count >= max_lines and not (
+                    f.endswith("README.rst") or f.endswith("README-dev.rst")
+                ):
                     break
                 if re.search(copyright_re, line):
                     has_dated_copyright = True
@@ -34,5 +48,3 @@ if __name__ == "__main__":
 #    echo "File '$f' has no copyright or an invalid year"
 #    exit 1
 # fi
-
-#  Copyright (c) 2022 Mira Geoscience Ltd.
