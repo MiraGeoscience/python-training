@@ -13,7 +13,7 @@ build:
 conda:
   environment: environments/py-3.10-linux-64-dev.conda.lock.yml
 
-python:
-  install:
-    - method: pip
-      path: . --no-deps
+# python:
+#   install:
+#     - method: pip
+#       path: . --no-deps
