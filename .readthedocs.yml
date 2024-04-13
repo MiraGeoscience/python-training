@@ -9,9 +9,8 @@ build:
     pre_build:
       # Generate on-the-fly Sphinx configuration from Jupyter Book's _config.yml
       - "jupyter-book config sphinx content/"
-
-  commands:
-    - pip install . --no-deps
+    post_build:
+      - "pip install . --no-deps"
 
 conda:
   environment: environments/py-3.10-linux-64-dev.conda.lock.yml
