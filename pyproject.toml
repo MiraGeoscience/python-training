@@ -4,7 +4,8 @@ version = "0.1.0"
 description = "Open Source Training"
 authors = ["Mira Geoscience <support@mirageoscience.com>"]
 packages = [
-    { include = "scripts"},
+    { include = "training" },
+    { include = "training-assets" },
 ]
 
 [tool.poetry.dependencies]
