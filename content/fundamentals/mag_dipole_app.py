@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.16.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -41,6 +41,7 @@ from geoh5py.ui_json import InputFile, constants, templates
 from geoh5py.ui_json.utils import monitored_directory_copy
 from geoh5py.workspace import Workspace
 
+from training import assets_path
 # -
 
 # ## The physics
@@ -165,7 +166,7 @@ def b_field(source, locations, moment, inclination, declination):
 # We can now test our `b_field` function with existing objects present in our `suncity.geoh5` project.
 
 # + tags=["clear-form"]
-with Workspace("../../assets/suncity.geoh5") as workspace:
+with Workspace(assets_path() / "suncity.geoh5") as workspace:
     # get variables
     source = workspace.get_entity("SunCityLocation")[0].vertices
     output_entity = workspace.get_entity("SunCity")[0]
@@ -210,7 +211,7 @@ def tmi_projection(b_components, earth_field):
 # and test it for the inducing field parameters at our test site at Suncity `(Inc: -62.11, Dec: -17.9)`.
 
 # + tags=["clear-form"]
-with Workspace("../../assets/suncity.geoh5") as workspace:
+with Workspace(assets_path() / "suncity.geoh5") as workspace:
     # get variables
     source = workspace.get_entity("SunCityLocation")[0].vertices
     output_entity = workspace.get_entity("SunCity")[0]
@@ -310,7 +311,7 @@ def magnetic_simulator(
 # by simply giving those entities to our class.
 
 # + tags=["clear-form"]
-with Workspace("../../assets/suncity.geoh5") as workspace:
+with Workspace(assets_path() / "suncity.geoh5") as workspace:
     # get variables
     source = workspace.get_entity("SunCityLocation")[0]
     output_entity = workspace.get_entity("SunCity")[0]
@@ -393,7 +394,7 @@ mag_ui["run_command"] = "mag_dipole_app"
 # Let's write out our ui.json to file.
 
 # + tags=["clear-form"]
-with open("../../assets/magnetic_dipole.ui.json", "w", encoding="utf-8") as file:
+with open(assets_path() / "magnetic_dipole.ui.json", "w", encoding="utf-8") as file:
     json.dump(mag_ui, file, indent=4)
 
 

@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.16.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -34,6 +34,7 @@ import numpy as np
 from geoh5py.objects import Points
 from geoh5py.workspace import Workspace
 
+from training import assets_path
 # -
 
 # ## Open/create a Workspace
@@ -53,7 +54,7 @@ from geoh5py.workspace import Workspace
 # the context, even if the code has to exit premarturely due to error.
 
 # + tags=["clear-form"]
-with Workspace("../../assets/suncity.geoh5") as workspace:
+with Workspace(assets_path() / "suncity.geoh5") as workspace:
     print(workspace.geoh5)
 # -
 
