@@ -27,6 +27,7 @@ geoh5py = {version = "~0.9.0-alpha.2", source = "pypi", allow-prereleases = true
 pylint = "^2.14.4"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
+sphinx = "^5.0"
 readthedocs-sphinx-ext = "*"
 
 [tool.conda-lock]

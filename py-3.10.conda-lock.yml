@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: 541f36ce5ae555db945d2149182832dfd9d7cf0da9c6c98214d3104e04570e40
-    linux-64: 15b3f8f54adfa0510fe7e343adda88fdb77964866c5014a6cf386895bd47b3b1
+    win-64: 230a0fea9de6fd10229e24ab8d5177433a9d80574c0c992d1ea9ba3575c3af94
+    linux-64: 2b1068f09fd669198bd4710beecdbfb82274328a668ea6f751f393e4d25245f6
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -3578,8 +3578,8 @@ package:
   hash:
     md5: d4eaa1f50733a377480ce1d5aac556c7
     sha256: 27fc8d942d1cedba71035399f71e2d81fd411b86c5d8717c813c46143b8d74f8
-  category: main
-  optional: false
+  category: dev
+  optional: true
 - name: sphinxcontrib-serializinghtml
   version: 1.1.10
   manager: conda
@@ -7221,8 +7221,8 @@ package:
   hash:
     md5: d4eaa1f50733a377480ce1d5aac556c7
     sha256: 27fc8d942d1cedba71035399f71e2d81fd411b86c5d8717c813c46143b8d74f8
-  category: main
-  optional: false
+  category: dev
+  optional: true
 - name: sphinxcontrib-serializinghtml
   version: 1.1.10
   manager: conda
