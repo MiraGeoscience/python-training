@@ -15,5 +15,5 @@ conda:
 
 python:
   install:
-    - method: pip
+    - method: pip --no-deps
       path: .
