@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: 0e51965b2b0a0c73e123d441c31c95f14d046f16c16a7eed89c0e0a7cabd974e
-    linux-64: 7e96f28f66a01b833726ec6c5bdf9e2e4457f63c6f4c02a06e7f8de5a53a0bb8
+    win-64: 541f36ce5ae555db945d2149182832dfd9d7cf0da9c6c98214d3104e04570e40
+    linux-64: 15b3f8f54adfa0510fe7e343adda88fdb77964866c5014a6cf386895bd47b3b1
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -1097,15 +1097,15 @@ package:
   category: main
   optional: false
 - name: json5
-  version: 0.9.24
+  version: 0.9.25
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.7,<4.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/json5-0.9.24-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/json5-0.9.25-pyhd8ed1ab_0.conda
   hash:
-    md5: fc9780a517b51ea3798fc011c17ffd51
-    sha256: 148a427d4867ecd367b2bb9c2ef11ae7795abeabc8454f802f28ff692b3ce1aa
+    md5: 5d8c241a9261e720a34a07a3e1ac4109
+    sha256: 0c75e428970e8bb72ba1dd3a6dc32b8d68f6534b4fe16b38e53364963fdc8e38
   category: main
   optional: false
 - name: jsonpointer
@@ -2612,21 +2612,21 @@ package:
   category: main
   optional: false
 - name: numpy
-  version: 1.22.4
+  version: 1.23.5
   manager: conda
   platform: linux-64
   dependencies:
-    libblas: '>=3.8.0,<4.0a0'
-    libcblas: '>=3.8.0,<4.0a0'
+    libblas: '>=3.9.0,<4.0a0'
+    libcblas: '>=3.9.0,<4.0a0'
     libgcc-ng: '>=12'
-    liblapack: '>=3.8.0,<4.0a0'
+    liblapack: '>=3.9.0,<4.0a0'
     libstdcxx-ng: '>=12'
     python: '>=3.10,<3.11.0a0'
     python_abi: 3.10.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/numpy-1.22.4-py310h4ef5377_0.tar.bz2
+  url: https://conda.anaconda.org/conda-forge/linux-64/numpy-1.23.5-py310h53a5b5f_0.conda
   hash:
-    md5: a97b04c2d88d24d4a25fd9c069189281
-    sha256: 89452fcd4270c04dd9e861e0e02cbc97d82f2f7d4b55225f8198ddab4287c480
+    md5: 3b114b1559def8bad228fec544ac1812
+    sha256: c3b2dc03dbae88ae1337e37e672aa44008898395d3508839bf35323b54e71665
   category: main
   optional: false
 - name: pybtex
@@ -3593,16 +3593,6 @@ package:
     sha256: bf80e4c0ff97d5e8e5f6db0831ba60007e820a3a438e8f1afd868aa516d67d6f
   category: main
   optional: false
-- name: numpy
-  version: 1.23.5
-  manager: pip
-  platform: linux-64
-  dependencies: {}
-  url: https://files.pythonhosted.org/packages/e4/f3/679b3a042a127de0d7c84874913c3e23bb84646eb3bc6ecab3f8c872edc9/numpy-1.23.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  hash:
-    sha256: 5e05b1c973a9f858c74367553e236f287e749465f773328c8ef31abe18f691e1
-  category: main
-  optional: false
 - name: pillow
   version: 10.1.0
   manager: pip
@@ -4527,15 +4517,15 @@ package:
   category: main
   optional: false
 - name: json5
-  version: 0.9.24
+  version: 0.9.25
   manager: conda
   platform: win-64
   dependencies:
     python: '>=3.7,<4.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/json5-0.9.24-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/json5-0.9.25-pyhd8ed1ab_0.conda
   hash:
-    md5: fc9780a517b51ea3798fc011c17ffd51
-    sha256: 148a427d4867ecd367b2bb9c2ef11ae7795abeabc8454f802f28ff692b3ce1aa
+    md5: 5d8c241a9261e720a34a07a3e1ac4109
+    sha256: 0c75e428970e8bb72ba1dd3a6dc32b8d68f6534b4fe16b38e53364963fdc8e38
   category: main
   optional: false
 - name: jsonpointer
@@ -4613,19 +4603,19 @@ package:
   category: main
   optional: false
 - name: libhwloc
-  version: 2.9.3
+  version: 2.10.0
   manager: conda
   platform: win-64
   dependencies:
-    libxml2: '>=2.11.5,<3.0.0a0'
+    libxml2: '>=2.12.6,<3.0a0'
     pthreads-win32: ''
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/libhwloc-2.9.3-default_haede6df_1009.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/libhwloc-2.10.0-default_h2fffb23_1000.conda
   hash:
-    md5: 87da045f6d26ce9fe20ad76a18f6a18a
-    sha256: 2e8c4bb7173f281a8e13f333a23c9fb7a1c86d342d7dccdd74f2eb583ddde450
+    md5: ee944f0d41d9e2048f9d7492c1623ca3
+    sha256: e0d75da50e67a81e3cb37e2ee3b0d6ddc6543ec0f7b3828f884558552a1c4d93
   category: main
   optional: false
 - name: libtiff
@@ -5968,18 +5958,18 @@ package:
   category: main
   optional: false
 - name: tbb
-  version: 2021.11.0
+  version: 2021.12.0
   manager: conda
   platform: win-64
   dependencies:
-    libhwloc: '>=2.9.3,<2.9.4.0a0'
+    libhwloc: '>=2.10.0,<2.10.1.0a0'
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/tbb-2021.11.0-h91493d7_1.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/tbb-2021.12.0-h91493d7_0.conda
   hash:
-    md5: 21069f3ed16812f9f4f2700667b6ec86
-    sha256: aa30c089fdd6f66c7808592362e29963586e094159964a5fb61fb8efa9e349bc
+    md5: 21745fdd12f01b41178596143cbecffd
+    sha256: 621926aae93513408bdca3dd21c97e2aa8ba7dcd2c400dab804fb0ce7da1387b
   category: main
   optional: false
 - name: terminado
@@ -6611,21 +6601,22 @@ package:
   category: main
   optional: false
 - name: numpy
-  version: 1.22.4
+  version: 1.23.5
   manager: conda
   platform: win-64
   dependencies:
-    libblas: '>=3.8.0,<4.0a0'
-    libcblas: '>=3.8.0,<4.0a0'
-    liblapack: '>=3.8.0,<4.0a0'
+    libblas: '>=3.9.0,<4.0a0'
+    libcblas: '>=3.9.0,<4.0a0'
+    liblapack: '>=3.9.0,<4.0a0'
     python: '>=3.10,<3.11.0a0'
     python_abi: 3.10.*
-    vc: '>=14.1,<15'
-    vs2015_runtime: '>=14.16.27033'
-  url: https://conda.anaconda.org/conda-forge/win-64/numpy-1.22.4-py310hed7ac4c_0.tar.bz2
+    ucrt: '>=10.0.20348.0'
+    vc: '>=14.2,<15'
+    vs2015_runtime: '>=14.29.30139'
+  url: https://conda.anaconda.org/conda-forge/win-64/numpy-1.23.5-py310h4a8f9c9_0.conda
   hash:
-    md5: 268caa71594c0d641b86d89f22e47dc3
-    sha256: 0e981a01324cc0343c2ca899146cbf3d4e1062f3ac2d5dcaef762e609e16d047
+    md5: f734ade6fd852582e5c1a09152dd3a60
+    sha256: 92900cc7e9561ea177878f838a6a8a105b750d5971affedc648090ef22b4db23
   category: main
   optional: false
 - name: contourpy
@@ -7243,16 +7234,6 @@ package:
   hash:
     md5: e507335cb4ca9cff4c3d0fa9cdab255e
     sha256: bf80e4c0ff97d5e8e5f6db0831ba60007e820a3a438e8f1afd868aa516d67d6f
-  category: main
-  optional: false
-- name: numpy
-  version: 1.23.5
-  manager: pip
-  platform: win-64
-  dependencies: {}
-  url: https://files.pythonhosted.org/packages/6a/03/ae6c3c307f9c5c7516de3df3e764ebb1de33e54e197f0370992138433ef4/numpy-1.23.5-cp310-cp310-win_amd64.whl
-  hash:
-    sha256: dbee87b469018961d1ad79b1a5d50c0ae850000b639bcb1b694e9981083243b6
   category: main
   optional: false
 - name: pillow
