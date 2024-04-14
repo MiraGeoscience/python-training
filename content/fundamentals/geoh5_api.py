@@ -53,6 +53,10 @@ from training import assets_path
 # interact with the `geoh5` to make sure that the file gets closed at the end of
 # the context, even if the code has to exit premarturely due to error.
 
+from pathlib import Path
+file = assets_path() / "suncity.geoh5"
+Path(file).is_file(), file
+
 # + tags=["clear-form"]
 with Workspace(assets_path() / "suncity.geoh5") as workspace:
     print(workspace.geoh5)
