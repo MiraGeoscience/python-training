@@ -165,6 +165,12 @@ def b_field(source, locations, moment, inclination, declination):
 
 # We can now test our `b_field` function with existing objects present in our `suncity.geoh5` project.
 
+# +
+from pathlib import Path
+
+file = assets_path() / "suncity.geoh5"
+Path(file).is_file(), file
+
 # + tags=["clear-form"]
 with Workspace(assets_path() / "suncity.geoh5") as workspace:
     # get variables
