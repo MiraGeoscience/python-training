@@ -169,7 +169,7 @@ def b_field(source, locations, moment, inclination, declination):
 from pathlib import Path
 
 file = assets_path() / "suncity.geoh5"
-Path(file).is_file(), file
+Path(file).is_file(), file.stat().st_size
 
 # + tags=["clear-form"]
 with Workspace(assets_path() / "suncity.geoh5") as workspace:
