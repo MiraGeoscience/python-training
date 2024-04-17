@@ -146,7 +146,7 @@ point = Points.create(workspace, vertices=np.c_[510000, 7196500, 1150], name="Po
 # -
 
 # For more examples on how to create other object types, visit the
-# [geoh5py-Tutorial](https://geoh5py.readthedocs.io/en/stable/content/user_guide/core_entities.html#Entities)
+# [geoh5py-Tutorial](https://mirageoscience-geoh5py.readthedocs-hosted.com/en/latest/content/user_guide/b_core_entities.html)
 
 # ## Adding data
 #
