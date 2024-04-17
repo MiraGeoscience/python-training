@@ -16,12 +16,14 @@
         "main": true,
         "label": "Dipoles",
         "value": "",
+        "multiSelect": false,
         "meshType": ""
     },
     "receivers": {
         "main": true,
         "label": "Receivers",
         "value": "",
+        "multiSelect": false,
         "meshType": ""
     },
     "moments": {
@@ -58,18 +60,14 @@
         "main": true,
         "label": "Earth's field Inclination",
         "value": -62.11,
-        "min": 0.0,
         "precision": 2,
-        "lineEdit": true,
-        "max": 100.0
+        "lineEdit": true
     },
     "earth_dec": {
         "main": true,
         "label": "Earth's field Declination",
         "value": -17.9,
-        "min": 0.0,
         "precision": 2,
-        "lineEdit": true,
-        "max": 100.0
+        "lineEdit": true
     }
 }

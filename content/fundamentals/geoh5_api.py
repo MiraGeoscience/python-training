@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.16.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -34,6 +34,7 @@ import numpy as np
 from geoh5py.objects import Points
 from geoh5py.workspace import Workspace
 
+from training import assets_path
 # -
 
 # ## Open/create a Workspace
@@ -53,7 +54,7 @@ from geoh5py.workspace import Workspace
 # the context, even if the code has to exit premarturely due to error.
 
 # + tags=["clear-form"]
-with Workspace("../../assets/suncity.geoh5") as workspace:
+with Workspace(assets_path() / "suncity.geoh5") as workspace:
     print(workspace.geoh5)
 # -
 
@@ -145,7 +146,7 @@ point = Points.create(workspace, vertices=np.c_[510000, 7196500, 1150], name="Po
 # -
 
 # For more examples on how to create other object types, visit the
-# [geoh5py-Tutorial](https://geoh5py.readthedocs.io/en/stable/content/user_guide/core_entities.html#Entities)
+# [geoh5py-Tutorial](https://mirageoscience-geoh5py.readthedocs-hosted.com/en/latest/content/user_guide/b_core_entities.html)
 
 # ## Adding data
 #

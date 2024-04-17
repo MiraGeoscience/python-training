@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.16.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -29,7 +29,7 @@
 
 # + tags=["clear-form"]
 from geoh5py.ui_json import constants, templates
-
+from training import assets_path
 # -
 
 # First, we need the base components must contain a few base parameters, such as a `title` and a `run_command`. A `constants.default_ui_json` is available to quickly get starget:
@@ -48,7 +48,7 @@ my_ui
 # + tags=["clear-form"]
 import json
 
-with open("../assets/myUI.ui.json", "w", encoding="utf-8") as file:
+with open(assets_path() / "myUI.ui.json", "w", encoding="utf-8") as file:
     json.dump(my_ui, file, indent=4)
 # -
 

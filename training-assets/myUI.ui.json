@@ -1,0 +1,15 @@
+{
+    "title": "Hello World!",
+    "geoh5": null,
+    "run_command": null,
+    "run_command_boolean": {
+        "value": false,
+        "label": "Run python module ",
+        "tooltip": "Warning: launches process to run python model on save",
+        "main": true
+    },
+    "monitoring_directory": null,
+    "conda_environment": null,
+    "conda_environment_boolean": false,
+    "workspace": null
+}
