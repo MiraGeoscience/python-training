@@ -7,7 +7,7 @@ if !errorlevel! neq 0 (
   exit /B !errorlevel!
 )
 
-set PY_VER=3.9
+set PY_VER=3.10
 
 set ENV_NAME=python-training
 set MY_CONDA=!MY_CONDA_EXE:"=!
@@ -20,7 +20,7 @@ call "!MY_CONDA!" install -n base --override-channels -c conda-forge conda-libma
   || (call )
 
 
-set MY_CONDA_ENV_FILE=environments\conda-py-%PY_VER%-win-64.lock.yml
+set MY_CONDA_ENV_FILE=environments\py-%PY_VER%-win-64.conda.lock.yml
 if not exist !MY_CONDA_ENV_FILE! (
   echo "** ERROR: Could not find the conda environment specification file '!MY_CONDA_ENV_FILE!' **"
   pause
@@ -28,7 +28,7 @@ if not exist !MY_CONDA_ENV_FILE! (
 )
 
 call "!MY_CONDA!" activate base ^
-  && call "!MY_CONDA!" env create --force -n %ENV_NAME% --file !MY_CONDA_ENV_FILE!
+  && call "!MY_CONDA!" env create -n %ENV_NAME% --file !MY_CONDA_ENV_FILE!
 
 if !errorlevel! neq 0 (
   echo "** ERROR: Installation failed **"

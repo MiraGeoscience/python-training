@@ -2,7 +2,7 @@
 default_language_version:
     python: python3
 exclude: (docs/(conf.py|_ext/)|(^geoapps/simpeg(PF|EM1D)/))
-default_stages: [commit,push]
+default_stages: [pre-commit,pre-push]
 fail_fast: false
 
 ci:
