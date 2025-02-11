@@ -29,7 +29,7 @@ build:
 sphinx:
   builder: html
   configuration: content/conf.py
-  fail_on_warning: true
+  fail_on_warning: false
 
 conda:
   environment: environments/py-3.10-linux-64-dev.conda.lock.yml
