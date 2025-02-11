@@ -51,4 +51,4 @@ It is the plan to provide trainees with blank jupyter notebooks with only instru
 - `python devtools\update_tutorials.py forms`
 
 
-#  Copyright (c) 2022 Mira Geoscience Ltd.
+#  Copyright (c) 2022-2025 Mira Geoscience Ltd.
