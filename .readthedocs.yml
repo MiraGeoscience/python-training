@@ -10,7 +10,6 @@ build:
       # Generate on-the-fly Sphinx configuration from Jupyter Book's _config.yml
       - "jupyter-book config sphinx content/"
       - "pip install . --no-deps"
-      -
     post_checkout:
       # Download and uncompress the binary
       # https://git-lfs.github.com/
