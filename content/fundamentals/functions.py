@@ -1,179 +1,330 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.16.1
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
+#%% md
 # # Functions
-#
-# The general concept of programming is to define a set of operations for a computer to execute. The building blocks
-# making up a program can be written in terms of a `function` that take in input values and return a result. In its
-# simplest form, a function (or method) is defined with:
-
-
-# + tags=["clear-form"]
+# 
+# In programming, we often need to perform the same set of operations multiple times. Instead of repeating the same code, we can create a **function** - a reusable block of code that performs a specific task.
+# 
+# Functions are essential building blocks in Python that allow us to:
+# - Organize code into logical, reusable pieces
+# - Reduce code duplication
+# - Make our programs easier to understand and maintain
+# 
+# This section introduces how to create and use functions in Python.
+#%% md
+# ## Creating a Simple Function
+# 
+# In its simplest form, a function is defined using the `def` keyword followed by a name, parameters in parentheses, and a colon. The function body is indented below.
+# 
+#%%
 def fun(arg):
     """
-    Some function.
+    A simple function that returns the input argument.
 
-    :param arg: Some input argument.
+    :param arg: The input argument to return.
+    :return: The same input argument.
     """
-    return arg
-
-
-# -
-
-# Let's brake this down.
-#
-# -  The `def` keyword marks the beginning of the function signature. Everything that is part of a function must be
-# indented (1 tab or 4 spaces) below it.
-#
-# - Input arguments (`arg`) are added within the parenthesis. The signature ends with a column `:`.
-#
-# - It is good practice adding `docstrings` to document what the function does and what the input parameters are. The
-# block of text is bookended by triple quotes (`"""`).
-#
-# See the [Best Practice](best_practice) section for additional styling guides.
-
+    return arg  # Return the input argument
+#%% md
+# ## Function Anatomy
+# 
+# Let's break down the structure of a function:
+# 
+# ```
+# def function_name(parameter1, parameter2):
+#     """
+#     Documentation string (docstring) explaining what the function does.
+# 
+#     :param parameter1: Description of the first parameter.
+#     :param parameter2: Description of the second parameter.
+#     :return: Description of what the function returns.
+#     """
+#     # Function body - code that executes when the function is called
+#     result = parameter1 + parameter2
+#     return result  # Value to send back to whoever called the function
+# ```
+# - The `def` keyword marks the beginning of the function definition.
+# - Everything that belongs to the function must be indented (4 spaces or 1 tab).
+# - Parameters (like `parameter1` and `parameter2`) are inputs that the function can
+#  use.
+# - A **docstring** (triple-quoted string) explains what the function does and
+# documents its parameters. It's best practice to include a docstring for every
+#  function.
+# - The `return` statement specifies what value the function sends back when it's
+# done.
+#%% md
 # In this case, the `fun` function simply takes an input argument `arg` and returns it back.
-
-# + tags=["clear-form"]
+#%%
 print(fun("abc"))
-# -
-
-# ## For loop
-#
-# We will try again with a slightly more interesting example that uses a `for` loop iterator. Say we are given assay
-# results down a drillhole.
-
-# + tags=["clear-form"]
-grades = [0.1, 0.02, 1.3, 2.4, 3.5, 0.01]
-depths = [10, 55, 80, 105, 115, 120]
-# -
-
-# We would like to know the `depths` where `grades` are above 1.
-#
-# There are many (faster) to solve this problem, but let's first find the grade values above some threshold.
-
-
-# + tags=["clear-form"]
-def anomalous(values, threshold):
+#%% md
+# ## Functions with Multiple Parameters
+# Functions can take multiple parameters separated by commas:
+#%%
+def add(a, b):
     """
-    Find the elements of a list above threshold
+    Add two numbers together.
+
+    :param a: First number.
+    :param b: Second number.
+    :return: The sum of a and b.
     """
-    bool_list = []
-    for val in values:
-        bool_list.append(val > threshold)
-
-    return bool_list
-
-
-# -
-
-# The `anomalous` function takes in as input a list of grade `values` and a `threshold`,
-# then returns a list of `bool`'s (true or false) to indicate which elements are above 1.
-# This function performs three steps
-#   - Use a `for` loop iterator to visit every element of the list.
-#   - Check if the element is above threshold with logic ">".
-#   - Add the result to a `logic` list using the `.append` method.
-
-# Calling this method on our `grades` with a `threshold`= 1.0 yields
-
-# + tags=["clear-form"]
-logic = anomalous(grades, 1.0)
-logic
-# -
-
-# Note that the same operation could also have been done with an `in-line` approach such that
-
-# + tags=["clear-form"]
-logic = [val > 1.0 for val in grades]
-logic
-# -
-
-# In-line operations are more compact (and usually faster) than appending values within a `for` loop operation,
-# and would have not required to create the `anomalous` function. In the end, both gives back the same result.
-
-# ### Keyword Arguments
-#
-# Other than the required input arguments, Python also allows for default values to be stored
-# in the signature of the function as keyword arguments (`kwargs`). Let's suppose we would like to set a default
-# value for the `threshold`. We could re-write the `anomalous` function as:
-
-
-# + tags=["clear-form"]
-def anomalous(values, threshold=1.0):  # pylint: disable=E0102
+    return a + b
+#%%
+result = add(5, 7)
+print(f"5 + 7 = {result}")
+#%% md
+# ## For Loops
+# 
+# Let's now look at a slightly more interesting example that uses a `for` loop
+# iterator. Say we
+#  are given assay
+# results down a drillhole:
+#%%
+grades = [0.1, 0.02, 1.3, 2.4, 3.5, 0.01] # Concentration values
+depths = [10, 55, 80, 105, 115, 120] # Depths in meters
+#%% md
+# Suppose we want to identify which samples have concentrations above a certain
+#  threshold.
+# 
+# Let's create a function that can identify these high-value samples:
+#%%
+def find_high_grades(values, threshold):
     """
-    Find the elements of a list above threshold
+    Find the elements of a list that are above a specified threshold.
+
+    :param values: List of numeric values to check
+    :param threshold: The minimum value to be considered "high grade"
+    :return: A list of True/False values indicating which elements exceed the threshold
     """
-    bool_list = []
-    for val in values:
-        bool_list.append(val > threshold)
+    result_list = []
 
-    return bool_list
+    # Loop through each value in the list
+    for value in values:
+        # Check if this value is above our threshold
+        is_high_grade = value > threshold
 
+        # Add the result (True or False) to our list
+        result_list.append(is_high_grade)
 
-# -
-
-# Since `threshold` already has a value, then the argument becomes optional and the function still runs without it.
-
-# + tags=["clear-form"]
-anomalous(grades)
-# -
-
-# If not assigned specifically as keyword arguments, Python will simply distribute the extra arguments in the order
-# defined in the signature of the function. For example
-
-# + tags=["clear-form"]
-anomalous(grades, 2.0)
-# -
-
-# ## Example 2: If statement
-#
-# Next in our assay analysis, we would like get the depth interval for the anomalous grades. We can write a second
-# function that takes the result of `anomalous` such that
+    return result_list
 
 
-# + tags=["clear-form"]
-def get_depths(values: list, conditions: list[bool]):
+#%% md
+# Now let's use this function to find samples with grades above 1.0:
+#%%
+# Find which samples have grades above 1.0
+high_grade_indicators = find_high_grades(grades, 1.0)
+#%% md
+# ## Default Parameter Values (Keyword Arguments)
+# 
+# Python allows you to define default values for parameters in functions,
+# making them optional when calling the function. These are called **keyword
+# arguments** (kwargs). If you don't provide a value for a parameter with a default,
+#  Python will use the default value instead:
+#%%
+def find_high_grades(values, threshold=1.0):
     """
-    Extract interval of values from bool logic
+    Find the elements of a list that are above a specified threshold.
+
+    :param values: List of numeric values to check
+    :param threshold: The minimum value to be considered "high grade" (default: 1.0)
+    :return: A list of True/False values indicating which elements exceed the threshold
     """
-    output = []
-    for val, cond in zip(values, conditions):
-        if cond:
-            output.append(val)
-    return output
+    result_list = []
+
+    for value in values:
+        is_high_grade = value > threshold
+        result_list.append(is_high_grade)
+
+    return result_list
+#%% md
+# Now we can call the function without specifying the `threshold` parameter, and it will use the default value of 1.0:
+#%%
+# Using the default threshold of 1.0
+result_default = find_high_grades(grades)
+print("Using default threshold (1.0):", result_default)
+
+# Specifying a different threshold
+result_custom = find_high_grades(grades, 2.0)
+print("Using custom threshold (2.0):", result_custom)
+#%% md
+# ## Conditional Logic with `if` Statements
+# 
+# Now let's create a function that extracts the depths where our high-grade
+# samples were found:
+#%%
+def get_matching_values(values, conditions):
+    """
+    Extract elements from a list where the corresponding condition is True.
+
+    :param values: List of values to filter
+    :param conditions: List of True/False values (must be same length as values)
+    :return: A list containing only the values where the condition was True
+    """
+    result = []
+
+    # Loop through both values and conditions simultaneously
+    for value, condition in zip(values, conditions): # `zip` pairs elements from both lists
+        if condition:  # Check if the condition is True
+            result.append(value)  # Add the value to the result if condition is True
+
+    return result
+#%% md
+# The `if` statement checks a condition and only executes the indented code
+# below it if the condition is `True`.
+# 
+# The `zip()` function is very useful - it allows us to iterate through
+# multiple lists at the same time, pairing elements together.
+# 
+# Now let's use this function to get the depths where our high-grade samples were found:
+#%%
+# Get depths where grade is above 1.0
+high_grade_depths = get_matching_values(depths, high_grade_indicators)
+print("Depths with high-grade samples:", high_grade_depths)
+
+#%% md
+# ## Function Type Hints
+# 
+# Python allows you to add **type hints** to your functions. Type hints are not
+#  enforced by Python, but they help document the expected types of parameters
+#  and return values. This makes your code easier to understand and helps code
+#  analysis tools catch potential errors:
+#%%
+def get_matching_values(values: list, conditions: list[bool]) -> list:
+    """
+    Extract elements from a list where the corresponding condition is True.
+
+    :param values: List of values to filter
+    :param conditions: List of True/False values (must be same length as values)
+    :return: A list containing only the values where the condition was True
+    """
+    result = []
+
+    for value, condition in zip(values, conditions):
+        if condition:
+            result.append(value)
+
+    return result
+#%% md
+# Type hints are especially helpful in larger projects where you want to make
+# sure your functions are used correctly.
+#%% md
+# ## Putting It All Together
+# Now we can combine our functions to solve our original problem - finding the depths where there are high-grade samples:
+#%%
+def find_high_grade_locations(grades, depths, threshold=1.0):
+    """
+    Find the depths where grades are above a threshold.
 
 
-# -
+    :param grades: List of grade values
+    :param depths: List of corresponding depths
+    :param threshold: Minimum grade value of interest (default: 1.0)
+    :return: List of depths where grades exceed the threshold
+    """
+    # First, identify which grades are high
+    high_grade_indicators = [grade > threshold for grade in grades]
 
-# The `get_depths` function takes in two lists, one of values and another one for the logic (`bool`), and returns a
-# subset of values if the `conditions` are `True`. Here are a few Python details to highlight
-#
-# - The `if` statement used to test a condition (true or false). Other conditions are
-#     - `elif`: Always follows and if statement, requires a condition.
-#     - `else`: Always used at the end of `if` statements, no condition used.
-# - The `zip` method allows iterating over multiple lists at the same time.
-#   If the inputs have different lengths, the iteration will stop once it reaches the end of the shortest list.
-#
-# - We use `typing` (e.g. `conditions: list[bool]`) in the signature of the function to
-#   specify the type required for the input arguments. The type is not enforced on runtime,
-#   but mainly good-practice as it can be used for code analysis and documentation.
+    # Then, get the corresponding depths
+    high_grade_locations = []
+    for depth, is_high in zip(depths, high_grade_indicators):
+        if is_high:
+            high_grade_locations.append(depth)
 
-
-# Calling the `get_depths` method with the `grades` and `logic` previously computed we get
-
-# + tags=["clear-form"]
-get_depths(grades, logic)
-# -
-
+    return high_grade_locations
+#%%
+# Find locations of grades above 2.0
+result = find_high_grade_locations(grades, depths, 2.0)
+print(f"High-grade locations (above 2.0): {result}")
+#%% md
+# ## Summary: What You've Learned
+# - **Functions** are reusable blocks of code that perform specific tasks
+# - Functions are defined using the `def` keyword followed by a name and parameters
+# - Functions can take **parameters** (inputs) and return values using the
+# `return` statement
+# - **Docstrings** document what a function does and how to use it
+# - **Default parameter values** make parameters optional when calling a function
+# - **For loops** allow you to iterate through items in a list
+# - **If statements** let you include conditional logic in your functions
+# - **Type hints** help document expected input and output types
+#%% md
+# ## Knowledge Check: Python Functions
+# 
+# ### 1. What keyword is used to define a function in Python?
+# a) `function` \
+# b) `def` \
+# c) `func` \
+# d) `define`
+# 
+# ---
+# 
+# ### 2. Which of the following correctly defines a function with a default parameter value?
+# a) `def example(a, b = 10):` \
+# b) `def example(a = int, b):` \
+# c) `def example(a: default = 5, b):` \
+# d) `def example(a: 5, b):`
+# 
+# ---
+# 
+# ### 3. What does the following function return when called with `result = multiply(4, 5)`?
+# ```
+# def multiply(x, y):
+#     product = x * y
+#     return product
+# ```
+# 
+# a) Nothing \
+# b) `product` \
+# c) `20` \
+# d) `4, 5`
+# 
+# ---
+# 
+# ### 4. In Python, where should docstrings be placed in a function?
+# a) After the function definition \
+# b) Before the function definition \
+# c) Immediately after the function signature \
+# d) At the end of the function body
+# 
+# ### 5. Which of these statements about Python functions is FALSE?
+# a) Functions can return multiple values \
+# b) Functions can have default parameter values \
+# c) Function names should start with a number \
+# d) Functions help reduce code duplication
+# 
+# ---
+# 
+# ### 6. Which of the following correctly describes how an `if` statement works?
+# a) It executes code only when the condition is False \
+# b) It executes code only when the condition is True \
+# c) It always executes the code block regardless of condition \
+# d) It requires at least two conditions to function
+# 
+# ---
+# 
+# ### 7. What will the following for loop print?
+# ```
+# for i in [1, 2, 3, 4, 5]:
+#     print(f"{i} ")
+# ```
+# a) `['1', '2', '3', '4', '5'] ` \
+# b) `'1 2 3 4 5'` \
+# c) `1 2 3 4 5` \
+# d)
+# 
+# `1` \
+# `2` \
+# `3` \
+# `4` \
+# `5`
+# 
+# ---
+# 
+# ### Answers
+# 1. **b**
+# 2. **a**
+# 3. **c**
+# 4. **c**
+# 5. **c**
+# 6. **b**
+# 7. **d**
+#%% md
 #  Copyright (c) 2022 Mira Geoscience Ltd.
