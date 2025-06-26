@@ -8,7 +8,7 @@
 #%% md
 # ## Why Use Classes?
 # 
-# Let's revisit the assay analysis from the previous [Functions](Functions) section. We had two lists for `grades` and `depths`, and we wanted to find depths where values exceeded some threshold.
+# Let's revisit the assay analysis from the previous [](Functions) section. We had two lists for `grades` and `depths`, and we wanted to find depths where values exceeded some threshold.
 #%%
 grades = [0.1, 0.02, 1.3, 2.4, 3.5, 0.01]
 depths = [10, 55, 80, 105, 115, 120]

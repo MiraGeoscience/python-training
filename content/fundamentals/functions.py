@@ -210,7 +210,7 @@ def get_matching_values(values: list, conditions: list[bool]) -> list:
 # ## Putting It All Together
 # Now we can combine our functions to solve our original problem - finding the depths where there are high-grade samples:
 #%%
-def find_high_grade_locations(grades, depths, threshold=1.0):
+def find_high_grade_locations(grades: list, depths: list, threshold: float = 1.0) -> list:
     """
     Find the depths where grades are above a threshold.
 
