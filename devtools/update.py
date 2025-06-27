@@ -2,6 +2,7 @@
 #
 #  This file is part of python-training.
 
+import json
 import os
 import sys
 
@@ -43,34 +44,27 @@ def update_forms():
 
         for file in files:
 
-            if not file.endswith("py") or "__init__" in file:
+            if not file.endswith("ipynb"):
                 continue
+            print(f"Processing {file}")
+            with open(os.path.join(directory, file)) as nb_file:
+                notebook = json.load(nb_file)
 
-            head, tail = file.split(".")
-            new_file = os.path.join("training", f"{head}.py")
+            for cell in notebook["cells"]:
+                if cell.get("cell_type", None) == "code":
+                    metadata = cell.get("metadata", None)
+                    if (
+                        metadata
+                        and metadata.get("tags", None)
+                        and "save-form" not in metadata["tags"]
+                    ):
+                        cell["source"] = []
 
-            with open(os.path.join(directory, file)) as orig:
-                lines = list(orig)
-                skip = False
-                with open(new_file, mode="w+") as new:
-                    for line in lines:
-                        if "clear-form" in line:
-                            skip = True
+                    cell["outputs"] = []
 
-                        # if line[0] in ["#", "\n"]:
-                        if "# -" in line and skip:
-                            skip = False
-                            new.write("\n")
-                            continue
-
-                        if not skip:
-                            new.write(line)
-
-            outfile = f"{head}.ipynb"
-            os.system(
-                f"jupytext --output {os.path.join('training', outfile)} {new_file}"
-            )
-            os.remove(new_file)
+            new_file = os.path.join("training", file)
+            with open(new_file, mode="w") as out_file:
+                json.dump(notebook, out_file)
 
 
 if __name__ == "__main__":
@@ -85,4 +79,4 @@ if __name__ == "__main__":
     else:
         update_files(ext)
 
-#  Copyright (c) 2022 Mira Geoscience Ltd.
+#  Copyright (c) 2022-2025 Mira Geoscience Ltd.

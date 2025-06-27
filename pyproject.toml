@@ -12,7 +12,9 @@ readme = "package.rst"
 [tool.poetry.dependencies]
 python = "^3.10"
 numpy = "^1.26.0" # also in geoh5py, simpeg
-
+jupyter-book = "*"
+jupytext = "^1.14"
+ipywidgets = "^7.6.5"
 
 ## pip dependencies
 geoh5py = {version = ">=0.11.0a, <0.12.dev", source = "pypi", allow-prereleases = true}
@@ -24,9 +26,6 @@ pytest-cov = "*"
 sphinx = "^5.0"
 readthedocs-sphinx-ext = "*"
 nbconvert = "^7.16.4"
-jupyter-book = "*"
-jupytext = "^1.14"
-ipywidgets = "^7.6.5"
 
 [tool.conda-lock.dependencies]
 h5py = ">=3.2.1, <4.0.dev"  # from geoh5py
