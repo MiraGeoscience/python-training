@@ -11,5 +11,5 @@ chapters:
   - file: fundamentals/classes.ipynb
   - file: fundamentals/geoh5_api.ipynb
   - file: fundamentals/uijson_training.ipynb
-  - file: fundamentals/mag_dipole_app.ipynb
+- file: fundamentals/mag_dipole_app.ipynb
 - file: best_practice.ipynb

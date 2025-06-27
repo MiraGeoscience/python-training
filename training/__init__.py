@@ -1,4 +1,4 @@
-#  Copyright (c) 2022 Mira Geoscience Ltd.
+#  Copyright (c) 2022-2025 Mira Geoscience Ltd.
 #
 #  This file is part of python-training.
 
@@ -6,6 +6,7 @@
 from pathlib import Path
 
 __version__ = "0.1.0"
+
 
 def assets_path() -> Path:
     """Return the path to the assets folder."""
