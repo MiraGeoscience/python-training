@@ -1,14 +1,28 @@
-[tool.poetry]
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "setuptools"]
+build-backend = "poetry.core.masonry.api"
+
+
+[project]
 name = "python-training"
 version = "0.0.1"
+
+dynamic = ["dependencies"]
+
+requires-python = ">=3.9,<3.11"
+
+
 description = "Open Source Training"
-authors = ["Mira Geoscience <support@mirageoscience.com>"]
+authors = [
+    { name = "Mira Geoscience", email = "support@mirageoscience.com" }
+]
 packages = [
     { include = "scripts"},
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.11"
 h5py = "^3.2.1" # from geoh5py
 matplotlib = "^3.5.1"
 numpy = "!=1.19.4, ^1.21.5, <1.23"  # scipy 1.7.3 requires numpy <1.23
@@ -18,9 +32,9 @@ nbconvert = "^6.4"
 pytest = "^7.1"
 
 ## pip dependencies
-geoh5py = { version = "0.5.0", source = "pypi" }
+geoh5py = "0.5.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pylint = "^2.14.4"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
@@ -43,6 +57,4 @@ line_length = 88
 [tool.poetry2conda]
 name = "python-training"
 
-[build-system]
-requires = ["poetry-core>=1.0.0", "setuptools"]
-build-backend = "poetry.core.masonry.api"
+
