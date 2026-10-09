@@ -53,7 +53,7 @@ def inclination_declination_2_xyz(inclination, declination):
 def tmi_projection(b_components, earth_field):
     """Project magnetic field onto Earth's field."""
     h0 = inclination_declination_2_xyz(earth_field[0], earth_field[1])
-    return np.dot(h0, b_components.T)
+    return np.dot(h0, b_components.T).flatten()
 
 
 def magnetic_simulator(
@@ -151,4 +151,4 @@ if __name__ == "__main__":
     run(file)
 
 
-#  Copyright (c) 2026 Mira Geoscience Ltd.
+#  Copyright (c) 2020-2026 Mira Geoscience Ltd.

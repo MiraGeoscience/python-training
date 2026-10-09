@@ -1,10 +1,10 @@
 {
     "version": "0.0.0",
     "title": "Magnetic Dipole App",
-    "geoh5": "",
-    "run_command": "mag_dipole",
-    "monitoring_directory": "",
     "conda_environment": "python-training",
+    "run_command": "mag_dipole_app",
+    "geoh5": "",
+    "monitoring_directory": "",
     "sources": {
         "label": "Dipoles",
         "value": "",
