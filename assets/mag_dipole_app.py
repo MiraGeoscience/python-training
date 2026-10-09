@@ -7,7 +7,7 @@ import sys
 import numpy as np
 from geoh5py.data import Data
 from geoh5py.objects import ObjectBase
-from geoh5py.ui_json import InputFile
+from geoh5py.ui_json import UIJson
 from geoh5py.ui_json.utils import monitored_directory_copy
 
 
@@ -129,7 +129,7 @@ def run(file: str):
     """
     Run the mag_dipole simulation from InputFile.
     """
-    ifile = InputFile.read_ui_json(file).data
+    ifile = UIJson.read(file).to_params()
 
     with ifile["geoh5"].open(mode="r+"):
         magnetic_simulator(
@@ -151,4 +151,4 @@ if __name__ == "__main__":
     run(file)
 
 
-#  Copyright (c) 2022 Mira Geoscience Ltd.
+#  Copyright (c) 2026 Mira Geoscience Ltd.

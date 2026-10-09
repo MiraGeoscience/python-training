@@ -46,4 +46,4 @@ jupyter-notebooks.
 ```
 
 
- Copyright (c) 2022 Mira Geoscience Ltd.
+ Copyright (c) 2026 Mira Geoscience Ltd.
