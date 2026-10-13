@@ -9,7 +9,6 @@ chapters:
   - file: fundamentals/1-containers.ipynb
   - file: fundamentals/2-functions.ipynb
   - file: fundamentals/3-classes.ipynb
-  - file: fundamentals/4-geoh5_api.ipynb
-  - file: fundamentals/5-uijson.ipynb
-  - file: fundamentals/6-mag_dipole_app.ipynb
-- file: best_practice.ipynb
+- file: fundamentals/4-geoh5_api.ipynb
+- file: fundamentals/5-uijson.ipynb
+- file: fundamentals/6-mag_dipole_app.ipynb
