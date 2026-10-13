@@ -1,7 +1,7 @@
 [project]
 name = "python-training"
 requires-python = ">=3.12, <3.14"
-readme = "package.rst"
+readme = "README.md"
 description = "Open Source Training"
 dynamic = ["version", "dependencies", "classifiers"]
 authors = [{ name = "Mira Geoscience", email = "support@mirageoscience.com" }]
