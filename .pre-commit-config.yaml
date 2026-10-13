@@ -67,7 +67,7 @@ repos:
     hooks:
     -   id: check-copyright
         entry: python devtools/check-copyright.py
-        exclude: (^\.|^setup.py$|(docs|assets)/)
+        exclude: (^\.|\.yml|\.toml|^setup.py$|(docs|assets|environments)/)
     -   id: prepare-commit-msg
     -   id: check-commit-msg
 -   repo: local
