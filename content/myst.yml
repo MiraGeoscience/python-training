@@ -1,0 +1,27 @@
+version: 1
+project:
+  title: Open-source Training
+  authors:
+    - name: Mira Geoscience
+  github: executablebooks/jupyter-book
+  bibliography:
+    - references.bib
+  exports:
+    - format: pdf
+      template: plain_latex_book
+      output: exports/book.pdf
+  toc:
+    - file: intro.md
+    - file: fundamentals\0-python_fundamentals.ipynb
+      children:
+        - file: fundamentals\1-containers.ipynb
+        - file: fundamentals\2-functions.ipynb
+        - file: fundamentals\3-classes.ipynb
+    - file: fundamentals\4-geoh5_api.ipynb
+    - file: fundamentals\5-uijson.ipynb
+    - file: fundamentals\6-mag_dipole_app.ipynb
+site:
+  options:
+    logo: images/GA-Python_2.png
+    folders: true
+  template: book-theme
