@@ -22,7 +22,7 @@ requires-poetry = "2.*"
 [tool.poetry.dependencies]
 matplotlib = "~3.10.4"  # also in geoapps-utils
 numpy = "~2.4.2"
-jupyter-book = "*"
+jupyter-book = "~1.0"
 jupytext = "^1.14"
 nbconvert = "~7.16.4"
 pytest = "*"
