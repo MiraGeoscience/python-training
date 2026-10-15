@@ -1,0 +1,14 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: fundamentals/0-python_fundamentals.ipynb
+  sections:
+  - file: fundamentals/1-containers.ipynb
+  - file: fundamentals/2-functions.ipynb
+  - file: fundamentals/3-classes.ipynb
+- file: fundamentals/4-geoh5_api.ipynb
+- file: fundamentals/5-uijson.ipynb
+- file: fundamentals/6-mag_dipole_app.ipynb
