@@ -5,14 +5,10 @@ build:
   os: ubuntu-22.04
   tools:
     python: "mambaforge-22.9"
-  jobs:
-    pre_build:
-      # Generate on-the-fly Sphinx configuration from Jupyter Book's _config.yml
-      - "jupyter-book config sphinx content/"
 
 sphinx:
   builder: html
-  configuration: content/conf.py
+  configuration: content/myst.yml
   fail_on_warning: false
 
 conda:
