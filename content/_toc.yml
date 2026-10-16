@@ -4,11 +4,13 @@
 format: jb-book
 root: intro
 chapters:
-- file: fundamentals/0-python_fundamentals.ipynb
+- file: fundamentals/introduction
   sections:
-  - file: fundamentals/1-containers.ipynb
+  - file: fundamentals/0-core.ipynb
+  - file: fundamentals/1-collections.ipynb
   - file: fundamentals/2-functions.ipynb
   - file: fundamentals/3-classes.ipynb
-- file: fundamentals/4-geoh5_api.ipynb
-- file: fundamentals/5-uijson.ipynb
-- file: fundamentals/6-mag_dipole_app.ipynb
+  - file: fundamentals/4-modules.ipynb
+- file: fundamentals/5-geoh5_api.ipynb
+- file: fundamentals/6-uijson.ipynb
+- file: fundamentals/7-mag_dipole_app.ipynb
