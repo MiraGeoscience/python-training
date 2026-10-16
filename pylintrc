@@ -21,8 +21,7 @@ analyse-fallback-blocks=no
 # A comma-separated list of package or module names from where C extensions may
 # be loaded. Extensions are loading into the active Python interpreter and may
 # run arbitrary code.
-extension-pkg-allow-list=cv2,
-                         numpy,
+extension-pkg-allow-list=numpy,
                          scipy
 
 # A comma-separated list of package or module names from where C extensions may
@@ -34,12 +33,10 @@ extension-pkg-whitelist=
 # Return non-zero exit code if any of these messages/categories are detected,
 # even if score is above --fail-under value. Syntax same as enable. Messages
 # specified are enabled, while categories only check already-enabled messages.
-fail-on=E,F
-# TODO: fail on warnings too (W)
+fail-on=F,E,W
 
 # Specify a score threshold to be exceeded before program exits with error.
-# TODO: remove this. Only to ease transition to cleaner code
-fail-under=4.5
+#fail-under=
 
 # Interpret the stdin as a python script, whose filename needs to be passed as
 # the module_or_package argument.
@@ -86,14 +83,10 @@ persistent=yes
 
 # Minimum Python version to use for version dependent checks. Will default to
 # the version used to run pylint.
-py-version=3.9
+py-version=3.12
 
 # Discover python modules and packages in the file system subtree.
 recursive=no
-
-# When enabled, pylint would attempt to guess common misconfiguration and emit
-# user-friendly hints instead of false-positive error messages.
-suggestion-mode=yes
 
 # Allow loading of arbitrary C extensions. Extensions are imported into the
 # active Python interpreter and may run arbitrary code.
@@ -151,7 +144,6 @@ confidence=HIGH,
 disable=raw-checker-failed,
         bad-inline-option,
         locally-disabled,
-        line-too-long,
         file-ignored,
         suppressed-message,
         useless-suppression,
@@ -160,11 +152,20 @@ disable=raw-checker-failed,
         missing-module-docstring,
         missing-function-docstring,
         missing-class-docstring,
-        pointless-statement,
+        fixme,
+        R,           # TODO: re-enable refactoring warnings, and the ones below
+        arguments-differ,
+        arguments-renamed,
+        empty-docstring,
+        import-outside-toplevel,
+        invalid-name,
+        line-too-long,
+        superfluous-parens,
+        ungrouped-imports,
+        unused-import,
+        unused-variable,
         wrong-import-position,
-        wrong-import-order,
-        expression-not-assigned,
-        fixme
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -350,7 +351,7 @@ exclude-too-few-public-methods=
 ignored-parents=
 
 # Maximum number of arguments for function / method.
-max-args=6
+max-args=9  # as long as not hitting too-many-positional-arguments
 
 # Maximum number of attributes for a class (see R0902).
 max-attributes=15
@@ -383,8 +384,8 @@ min-public-methods=2
 [EXCEPTIONS]
 
 # Exceptions that will emit a warning when caught.
-overgeneral-exceptions=BaseException,
-                       Exception
+overgeneral-exceptions=builtins.BaseException,
+                       builtins.Exception
 
 
 [FORMAT]
@@ -403,7 +404,7 @@ indent-after-paren=4
 indent-string='    '
 
 # Maximum number of characters on a single line.
-max-line-length=120
+max-line-length=100
 
 # Maximum number of lines in a module.
 max-module-lines=1000
@@ -550,7 +551,7 @@ contextmanager-decorators=contextlib.contextmanager
 # List of members which are set dynamically and missed by pylint inference
 # system, and so shouldn't trigger E1101 when accessed. Python regular
 # expressions are accepted.
-generated-members=scipy.spatial.qhull.Delaunay.*, torch.*
+generated-members=
 
 # Tells whether to warn about missing members when the owner of the attribute
 # is inferred to be None.
