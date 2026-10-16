@@ -7,7 +7,7 @@ import sys
 import numpy as np
 from geoh5py.data import Data
 from geoh5py.objects import ObjectBase
-from geoh5py.ui_json import InputFile
+from geoh5py.ui_json import UIJson
 from geoh5py.ui_json.utils import monitored_directory_copy
 
 
@@ -53,7 +53,7 @@ def inclination_declination_2_xyz(inclination, declination):
 def tmi_projection(b_components, earth_field):
     """Project magnetic field onto Earth's field."""
     h0 = inclination_declination_2_xyz(earth_field[0], earth_field[1])
-    return np.dot(h0, b_components.T)
+    return np.dot(h0, b_components.T).flatten()
 
 
 def magnetic_simulator(
@@ -129,7 +129,7 @@ def run(file: str):
     """
     Run the mag_dipole simulation from InputFile.
     """
-    ifile = InputFile.read_ui_json(file).data
+    ifile = UIJson.read(file).to_params()
 
     with ifile["geoh5"].open(mode="r+"):
         magnetic_simulator(
@@ -151,4 +151,4 @@ if __name__ == "__main__":
     run(file)
 
 
-#  Copyright (c) 2022 Mira Geoscience Ltd.
+#  Copyright (c) 2020-2026 Mira Geoscience Ltd.

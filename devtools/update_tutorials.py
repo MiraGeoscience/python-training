@@ -3,86 +3,43 @@
 #  This file is part of python-training.
 
 import os
-import sys
-
-CONVERT = {"ipynb": "py", "py": "ipynb"}
-LOCATION = {"ipynb": os.path.join("content"), "py": os.path.join("content")}
-
-
-def update_files(ext):
-    for directory, _, files in os.walk(os.path.join(LOCATION[CONVERT[ext]])):
-        if (
-            ".ipynb_checkpoints" in directory
-            or "_build" in directory
-            or "__pycache__" in directory
-        ):
-            continue
-
-        for file in files:
-            head, tail = file.split(".")
-            if not file.endswith(CONVERT[ext]) or "__init__" in file:
-                continue
-
-            outfile = f"{head}.{ext}"
-            os.system(
-                f"jupytext --output {os.path.join(directory, outfile)} {os.path.join(directory, file)}"
-            )
+import json
+from pathlib import Path
+from shutil import copy
 
 
 def update_forms():
 
     os.makedirs("training", exist_ok=True)
 
-    for directory, _, files in os.walk(os.path.join(LOCATION["py"])):
+    for dirpath, dirnames, filenames in Path("../content").walk():
         if (
-            ".ipynb_checkpoints" in directory
-            or "_build" in directory
-            or "__pycache__" in directory
+            "checkpoints" in str(dirpath)
+            or "_build" in str(dirpath)
+            or "__pycache__" in str(dirpath)
         ):
             continue
 
-        for file in files:
-
-            if not file.endswith("py") or "__init__" in file:
+        for file in filenames:
+            if not file.endswith("ipynb"):
                 continue
 
-            head, tail = file.split(".")
-            new_file = os.path.join("training", f"{head}.py")
+            new_file = copy(dirpath / file, Path("../assets/training") / file)
 
-            with open(os.path.join(directory, file)) as orig:
-                lines = list(orig)
-                skip = False
-                with open(new_file, mode="w+") as new:
-                    for line in lines:
-                        if "clear-form" in line:
-                            skip = True
+            with open(new_file) as orig:
+                notebook = json.load(orig)
 
-                        # if line[0] in ["#", "\n"]:
-                        if "# -" in line and skip:
-                            skip = False
-                            new.write("\n")
-                            continue
+                for elem in notebook["cells"]:
+                    flag = elem.get("metadata", {}).get("tags", [])
 
-                        if not skip:
-                            new.write(line)
+                    if "clear-form" in flag:
+                        elem["source"] = []
 
-            outfile = f"{head}.ipynb"
-            os.system(
-                f"jupytext --output {os.path.join('training', outfile)} {new_file}"
-            )
-            os.remove(new_file)
+            with open(new_file, "w") as out:
+                json.dump(notebook, out, indent=1)
 
 
 if __name__ == "__main__":
+    update_forms()
 
-    if len(sys.argv) == 1 or sys.argv[1] not in ["py", "ipynb", "forms"]:
-        raise UserWarning("Input argument should be one of 'py', 'ipynb' or 'forms'.")
-
-    ext = sys.argv[1]
-
-    if ext == "forms":
-        update_forms()
-    else:
-        update_files(ext)
-
-#  Copyright (c) 2022 Mira Geoscience Ltd.
+#  Copyright (c) 2026 Mira Geoscience Ltd.

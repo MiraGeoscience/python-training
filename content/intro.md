@@ -1,6 +1,6 @@
-# Welcome to the open-source python training
+# About
 
- This resource is intended to geoscientists wanting to either **automate**
+Welcome to the open-source Python training! This resource is intended to geoscientists wanting to either **automate**
  some part of their work or to perform **advance analysis** on their data. It
  is not meant to be a comprehensive Python resource - for which there are
  many excellent resources online. This training material will give you
@@ -18,7 +18,7 @@ programming without really knowing what it is good for. In short, computers
 are great at performing a lot of small operations really fast (billions per
 second) - things that human can do but a lot slower and often with many
 mistakes. By the time you finish this training, you should be able to offload
-many of your repetetive and tedious daily tasks to a machine, so that you can
+many of your repetitive and tedious daily tasks to a machine, so that you can
 spend more time doing the creative and analytical work - things that you are
 actually good at.
 
@@ -40,10 +40,5 @@ jupyter-notebooks.
  ![run](./images/run_cell.png)
  - Click on a cell and press **M** to convert to a text cell, or **Y** to convert to code cell.
 
-# Table of content
 
-```{tableofcontents}
-```
-
-
- Copyright (c) 2022 Mira Geoscience Ltd.
+ Copyright (c) 2026 Mira Geoscience Ltd.
