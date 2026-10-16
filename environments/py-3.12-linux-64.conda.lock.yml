@@ -142,7 +142,7 @@ dependencies:
   - pexpect=4.9.0=pyhd8ed1ab_1
   - pillow=12.3.0=py312h38079b3_4
   - pip=26.2.1=pyh8b19718_0
-  - platformdirs=4.13.0=pyh5ded981_0
+  - platformdirs=4.13.3=pyh5ded981_0
   - prompt-toolkit=3.0.53=pyha770c72_0
   - psutil=7.2.2=py312h1b36aeb_3
   - pthread-stubs=0.4=h7cc23a3_1004
@@ -215,7 +215,7 @@ dependencies:
   - zstd=1.5.7=hb78ec9c_7
   - pip:
     - annotated-types == 0.8.0
-    - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@c11c991a4f07ecf798e561bc06f1d266b5edc883
+    - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@e7318ecca512e9b1f5498dad92733b55cff0aa3b
     - pydantic == 2.12.5
     - pydantic-core == 2.41.5
     - typing-inspection == 0.4.4

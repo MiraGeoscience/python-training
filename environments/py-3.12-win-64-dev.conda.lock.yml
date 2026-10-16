@@ -39,7 +39,7 @@ dependencies:
   - colorama=0.4.6=pyhd8ed1ab_1
   - comm=0.2.3=pyhe01879c_0
   - contourpy=1.4.0=py312h78d62e6_1
-  - coverage=7.16.2=py312h6fa65f5_0
+  - coverage=7.16.2=py312h6fa65f5_1
   - cpython=3.12.15=py312hd8ed1ab_2
   - cycler=0.12.1=pyhcf101f3_2
   - debugpy=1.8.22=py312ha1a9051_0
@@ -138,7 +138,7 @@ dependencies:
   - parso=0.8.7=pyhcf101f3_0
   - pillow=12.3.0=py312h7bb5964_4
   - pip=26.2.1=pyh8b19718_0
-  - platformdirs=4.13.0=pyh5ded981_0
+  - platformdirs=4.13.3=pyh5ded981_0
   - pluggy=1.7.0=pyh5ded981_0
   - prompt-toolkit=3.0.53=pyha770c72_0
   - psutil=7.2.2=py312he5662c2_3
@@ -194,7 +194,7 @@ dependencies:
   - tk=8.6.13=h967ab96_4
   - toml=0.10.2=pyhcf101f3_3
   - tomli=2.5.0=pyh5ded981_0
-  - tomlkit=0.15.1=pyhcf101f3_0
+  - tomlkit=0.15.2=pyh5ded981_0
   - tornado=6.5.10=py312he06e257_0
   - traitlets=5.16.1=pyhcf101f3_0
   - typing-extensions=4.16.0=h69aa097_0
@@ -220,7 +220,7 @@ dependencies:
   - zstd=1.5.7=h534d264_7
   - pip:
     - annotated-types == 0.8.0
-    - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@c11c991a4f07ecf798e561bc06f1d266b5edc883
+    - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@e7318ecca512e9b1f5498dad92733b55cff0aa3b
     - pydantic == 2.12.5
     - pydantic-core == 2.41.5
     - typing-inspection == 0.4.4
