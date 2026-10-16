@@ -26,16 +26,22 @@ jupyter-book = "~1.0"
 jupytext = "^1.14"
 nbconvert = "~7.16.4"
 pytest = "*"
+ipywidgets = "^7.6.5"
+sphinx = "^5.0"
 
 ## pip dependencies
 # geoh5py = {version = "~0.9.0-alpha.2", source = "pypi", allow-prereleases = true}
 geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "develop"}
 
 
-[tool.poetry.dev-dependencies]
-pylint = "^2.14.4"
-pytest = "^7.1.2"
-pytest-cov = "^3.0.0"
+[tool.poetry.group.dev.dependencies]
+Pygments = "*"
+pylint = "*"
+pytest = "*"
+pytest-cov = "*"
+pyyaml = '*'
+packaging = '*'
+readthedocs-sphinx-ext = "*"
 
 [tool.conda-lock]
 platforms = ['win-64', 'linux-64']
