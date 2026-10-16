@@ -24,7 +24,7 @@ def update_forms():
             if not file.endswith("ipynb"):
                 continue
 
-            new_file = copy(dirpath / file, Path("../training") / file)
+            new_file = copy(dirpath / file, Path("../assets/training") / file)
 
             with open(new_file) as orig:
                 notebook = json.load(orig)
