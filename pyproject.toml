@@ -1,3 +1,17 @@
+[build-system]
+requires = [
+  "poetry-core >=1.8.0",
+  "poetry-dynamic-versioning >=1.9.1, ==1.*",
+  # list dependencies to work with PIP_NO_DEPS=1
+  "MarkupSafe >=2.0",
+  "dunamai >=1.25, ==1.*",
+  "jinja2 ==3.*",
+  "packaging >=24.0",
+  "tomlkit >=0.13",
+]
+build-backend = "poetry_dynamic_versioning.backend"
+
+
 [project]
 name = "python-training"
 requires-python = ">=3.12, <3.14"
@@ -9,7 +23,7 @@ maintainers = [
   { name = "Benjamin Kary", email = "benjamink@mirageoscience.com" },
   { name = "Dominique Fournier", email = "dominiquef@mirageoscience.com" }
 ]
-
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.poetry]
 name = "python-training"
@@ -64,18 +78,7 @@ line_length = 88
 [tool.poetry2conda]
 name = "python-training"
 
-[build-system]
-requires = [
-  "poetry-core >=1.8.0",
-  "poetry-dynamic-versioning >=1.9.1, ==1.*",
-  # list dependencies to work with PIP_NO_DEPS=1
-  "MarkupSafe >=2.0",
-  "dunamai >=1.25, ==1.*",
-  "jinja2 ==3.*",
-  "packaging >=24.0",
-  "tomlkit >=0.13",
-]
-build-backend = "poetry_dynamic_versioning.backend"
+
 
 [tool.poetry.requires-plugins]
 poetry-dynamic-versioning = { version = ">=1.9.1, 1.*", extras = ["plugin"] }
