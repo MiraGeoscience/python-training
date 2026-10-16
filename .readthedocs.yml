@@ -17,3 +17,8 @@ python:
   install:
     - method: pip
       path: .
+
+
+sphinx:
+  # Path to your Sphinx configuration file.
+  configuration: docs/conf.py
