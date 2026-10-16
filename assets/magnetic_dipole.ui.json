@@ -62,7 +62,7 @@
     },
     "earth_dec": {
         "label": "Earth's field declination",
-        "value": -62.11,
+        "value": -17.9,
         "optional": false,
         "enabled": true,
         "main": true,
