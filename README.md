@@ -22,7 +22,7 @@ Building and running the content of the tutorial requires some dependencies that
 ## Updating content
 
 The official content that is versioned controlled and tested relies on jupyter-book (`ipynb`) files that are stored under `content/`.
-Meanwhile, the blank notebooks used for training are stored under `training/`. The two versions can be synchronized with the script `devtools\update_tutorials.py`.
+Meanwhile, the blank notebooks used for training are stored under `./assets/training/`. The two versions can be synchronized with the script `devtools\update_tutorials.py`.
 
 ### Generating HTML
 
