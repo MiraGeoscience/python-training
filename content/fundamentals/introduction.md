@@ -17,7 +17,7 @@ easy to read and share with others - which explains the popularity of Python in 
 
 The following sections provide a brief introduction to the core objects of Python.
 
-- [Strings and numbers](0-core.ipynb)
+- [Numerics and Strings](0-core.ipynb)
 - [Collections](1-collections.ipynb)
 - [Functions](2-functions.ipynb)
 - [Classes](3-classes.ipynb)
