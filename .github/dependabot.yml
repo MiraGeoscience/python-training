@@ -7,7 +7,7 @@ version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
-    target-branch: "main"
+    target-branch: "develop"
     schedule:
       interval: "weekly"
     cooldown:
@@ -22,7 +22,7 @@ updates:
           - MiraGeoscience/CI-tools/.github/workflows/*
   - package-ecosystem: "pre-commit"
     directory: "/"
-    target-branch: "main"
+    target-branch: "develop"
     schedule:
       interval: "weekly"
     cooldown:
