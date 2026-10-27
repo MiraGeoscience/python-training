@@ -10,7 +10,6 @@ def test_notebooks():
             continue
 
         for file in files:
-
             if not file.endswith(".py"):
                 continue
 

@@ -33,6 +33,7 @@ import tomli as toml
 from add_url_tag_sha256 import patch_pyproject_toml
 from ruamel.yaml import YAML
 
+
 env_file_variables_section_ = """
 variables:
   KMP_WARNINGS: 0
@@ -167,9 +168,10 @@ class LockFilePatcher:
         )
         with tempfile.TemporaryDirectory(dir=str(self.lock_file.parent)) as tmpdirname:
             patched_file = Path(tmpdirname) / self.lock_file.name
-            with open(patched_file, mode="w", encoding="utf-8") as patched, open(
-                self.lock_file, encoding="utf-8"
-            ) as f:
+            with (
+                open(patched_file, mode="w", encoding="utf-8") as patched,
+                open(self.lock_file, encoding="utf-8") as f,
+            ):
                 for line in f:
                     match = none_hash_re.match(line)
                     if not match:
@@ -202,9 +204,10 @@ class LockFilePatcher:
 
         with tempfile.TemporaryDirectory(dir=str(self.lock_file.parent)) as tmpdirname:
             patched_file = Path(tmpdirname) / self.lock_file.name
-            with open(patched_file, mode="w", encoding="utf-8") as patched, open(
-                self.lock_file, encoding="utf-8"
-            ) as f:
+            with (
+                open(patched_file, mode="w", encoding="utf-8") as patched,
+                open(self.lock_file, encoding="utf-8") as f,
+            ):
                 for line in f:
                     patched_line = self.sha_re.sub(r"\1", line)
                     patched.write(patched_line)
@@ -362,7 +365,9 @@ def remove_redundant_pip_from_lock_file(lock_file: Path) -> None:
         assert (
             len(list_redundant_pip_packages(remaining_pip_packages, conda_packages))
             == 0
-        ), "Could not eliminate all redundant pip packages (likely due mismatch on versions)"
+        ), (
+            "Could not eliminate all redundant pip packages (likely due mismatch on versions)"
+        )
         remaining_pip_per_platform[platform] = remaining_pip_names
 
     yaml_content["package"] = [

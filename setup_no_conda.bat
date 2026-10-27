@@ -20,7 +20,7 @@ if !ERRORLEVEL! neq 0 (
 )
 
 set MAMBA_ROOT_PREFIX=%~dp0..\_micromamba
-  
+
 set PY_VER=3.9
 
 set ENV_NAME=python-training

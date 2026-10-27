@@ -15,7 +15,7 @@ if !errorlevel! neq 0 (
   pause
   exit /B !errorlevel!
 )
-  
+
 set MY_CONDA_RUNNER=!MY_CONDA_EXE:"=!
 
 :conda_is_set

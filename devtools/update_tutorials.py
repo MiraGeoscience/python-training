@@ -2,8 +2,8 @@
 #
 #  This file is part of python-training.
 
-import os
 import json
+import os
 from pathlib import Path
 from shutil import copy
 
