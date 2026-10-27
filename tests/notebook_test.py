@@ -1,12 +1,16 @@
-import os
+#  Copyright (c) 2022-2026 Mira Geoscience Ltd.
+#
+#  This file is part of python-training.
+
 import subprocess
+from pathlib import Path
 
 
 def test_notebooks():
 
     failures = []
-    for directory, _, files in os.walk(os.path.join("..", "content")):
-        if ".ipynb_checkpoints" in directory or "_build" in directory:
+    for directory, _, files in Path("..", "content").walk():
+        if ".ipynb_checkpoints" in str(directory) or "_build" in str(directory):
             continue
 
         for file in files:
@@ -14,7 +18,7 @@ def test_notebooks():
                 continue
 
             process = subprocess.run(
-                ["python", os.path.join(directory, file)],
+                ["python", directory / file],
                 capture_output=True,
                 check=True,
             )
@@ -24,6 +28,3 @@ def test_notebooks():
 
         if any(failures):
             raise RuntimeError(failures)
-
-
-#  Copyright (c) 2022 Mira Geoscience Ltd.

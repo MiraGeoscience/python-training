@@ -11,11 +11,6 @@ ci:
     autoupdate_schedule: quarterly
 
 repos:
--   repo: https://github.com/python-poetry/poetry
-    rev: 2.4.1
-    hooks:
-    -   id: poetry-check
-        args: [--lock, --no-plugins]
 -   repo: https://github.com/hadialqattan/pycln
     rev: v2.6.0
     hooks:
@@ -67,14 +62,15 @@ repos:
     hooks:
     -   id: check-copyright
         entry: python devtools/check-copyright.py
-        exclude: (^\.|\.yml|\.toml|^setup.py$|(docs|assets|environments)/)
+        files: \.pyi?$
+        exclude: (^\.|^setup.py$|(docs|assets|environments)/)
     -   id: prepare-commit-msg
     -   id: check-commit-msg
 -   repo: local
     hooks:
     -   id: pylint
         name: pylint
-        entry: poetry run pylint
+        entry: pylint
         language: system
         require_serial: true  # pylint does its own parallelism
         types: [text]
@@ -84,7 +80,7 @@ repos:
     rev: v2.4.2
     hooks:
     -   id: codespell
-        exclude: (\.lock|\.ipynb|^THIRD_PARTY_SOFTWARE\.rst)$
+        exclude: (\.lock|\.ipynb|\.bib|^THIRD_PARTY_SOFTWARE\.rst)$
         entry: codespell -I .codespellignore
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0

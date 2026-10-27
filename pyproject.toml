@@ -90,6 +90,9 @@ select = [
     "W",  # pycodestyle warnings
 ]
 
+[tool.ruff.lint.per-file-ignores]
+"assets/training/*.ipynb" = ["F821"]  # exercise cells are cleared by devtools/update_tutorials.py
+
 [tool.ruff.lint.mccabe]
 max-complexity = 18
 
