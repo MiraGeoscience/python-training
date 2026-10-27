@@ -7,20 +7,15 @@ if !errorlevel! neq 0 (
   exit /B !errorlevel!
 )
 
-set PY_VER=3.9
+set PY_VER=3.12
 
 set ENV_NAME=python-training
 set MY_CONDA=!MY_CONDA_EXE:"=!
 cd %~dp0
 set PYTHONUTF8=1
+set CONDA_CHANNEL_PRIORITY=strict
 
-:: try installing libmamba solver in base environment (fail silently)
-call "!MY_CONDA!" install -n base --override-channels -c conda-forge conda-libmamba-solver -y > nul 2>&1 ^
-  && set "CONDA_SOLVER=libmamba" ^
-  || (call )
-
-
-set MY_CONDA_ENV_FILE=environments\conda-py-%PY_VER%-win-64.lock.yml
+set MY_CONDA_ENV_FILE=environments\py-%PY_VER%-win-64.conda.lock.yml
 if not exist !MY_CONDA_ENV_FILE! (
   echo "** ERROR: Could not find the conda environment specification file '!MY_CONDA_ENV_FILE!' **"
   pause
@@ -36,7 +31,7 @@ if !errorlevel! neq 0 (
   exit /B !errorlevel!
 )
 
-call "!MY_CONDA!" run -n %ENV_NAME% jupyter notebook training\index.ipynb
+call "!MY_CONDA!" run -n %ENV_NAME% jupyter notebook assets\training
 
 :: pause and open terminal for diagnostic in case it failed
 pause

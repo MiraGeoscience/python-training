@@ -36,22 +36,7 @@ repos:
             types-toml,
             types-PyYAML,
         ]
-        exclude: |
-            (?x)(^
-                geoh5py/interfaces/__init__.py|
-                geoh5py/handlers/__init__.py|
-                geoh5py/interfaces/.*|
-                geoh5py/handlers/.*|
-                tests/.*|
-                geoh5py/shared/utils.py|
-                geoh5py/shared/entity_type.py|
-                geoh5py/data/data_type.py|
-                geoh5py/objects/cell_object.py|
-                geoh5py/shared/concatenation/drillhole.py|
-                geoh5py/shared/concatenation/concatenator.py|
-                geoh5py/workspace/workspace.py|
-                geoh5py/ui_json/validation.py
-            )$
+        exclude: ^tests/
 -   repo: https://github.com/codingjoe/relint
     rev: 3.3.1
     hooks:
@@ -61,21 +46,19 @@ repos:
     rev: v1.1.0
     hooks:
     -   id: check-copyright
-        entry: python devtools/check-copyright.py
-        files: \.pyi?$
-        exclude: (^\.|^setup.py$|(docs|assets|environments)/)
+        files: (^LICENSE|^README(|-dev)\.rst|\.py|\.pyi)$
+        exclude: (^\.|^docs/|^assets/)
     -   id: prepare-commit-msg
     -   id: check-commit-msg
 -   repo: local
     hooks:
     -   id: pylint
         name: pylint
-        entry: pylint
+        entry: .\\devtools\\conda_env_pylint.bat
         language: system
         require_serial: true  # pylint does its own parallelism
-        types: [text]
-        types_or: [python, pyi]
-        exclude: ^(devtools|docs|geoh5py/interfaces|geoh5py/handlers)/
+        types: [python]
+        exclude: ^(devtools|docs)/
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.4.2
     hooks:
