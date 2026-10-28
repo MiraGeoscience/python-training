@@ -32,6 +32,4 @@ if !errorlevel! neq 0 (
   echo "** ERROR: Failed starting the notebook **"
 )
 
-:: pause and open terminal for diagnostic in case it failed
 pause
-cmd /k

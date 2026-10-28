@@ -26,6 +26,9 @@ set PY_VER=3.12
 set ENV_NAME=python-training
 cd %~dp0
 set PYTHONUTF8=1
+set MAMBA_CHANNEL_PRIORITY=strict
+set MAMBA_CHANNEL_ALIAS=https://repo.prefix.dev
+:: set MAMBA_USE_SHARDED_REPODATA=off
 
 set MY_CONDA_ENV_FILE=environments\py-%PY_VER%-win-64.conda.lock.yml
 if not exist !MY_CONDA_ENV_FILE! (
@@ -44,6 +47,4 @@ if !errorlevel! neq 0 (
 
 !MY_MICROMAMBA! run -n %ENV_NAME% jupyter notebook assets\training
 
-:: pause and open terminal for diagnostic in case it failed
 pause
-cmd /k !MY_MICROMAMBA! -n %ENV_NAME% run cmd
