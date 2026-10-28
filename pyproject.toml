@@ -1,108 +1,106 @@
+[build-system]
+# no package is built (package-mode = false), but conda-lock relies on build-backend to detect poetry
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
+
 [project]
 name = "python-training"
-requires-python = ">=3.12, <3.14"
-readme = "README.md"
+requires-python = ">=3.12,<3.14"
+
 description = "Open Source Training"
-dynamic = ["version", "dependencies", "classifiers"]
+readme = "README.md"
+keywords = ["python", "training", "geoscience", "geoh5"]
+dynamic = ["dependencies", "classifiers"]
 authors = [{ name = "Mira Geoscience", email = "support@mirageoscience.com" }]
 maintainers = [
-  { name = "Benjamin Kary", email = "benjamink@mirageoscience.com" },
-  { name = "Dominique Fournier", email = "dominiquef@mirageoscience.com" }
+    { name = "Benjamin Kary", email = "benjamink@mirageoscience.com" },
+    { name = "Dominique Fournier", email = "dominiquef@mirageoscience.com" }
 ]
 
+[project.urls]
+homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
+repository = "https://github.com/MiraGeoscience/python-training"
 
 [tool.poetry]
-name = "python-training"
-version = "0.0.0.dev0"
-packages = [
-    { include = "scripts"},
+package-mode = false
+requires-poetry = ">=2.0,<3.0"
+
+classifiers = [
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering",
 ]
-requires-poetry = "2.*"
 
 [tool.poetry.dependencies]
-matplotlib = "~3.10.4"  # also in geoapps-utils
-numpy = "~2.4.2"
-jupyter-book = "~1.0"
-jupytext = "^1.14"
-nbconvert = "~7.16.4"
-pytest = "*"
+matplotlib = "~3.10.4"
+notebook = "^7.4"  # required by start_training.bat
+numpy = "~2.4.2"  # also in geoh5py
 
-## pip dependencies
-# geoh5py = {version = "~0.9.0-alpha.2", source = "pypi", allow-prereleases = true}
+## pip dependencies from Git repositories
+#----------------------------------------
+# geoh5py = {version = ">=0.14.0a, 0.14.*", source = "pypi", allow-prereleases = true}
 geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "develop"}
 
-
-[tool.poetry.dev-dependencies]
-pylint = "^2.14.4"
-pytest = "^7.1.2"
-pytest-cov = "^3.0.0"
+[tool.poetry.group.dev.dependencies]
+jupyter-book = "^1.0"
+jupytext = "^1.14"
+nbconvert = "~7.16.4"
+pylint = "*"
+pytest = "*"
+pytest-cov = "*"
 
 [tool.conda-lock]
 platforms = ['win-64', 'linux-64']
 channels = ['conda-forge']
 
 [tool.conda-lock.dependencies]
-h5py = ">=3.15.1, 3.*"  # from geoh5py
-
-[tool.isort]
-# settings for compatibility between ``isort`` and ``black`` formatting
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-line_length = 88
-
-[tool.black]
-# defaults are just fine
-
-[tool.poetry2conda]
-name = "python-training"
-
-[build-system]
-requires = [
-  "poetry-core >=1.8.0",
-  "poetry-dynamic-versioning >=1.9.1, ==1.*",
-  # list dependencies to work with PIP_NO_DEPS=1
-  "MarkupSafe >=2.0",
-  "dunamai >=1.25, ==1.*",
-  "jinja2 ==3.*",
-  "packaging >=24.0",
-  "tomlkit >=0.13",
-]
-build-backend = "poetry_dynamic_versioning.backend"
-
-[tool.poetry.requires-plugins]
-poetry-dynamic-versioning = { version = ">=1.9.1, 1.*", extras = ["plugin"] }
-
-[tool.poetry-dynamic-versioning]
-bump = true
-enable = true
-fix-shallow-repository = true
-strict = true
-style = "pep440"
-vcs = "git"
-
-[tool.poetry-dynamic-versioning.substitution]
-files = ["_version.py", "_version.json"]
-patterns = [
-    '''(^__version__\s*(?::.*?)?=\s*['"])[^'"]*(['"])''',
-    '''(^{\s*"version"\s*:\s*")[^"]*("\s*})''',
-]
-
-[tool.poetry-dynamic-versioning.files."_version.py"]
-persistent-substitution = true
-initial-content = """
-  __version__ = "0.0.0.dev0"
-"""
-
-[tool.poetry-dynamic-versioning.files."_version.json"]
-persistent-substitution = true
-initial-content = """
-{ "version": "0.0.0.dev0" }
-"""
+## indirect dependencies, forcing them here for installation through Conda not pip
+#---------------------------------------------------------------------------------
+h5py = ">=3.15.1, 3.15.*"  # from geoh5py
+pydantic = ">=2.12.0, 2.12.*"  # from geoh5py
+Pillow = ">=12.2.0, 12.*"  # from geoh5py
+psutil = ">=7.2.2, 7.2.*"  # from geoh5py
 
 [tool.ruff]
 target-version = "py312"
+
+[tool.ruff.lint]
+ignore = [
+    "B028",  # no-explicit-stacklevel for warnings.warn()
+    "E501",  # line-too-long - code is reformatted (do not care about comments and docstring)
+    "F401",  # unsused-import - covered by pycln
+    "RUF005",  # collection-literal-concatenation - wrong suggestion with numpy arrays
+]
+select = [
+    "A",  # flake8-builtins
+    "B",  # flake8-bugbear
+    "B006",  # Do not use mutable data structures for argument defaults
+    "B9",  # flake8-bugbear opiniated warnings
+    "BLE",  # flake8-blind-except
+    "C4",  # flake8-comprehensions
+    "C9",  # mccabe
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "I",  # isort
+    "RUF",  # ruff rules
+    "TID", # flake8-tidy-imports
+    "UP",  # pyupgrade
+    "W",  # pycodestyle warnings
+]
+
+[tool.ruff.lint.per-file-ignores]
+"assets/training/*.ipynb" = ["F821"]  # exercise cells are cleared by devtools/update_tutorials.py
+
+[tool.ruff.lint.mccabe]
+max-complexity = 18
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+
+[tool.ruff.format]
+# default formatting is just fine
 
 [tool.mypy]
 warn_unused_configs = true

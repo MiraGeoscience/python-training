@@ -1,9 +1,9 @@
-#  Copyright (c) 2022 Mira Geoscience Ltd.
+#  Copyright (c) 2022-2026 Mira Geoscience Ltd.
 #
 #  This file is part of python-training.
 
-import os
 import json
+import os
 from pathlib import Path
 from shutil import copy
 
@@ -12,7 +12,7 @@ def update_forms():
 
     os.makedirs("training", exist_ok=True)
 
-    for dirpath, dirnames, filenames in Path("../content").walk():
+    for dirpath, _, filenames in Path("../content").walk():
         if (
             "checkpoints" in str(dirpath)
             or "_build" in str(dirpath)

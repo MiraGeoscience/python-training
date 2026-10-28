@@ -20,14 +20,17 @@ if !ERRORLEVEL! neq 0 (
 )
 
 set MAMBA_ROOT_PREFIX=%~dp0..\_micromamba
-  
-set PY_VER=3.9
+
+set PY_VER=3.12
 
 set ENV_NAME=python-training
 cd %~dp0
 set PYTHONUTF8=1
+set MAMBA_CHANNEL_PRIORITY=strict
+set MAMBA_CHANNEL_ALIAS=https://repo.prefix.dev
+:: set MAMBA_USE_SHARDED_REPODATA=off
 
-set MY_CONDA_ENV_FILE=environments\conda-py-%PY_VER%-win-64.lock.yml
+set MY_CONDA_ENV_FILE=environments\py-%PY_VER%-win-64.conda.lock.yml
 if not exist !MY_CONDA_ENV_FILE! (
   echo "** ERROR: Could not find the conda environment specification file '!MY_CONDA_ENV_FILE!' **"
   pause
@@ -42,8 +45,6 @@ if !errorlevel! neq 0 (
   exit /B !errorlevel!
 )
 
-!MY_MICROMAMBA! run -n %ENV_NAME% jupyter notebook training\index.ipynb
+!MY_MICROMAMBA! run -n %ENV_NAME% jupyter notebook assets\training
 
-:: pause and open terminal for diagnostic in case it failed
 pause
-cmd /k !MY_MICROMAMBA! -n %ENV_NAME% run cmd

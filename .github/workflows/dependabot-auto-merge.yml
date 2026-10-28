@@ -1,0 +1,16 @@
+name: Dependabot auto-merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  call-workflow-dependabot-auto-merge:
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-dependabot-auto-merge.yml@9e46551783cee8a8c2c7a30794af4b98e2671729 # v3.13.6
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: write
+      checks: read
+    with:
+      dependabot-groups: mirageo-ci-tools,pre-commit-hooks

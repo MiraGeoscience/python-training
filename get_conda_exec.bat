@@ -38,15 +38,20 @@ set conda_distributions=^
     "Continuum\anaconda3";^
 
 
-set conda_bat_subpath=Library\bin\conda.bat
+set conda_bat_subpaths=^
+  condabin\conda.bat;^
+  Library\bin\conda.bat;^
+
 
 for %%p in (%usual_conda_install_locations%) do (
   for %%d in (%conda_distributions%) do (
-    set base_path=%%p\%%d
-    set conda_path="!base_path:"=!\%conda_bat_subpath%"
-    if exist !conda_path! (
-      set MY_CONDA_EXE=!conda_path!
-      goto success
+    for %%s in (%conda_bat_subpaths%) do (
+      set base_path=%%p\%%d
+      set conda_path="!base_path:"=!\%%s"
+      if exist !conda_path! (
+        set MY_CONDA_EXE=!conda_path!
+        goto success
+      )
     )
   )
 )
@@ -55,6 +60,11 @@ echo You can define a custom Conda location with in !custom_script!
 exit /B 1
 
 :success
+  :: if mamba.bat is here too, use it instead of conda.bat
+  set mamba_path=!MY_CONDA_EXE:conda.bat=mamba.bat!
+  if exist !mamba_path! (
+    set MY_CONDA_EXE=!mamba_path!
+  )
   echo Using Conda: !MY_CONDA_EXE!
   endlocal & set MY_CONDA_EXE=%MY_CONDA_EXE%
   exit /B 0

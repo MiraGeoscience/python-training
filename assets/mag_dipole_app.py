@@ -107,7 +107,9 @@ def magnetic_simulator(
     # Loop over the dipoles
     fields = np.zeros_like(observations)
 
-    for source, moment, inclination, declination in zip(dipoles, mom, inc, dec):
+    for source, moment, inclination, declination in zip(
+        dipoles, mom, inc, dec, strict=True
+    ):
         fields += b_field(source, observations, moment, inclination, declination)
 
     tmi = tmi_projection(fields, (earth_inc, earth_dec))

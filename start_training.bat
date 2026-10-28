@@ -9,13 +9,14 @@ if exist !MY_MICROMAMBA! (
     set MY_CONDA_RUNNER=!MY_MICROMAMBA:"=!
 	goto conda_is_set
   )
+)
 
 call "%~dp0get_conda_exec.bat"
 if !errorlevel! neq 0 (
   pause
   exit /B !errorlevel!
 )
-  
+
 set MY_CONDA_RUNNER=!MY_CONDA_EXE:"=!
 
 :conda_is_set
@@ -25,12 +26,10 @@ set ENV_NAME=python-training
 cd %~dp0
 set PYTHONUTF8=1
 
-call "!MY_CONDA_RUNNER!" run -n %ENV_NAME% jupyter notebook training\index.ipynb
+call "!MY_CONDA_RUNNER!" run -n %ENV_NAME% jupyter notebook assets\training
 
 if !errorlevel! neq 0 (
   echo "** ERROR: Failed starting the notebook **"
 )
 
-:: pause and open terminal for diagnostic in case it failed
 pause
-cmd /k
