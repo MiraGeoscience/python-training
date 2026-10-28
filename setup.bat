@@ -14,7 +14,10 @@ set MY_CONDA=!MY_CONDA_EXE:"=!
 cd %~dp0
 set PYTHONUTF8=1
 set CONDA_CHANNEL_PRIORITY=strict
+set MAMBA_CHANNEL_PRIORITY=%CONDA_CHANNEL_PRIORIT%
 set CONDA_CHANNEL_ALIAS=https://repo.prefix.dev
+set MAMBA_CHANNEL_ALIAS=%CONDA_CHANNEL_ALIAS%
+:: set MAMBA_USE_SHARDED_REPODATA=off
 
 set MY_CONDA_ENV_FILE=environments\py-%PY_VER%-win-64.conda.lock.yml
 if not exist !MY_CONDA_ENV_FILE! (
