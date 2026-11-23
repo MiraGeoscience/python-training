@@ -24,6 +24,12 @@ build:
     pre_build:
       # Generate on-the-fly Sphinx configuration from Jupyter Book's _config.yml
       - "jupyter-book config sphinx content/"
+    build:
+      html:
+        - pixi run --frozen --environment docs build-docs html "$READTHEDOCS_OUTPUT"
+    post_build:
+      - mkdir -p "$READTHEDOCS_OUTPUT/htmlzip"
+      - cd "$READTHEDOCS_OUTPUT/html" && zip -r ../htmlzip/python-training-docs.zip .
 
 sphinx:
   builder: html
