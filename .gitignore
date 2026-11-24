@@ -135,3 +135,7 @@ dmypy.json
 !/.idea/copyright/
 
 *.lock
+!pixi.lock
+
+# pixi environments
+.pixi/

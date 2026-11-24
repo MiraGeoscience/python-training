@@ -21,11 +21,16 @@ build:
       - ./git-lfs fetch
       # Make local files to have the real content on them
       - ./git-lfs checkout
+    post_create_environment:
+      # Install pixi (not available on RTD images) into the conda env's bin dir,
+      # which RTD keeps on PATH for all later jobs.
+      - curl -fsSL https://pixi.sh/install.sh | PIXI_BIN_DIR="$(dirname "$(command -v python)")" PIXI_NO_PATH_UPDATE=1 bash
     pre_build:
       # Generate on-the-fly Sphinx configuration from Jupyter Book's _config.yml
       - "jupyter-book config sphinx content/"
     build:
       html:
+        # pixi run installs the docs environment from pixi.lock on first use
         - pixi run --frozen --environment docs build-docs html "$READTHEDOCS_OUTPUT"
     post_build:
       - mkdir -p "$READTHEDOCS_OUTPUT/htmlzip"
